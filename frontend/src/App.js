@@ -23,31 +23,7 @@ import { styled, alpha } from "@mui/material/styles";
 function createData(type, title, difficulty) {
   return { type, title, difficulty };
 }
-const rows = [
-  createData("Coding", "Two Sum", "Easy"),
-  createData(
-    "behavioral",
-    "Describe a time you have a conflict with team member",
-    "Easy"
-  ),
-  createData("Coding", "Two Sum", "Easy"),
-  createData("Coding", "Two Sum", "Easy"),
-  createData(
-    "behavioral",
-    "Describe a time you have a conflict with team member",
-    "Easy"
-  ),
-  createData("Coding", "Two Sum", "Easy"),
-  createData("Coding", "Two Sum", "Medium"),
-  createData("Coding", "Two Sum", "Hard"),
-  createData("Coding", "Two Sum", "Easy"),
-  createData(
-    "behavioral",
-    "Describe a time you have a conflict with team member",
-    "Medium"
-  ),
-  createData("Coding", "Two Sum", "Hard"),
-];
+let rows = [];
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -95,25 +71,33 @@ function App() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    fetch("https://nyuprepapi.com/api/")
+    fetch("https://nyuprepapi.com/api/questions")
       .then((response) => response.json())
       .then((data) => setData(data))
+      .then(
+        data.map((item) => {
+          return rows.push(
+            createData(
+              item.fields.type,
+              item.fields.title,
+              item.fields.difficulty
+            )
+          );
+        })
+      )
       .catch((error) => console.error(error));
-  }, []);
-  console.log(data);
+  }, [data]);
 
   return (
     <>
-      <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static" style={{ backgroundColor: "#57068c" }}>
-          <Toolbar>
-            <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
-              NYU Interview Prep
-            </Typography>
-            <Button color="inherit">Login</Button>
-          </Toolbar>
-        </AppBar>
-      </Box>
+      <AppBar position="sticky" style={{ backgroundColor: "#57068c" }}>
+        <Toolbar>
+          <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
+            NYU Interview Prep
+          </Typography>
+          <Button color="inherit">Login</Button>
+        </Toolbar>
+      </AppBar>
 
       <Box sx={{ padding: 2 }}>
         <Stack direction="row" spacing={2}>
@@ -185,23 +169,23 @@ function App() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row) => (
+              {rows.slice(0, 70).map((row) => (
                 <TableRow
                   key={row.title}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
-                    {row.type === "Coding" ? (
+                    {row.type === "Behavioural" ? (
                       <Chip
                         label={row.type}
                         variant="outlined"
-                        style={{ color: "#F29494", borderColor: "#F29494" }}
+                        style={{ color: "#454AE5", borderColor: "#454AE5" }}
                       />
                     ) : (
                       <Chip
-                        label={row.type}
+                        label="Coding"
                         variant="outlined"
-                        style={{ color: "#94C0F2", borderColor: "#94C0F2" }}
+                        style={{ color: "#C01C63", borderColor: "#C01C63" }}
                       />
                     )}
                   </TableCell>
@@ -210,17 +194,22 @@ function App() {
                     {row.difficulty === "Easy" ? (
                       <Chip
                         label={row.difficulty}
-                        style={{ color: "#FFFFFF", backgroundColor: "#78A5F5" }}
+                        style={{ color: "#FFFFFF", backgroundColor: "#50ecb3" }}
                       />
                     ) : row.difficulty === "Medium" ? (
                       <Chip
                         label={row.difficulty}
-                        style={{ color: "#FFFFFF", backgroundColor: "#C778F5" }}
+                        style={{ color: "#FFFFFF", backgroundColor: "#94d3c5" }}
+                      />
+                    ) : row.difficulty === "Hard" ? (
+                      <Chip
+                        label={row.difficulty}
+                        style={{ color: "#FFFFFF", backgroundColor: "#41a9b6" }}
                       />
                     ) : (
                       <Chip
                         label={row.difficulty}
-                        style={{ color: "#FFFFFF", backgroundColor: "#F57891" }}
+                        style={{ color: "#FFFFFF", backgroundColor: "#276e72" }}
                       />
                     )}
                   </TableCell>
