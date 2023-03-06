@@ -75,6 +75,9 @@ function Homepage() {
   const loginPage = () => {
     navigate("/SignInSide");
   };
+  const signUp = () =>{
+    navigate("/SignUp")
+  }
   useEffect(() => {
     fetch("https://nyuprepapi.com/api/questions")
       .then((response) => response.json())
@@ -102,6 +105,9 @@ function Homepage() {
           </Typography>
           <Button color="inherit" onClick={loginPage}>
             Login
+          </Button>
+          <Button color="inherit" onClick={signUp}>
+            Sign Up
           </Button>
         </Toolbar>
       </AppBar>
