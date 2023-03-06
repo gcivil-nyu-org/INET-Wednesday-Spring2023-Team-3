@@ -18,7 +18,7 @@ function Copyright(props) {
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
       <Link color="inherit" href="https://mui.com/">
-        Your Website
+        NYU Interview Prep
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -85,6 +85,7 @@ export default function SignUp() {
                   fullWidth
                   id="email"
                   label="Email Address"
+                  placeholder = "@nyu.edu"
                   name="email"
                   autoComplete="email"
                 />
@@ -99,6 +100,7 @@ export default function SignUp() {
                   id="password"
                   autoComplete="new-password"
                 />
+                
               </Grid>
               <Grid item xs={12}>
                 <FormControlLabel

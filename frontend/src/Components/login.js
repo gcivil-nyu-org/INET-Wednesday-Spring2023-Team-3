@@ -18,7 +18,7 @@ function Copyright(props) {
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
       <Link color="inherit" href="https://mui.com/">
-        Your Website
+        NYU Interview Prep
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -80,6 +80,7 @@ export default function SignInSide() {
                 id="email"
                 label="Email Address"
                 name="email"
+                placeholder = "@nyu.edu"
                 autoComplete="email"
                 autoFocus
               />
