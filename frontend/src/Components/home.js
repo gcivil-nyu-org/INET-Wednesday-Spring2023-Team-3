@@ -1,5 +1,7 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
@@ -27,6 +29,12 @@ function createData(type, title, difficulty) {
 }
 
 function Homepage() {
+  const navigate = useNavigate();
+
+  const uploadQuestionPage = () => {
+    navigate("/UploadQuestion");
+  };
+
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
   const [type, setType] = useState("");
@@ -182,6 +190,7 @@ function Homepage() {
                 backgroundColor: "#9B5EA2",
                 height: 54,
               }}
+              onClick={uploadQuestionPage}
             >
               Upload a question!
             </Button>

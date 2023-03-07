@@ -7,6 +7,9 @@ import { useNavigate } from "react-router-dom";
 function Navbar() {
   const navigate = useNavigate();
 
+  const homePage = () => {
+    navigate("/");
+  };
   const loginPage = () => {
     navigate("/SignInSide");
   };
@@ -17,7 +20,12 @@ function Navbar() {
   return (
     <AppBar position="sticky" style={{ backgroundColor: "#57068c" }}>
       <Toolbar>
-        <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
+        <Typography
+          variant="h5"
+          component="div"
+          sx={{ flexGrow: 1 }}
+          onClick={homePage}
+        >
           NYU Interview Prep
         </Typography>
         <Button color="inherit" onClick={loginPage}>
