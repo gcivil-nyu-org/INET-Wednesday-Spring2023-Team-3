@@ -18,6 +18,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import Pagination from "@mui/material/Pagination";
 
 import SearchIcon from "@mui/icons-material/Search";
 import { styled, alpha } from "@mui/material/styles";
@@ -27,7 +28,6 @@ import Navbar from "./navbar";
 function createData(type, title, difficulty) {
   return { type, title, difficulty };
 }
-let rows = [];
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -73,27 +73,32 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 function Homepage() {
   const [data, setData] = useState([]);
+  const [page, setPage] = useState(1);
   const [type, setType] = useState("");
+  const [rows, setRows] = useState([]);
   const [company, setCompany] = useState("");
   const [position, setPosition] = useState("");
   const [difficulty, setDifficulty] = useState("");
 
   useEffect(() => {
-    fetch("https://nyuprepapi.com/api/questions")
+    fetch(
+      "https://nyuprepapi.com/api/questions/cur_page/" +
+        page +
+        "/single_page_count/15"
+    )
       .then((response) => response.json())
       .then((data) => setData(data))
-      .then(
-        data.map((item) => {
-          return rows.push(
-            createData(
-              item.fields.type,
-              item.fields.title,
-              item.fields.difficulty
-            )
-          );
-        })
-      )
       .catch((error) => console.error(error));
+  }, [page]);
+
+  useEffect(() => {
+    let newRows = [];
+    data.map((item) => {
+      return newRows.push(
+        createData(item.fields.type, item.fields.title, item.fields.difficulty)
+      );
+    });
+    setRows(newRows);
   }, [data]);
 
   const handleTypeChange = (event) => {
@@ -107,6 +112,13 @@ function Homepage() {
   };
   const handleDifficultyChange = (event) => {
     setDifficulty(event.target.value);
+  };
+  const handlePageChange = (event, value) => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+    setPage(value);
   };
 
   return (
@@ -243,12 +255,16 @@ function Homepage() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.slice(0, 70).map((row, index) => (
+              {rows.map((row, index) => (
                 <TableRow
                   key={index}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
-                  <TableCell component="th" scope="row">
+                  <TableCell
+                    component="th"
+                    scope="row"
+                    style={{ width: "5vw" }}
+                  >
                     {row.type === "Behavioural" ? (
                       <Chip
                         label={row.type}
@@ -263,7 +279,7 @@ function Homepage() {
                       />
                     )}
                   </TableCell>
-                  <TableCell>{row.title}</TableCell>
+                  <TableCell style={{ width: "80vw" }}>{row.title}</TableCell>
                   <TableCell>
                     {row.difficulty === "Easy" ? (
                       <Chip
@@ -292,6 +308,24 @@ function Homepage() {
             </TableBody>
           </Table>
         </TableContainer>
+
+        <div
+          style={{
+            marginTop: 15,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Pagination
+            count={12}
+            page={page}
+            variant="outlined"
+            color="secondary"
+            onChange={handlePageChange}
+            style={{ margin: "0 auto" }}
+          />
+        </div>
       </Box>
     </>
   );
