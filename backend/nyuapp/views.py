@@ -2,13 +2,18 @@ from django.core.paginator import Paginator
 from .models import Question,Difficulty,Company
 from django.http import JsonResponse
 from django.core import serializers
+from django.http import HttpResponse
 import json
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from nyuapp.serializers import UserSerializer
+from nyuapp.serializers import UserSerializer, RegisterSerializer
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
+from rest_framework import status
+from rest_framework.permissions import AllowAny
+from rest_framework.authentication import TokenAuthentication
+from rest_framework import generics
 
 def error_response(error_dict, err_msg:str):
     error_dict["status"] = 400
@@ -57,19 +62,21 @@ def get_questions(request):
 
     return JsonResponse(response_dict)
 
-class UserCreate(APIView):
-    """
-    Creates the user.
-    """
 
-    def post(self, request, format="json"):
-        serializer = UserSerializer(data=request.data)
-        if serializer.is_valid():
-            user = serializer.save()
-            if user:
-                token = Token.objects.create(user=user)
-                json = serializer.data
-                json["token"] = token.key
-                return Response(json, status=status.HTTP_201_CREATED)
+# Class based view to Get User Details using Token Authentication
+class UserDetailAPI(APIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (AllowAny,)
 
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def get(self, request, *args, **kwargs):
+        user = User.objects.get(id=request.user.id)
+        serializer = UserSerializer(user)
+        return Response(serializer.data)
+
+
+# Class based view to register user
+class RegisterUserAPIView(generics.CreateAPIView):
+    permission_classes = (AllowAny,)
+    serializer_class = RegisterSerializer
+
+
