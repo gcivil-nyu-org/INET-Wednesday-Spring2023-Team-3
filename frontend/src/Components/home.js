@@ -19,6 +19,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Pagination from "@mui/material/Pagination";
+import SearchBar from "material-ui-search-bar";
 
 import SearchIcon from "@mui/icons-material/Search";
 import { styled, alpha } from "@mui/material/styles";
@@ -127,7 +128,7 @@ function Homepage() {
 
       <Box sx={{ padding: 2 }}>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <div style={{ alignSelf: "flex-start" }}>
+          <div style={{ alignSelf: "flex-start", display: "flex", height: 60 }}>
             <Stack direction="row" spacing={2}>
               <Box sx={{ minWidth: 80 }}>
                 <FormControl fullWidth>
@@ -198,34 +199,18 @@ function Homepage() {
                   </Select>
                 </FormControl>
               </Box>
-              <Search>
-                <SearchIconWrapper>
-                  <SearchIcon />
-                </SearchIconWrapper>
-                <StyledInputBase
-                  placeholder="Search…"
-                  inputProps={{ "aria-label": "search" }}
-                />
-              </Search>
+              <SearchBar style={{ height: 55, width: "50vw" }} />
             </Stack>
           </div>
-          <div style={{ alignSelf: "flex-end" }}>
-            <Button
-              variant="outlined"
-              sx={{ width: 100 }}
-              style={{
-                textTransform: "none",
-                color: "#9B5EA2",
-                borderColor: "#9B5EA2",
-                margin: 20,
-              }}
-            >
-              Search
-            </Button>
+          <div style={{ alignSelf: "flex-end", height: 60 }}>
             <Button
               variant="contained"
               sx={{ width: 200 }}
-              style={{ textTransform: "none", backgroundColor: "#9B5EA2" }}
+              style={{
+                textTransform: "none",
+                backgroundColor: "#9B5EA2",
+                height: 50,
+              }}
             >
               Upload a question!
             </Button>
