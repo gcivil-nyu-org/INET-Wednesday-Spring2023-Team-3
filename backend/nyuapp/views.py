@@ -3,6 +3,12 @@ from .models import Question,Difficulty,Company
 from django.http import JsonResponse
 from django.core import serializers
 import json
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from nyuapp.serializers import UserSerializer
+from django.contrib.auth.models import User
+from rest_framework.authtoken.models import Token
 
 def error_response(error_dict, err_msg:str):
     error_dict["status"] = 400
@@ -51,3 +57,19 @@ def get_questions(request):
 
     return JsonResponse(response_dict)
 
+class UserCreate(APIView):
+    """
+    Creates the user.
+    """
+
+    def post(self, request, format="json"):
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.save()
+            if user:
+                token = Token.objects.create(user=user)
+                json = serializer.data
+                json["token"] = token.key
+                return Response(json, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
