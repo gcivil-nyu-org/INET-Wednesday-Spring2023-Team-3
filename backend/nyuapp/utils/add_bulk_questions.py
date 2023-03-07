@@ -35,3 +35,20 @@ from nyuapp.models import Difficulty
 diff = ["Easy","Medium","Hard","Expert"]
 for d in diff:
     Difficulty.objects.get_or_create(text=d)
+
+# Script 5
+import csv
+from nyuapp.models import Question
+import random
+companies = ["Google", "Amazon", "Meta", "Bloomberg", "Tesla", "Microsoft", "Apple", "Netflix","Slack","Cisco"]
+with open("<path-to-csv>") as f:
+    reader = csv.reader(f)
+    for row in reader:
+        cur_num = random.randint(1,8)
+        current_picks = random.sample(companies,cur_num)
+        _, created = Question.objects.get_or_create(
+            title=row[1],
+            difficulty=row[3],
+            type="Coding",
+            companies = ",".join(current_picks)
+            )
