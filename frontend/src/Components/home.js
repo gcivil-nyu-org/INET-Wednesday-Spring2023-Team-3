@@ -129,7 +129,7 @@ function Homepage() {
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <div style={{ alignSelf: "flex-start" }}>
             <Stack direction="row" spacing={2}>
-              <Box sx={{ minWidth: 150 }}>
+              <Box sx={{ minWidth: 80 }}>
                 <FormControl fullWidth>
                   <InputLabel id="type-select-label">Type</InputLabel>
                   <Select
@@ -145,7 +145,7 @@ function Homepage() {
                   </Select>
                 </FormControl>
               </Box>
-              <Box sx={{ minWidth: 150 }}>
+              <Box sx={{ minWidth: 120 }}>
                 <FormControl fullWidth>
                   <InputLabel id="company-select-label">Company</InputLabel>
                   <Select
@@ -162,7 +162,7 @@ function Homepage() {
                   </Select>
                 </FormControl>
               </Box>
-              <Box sx={{ minWidth: 150 }}>
+              <Box sx={{ minWidth: 100 }}>
                 <FormControl fullWidth>
                   <InputLabel id="position-select-label">Position</InputLabel>
                   <Select
@@ -179,7 +179,7 @@ function Homepage() {
                   </Select>
                 </FormControl>
               </Box>
-              <Box sx={{ minWidth: 150 }}>
+              <Box sx={{ minWidth: 100 }}>
                 <FormControl fullWidth>
                   <InputLabel id="difficulty-select-label">
                     Difficulty
@@ -212,7 +212,7 @@ function Homepage() {
           <div style={{ alignSelf: "flex-end" }}>
             <Button
               variant="outlined"
-              sx={{ width: 250 }}
+              sx={{ width: 10 }}
               style={{
                 textTransform: "none",
                 color: "#9B5EA2",
@@ -224,7 +224,7 @@ function Homepage() {
             </Button>
             <Button
               variant="contained"
-              sx={{ width: 300 }}
+              sx={{ width: 200 }}
               style={{ textTransform: "none", backgroundColor: "#9B5EA2" }}
             >
               Upload a question!
