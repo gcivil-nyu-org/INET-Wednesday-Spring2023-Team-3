@@ -212,7 +212,7 @@ function Homepage() {
           <div style={{ alignSelf: "flex-end" }}>
             <Button
               variant="outlined"
-              sx={{ width: 10 }}
+              sx={{ width: 100 }}
               style={{
                 textTransform: "none",
                 color: "#9B5EA2",
