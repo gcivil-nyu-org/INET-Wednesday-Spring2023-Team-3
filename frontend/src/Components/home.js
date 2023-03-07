@@ -5,7 +5,6 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
-import InputBase from "@mui/material/InputBase";
 import Divider from "@mui/material/Divider";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -19,30 +18,13 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Pagination from "@mui/material/Pagination";
-import SearchBar from "material-ui-search-bar";
-
-import { styled, alpha } from "@mui/material/styles";
+import TextField from "@mui/material/TextField";
 
 import Navbar from "./navbar";
 
 function createData(type, title, difficulty) {
   return { type, title, difficulty };
 }
-
-const Search = styled("div")(({ theme }) => ({
-  position: "relative",
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginLeft: 0,
-  width: "100%",
-  [theme.breakpoints.up("sm")]: {
-    marginLeft: theme.spacing(1),
-    width: "auto",
-  },
-}));
 
 function Homepage() {
   const [data, setData] = useState([]);
@@ -171,7 +153,24 @@ function Homepage() {
                   </Select>
                 </FormControl>
               </Box>
-              <SearchBar style={{ height: 55, width: "50vw" }} />
+              <TextField
+                id="outlined-basic"
+                label="Search"
+                variant="outlined"
+                style={{ width: "40vw" }}
+              />
+              <Button
+                variant="outlined"
+                sx={{ width: 100 }}
+                style={{
+                  textTransform: "none",
+                  color: "#9B5EA2",
+                  borderColor: "#9B5EA2",
+                  height: 56,
+                }}
+              >
+                Search
+              </Button>
             </Stack>
           </div>
           <div style={{ alignSelf: "flex-end", height: 60 }}>
@@ -181,7 +180,7 @@ function Homepage() {
               style={{
                 textTransform: "none",
                 backgroundColor: "#9B5EA2",
-                height: 50,
+                height: 54,
               }}
             >
               Upload a question!
