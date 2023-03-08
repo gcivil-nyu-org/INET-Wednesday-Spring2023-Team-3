@@ -31,7 +31,7 @@ def get_questions(request):
         positions = Position.objects.all()
         response_dict["positions"] = [position.pk for position in positions]
         questions = Question.objects.all()
-        param_names = ["difficulty","type","company","title","cur_page","single_page_count"]
+        param_names = ["difficulty","type","company","title","cur_page","single_page_count", "pk"]
         params = request.GET
         param_vals = [params.get(key) for key in param_names]
         if param_vals[0]:
@@ -56,7 +56,9 @@ def get_questions(request):
             cur_page,single_page_count = int(param_vals[4]),int(param_vals[5])
             paginator = Paginator(questions,single_page_count)
             questions = paginator.page(cur_page)
-            
+        
+        if param_vals[6]:
+            questions = questions.filter(q_id = param_vals[6])
         response_dict["question_data"] = json.loads(serializers.serialize('json',questions))
         response_dict["error_msg"] = ""
         response_dict["status"] = 200
