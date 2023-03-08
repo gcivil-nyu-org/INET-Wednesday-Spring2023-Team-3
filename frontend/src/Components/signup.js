@@ -13,6 +13,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 function Copyright(props) {
   return (
     <Typography
@@ -34,19 +35,54 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignUp() {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("@nyu.edu");
+  const [password, setPassword] = useState("");
+
+  const[data, setData] = useState([]);
+
+  const handleFirstNameChange = (event) => {
+    setFirstName(event.target.value);
+  };
+  const handleLastNameChange = (event) => {
+    setLastName(event.target.value);
+  };
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+  };
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
+  };
+
+  const saveForm = () => {
+    fetch("http://localhost:8000/api/register/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        password: password,
+      }),
+    })
+      .then((res) => res.json())
+      .then((result) => setData(result.rows))
+      .catch((err) => console.log("error"));
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    saveForm();
   };
+
   const navigate = useNavigate();
+
   const loginPage = () => {
     navigate("/SignInSide");
   };
-  const [name, setName] = React.useState("@nyu.edu");
 
   return (
     <ThemeProvider theme={theme}>
@@ -81,6 +117,8 @@ export default function SignUp() {
                   fullWidth
                   id="firstName"
                   label="First Name"
+                  value={firstName}
+                  onChange={handleFirstNameChange}
                   autoFocus
                 />
               </Grid>
@@ -91,6 +129,8 @@ export default function SignUp() {
                   id="lastName"
                   label="Last Name"
                   name="lastName"
+                  value={lastName}
+                  onChange={handleLastNameChange}
                   autoComplete="family-name"
                 />
               </Grid>
@@ -103,10 +143,8 @@ export default function SignUp() {
                   placeholder="@nyu.edu"
                   name="email"
                   autoComplete="email"
-                  value={name}
-                  onChange={(event) => {
-                    setName(event.target.value);
-                  }}
+                  value={email}
+                  onChange={handleEmailChange}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -117,6 +155,8 @@ export default function SignUp() {
                   label="Password"
                   type="password"
                   id="password"
+                  value={password}
+                  onChange={handlePasswordChange}
                   autoComplete="new-password"
                 />
               </Grid>
