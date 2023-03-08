@@ -102,7 +102,6 @@ function Homepage() {
         )
       );
     });
-    console.log("in");
     setRows(newRows);
   }, [questions]);
 
@@ -216,7 +215,7 @@ function Homepage() {
                 variant="outlined"
                 value={search}
                 onChange={handleSearchChange}
-                style={{ width: "40vw" }}
+                style={{ width: "20vw" }}
               />
               <Button
                 variant="outlined"
