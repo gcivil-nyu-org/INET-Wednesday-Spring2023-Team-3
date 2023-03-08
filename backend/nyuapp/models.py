@@ -22,6 +22,12 @@ class Question(models.Model):
     def __str__(self):
         return f"{self.q_id} : {self.type} , {self.title} , {self.difficulty}"
 
+class Difficulty(models.Model):
+    text = models.CharField(max_length=10,primary_key=True)
+
+class Company(models.Model):
+    name = models.CharField(max_length=30, primary_key=True)
+
 
 
     
