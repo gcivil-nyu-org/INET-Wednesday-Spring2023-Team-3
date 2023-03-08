@@ -140,7 +140,7 @@ export default function SignUp() {
                   fullWidth
                   name="password1"
                   label="Password"
-                  type="password1"
+                  type="password"
                   id="password1"
                   value={formData.password1}
                   onChange={handleInputChange}
@@ -153,7 +153,7 @@ export default function SignUp() {
                   fullWidth
                   name="password2"
                   label="Re-enter Password"
-                  type="password2"
+                  type="password"
                   id="password2"
                   value={formData.password2}
                   onChange={handleInputChange}
