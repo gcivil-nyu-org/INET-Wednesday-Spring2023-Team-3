@@ -31,7 +31,7 @@ def get_questions(request):
         positions = Position.objects.all()
         response_dict["positions"] = [position.pk for position in positions]
         questions = Question.objects.all()
-        param_names = ["difficulty","type","company","title","cur_page","single_page_count"]
+        param_names = ["difficulty","type","company","title", "position", "q_id", "cur_page","single_page_count"]
         params = request.GET
         param_vals = [params.get(key) for key in param_names]
         if param_vals[0]:
@@ -48,12 +48,15 @@ def get_questions(request):
             questions = questions.filter(companies__icontains=param_vals[2])
         if param_vals[3]:
             questions = questions.filter(title__icontains=param_vals[3])
-        
+        if param_vals[4]:
+            questions = questions.filter(positions__icontains=param_vals[4])
+        if param_vals[5]:
+            questions = questions.filter(q_id=param_vals[5])
         response_dict["total_question_count"] = questions.count()
-        if param_vals[4] and param_vals[5]:
-            if not param_vals[4].isdigit() or not param_vals[5].isdigit():
+        if param_vals[6] and param_vals[7]:
+            if not param_vals[6].isdigit() or not param_vals[7].isdigit():
                 return error_response(response_dict, "Error: Pagination params not valid!")
-            cur_page,single_page_count = int(param_vals[4]),int(param_vals[5])
+            cur_page,single_page_count = int(param_vals[6]),int(param_vals[7])
             paginator = Paginator(questions,single_page_count)
             questions = paginator.page(cur_page)
             
