@@ -13,7 +13,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 function Copyright(props) {
   return (
     <Typography
@@ -35,48 +35,35 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignUp() {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("@nyu.edu");
-  const [password, setPassword] = useState("");
+  const [formData, setFormData] = useState({
+    first_name: "",
+    last_name: "",
+    email: "@nyu.edu",
+    password1: "",
+    password2: "",
+  });
 
-  const[data, setData] = useState([]);
-
-  const handleFirstNameChange = (event) => {
-    setFirstName(event.target.value);
-  };
-  const handleLastNameChange = (event) => {
-    setLastName(event.target.value);
-  };
-  const handleEmailChange = (event) => {
-    setEmail(event.target.value);
-  };
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
-  };
-
-  const saveForm = () => {
-    fetch("http://localhost:8000/api/register/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        password: password,
-      }),
-    })
-      .then((res) => res.json())
-      .then((result) => setData(result.rows))
-      .catch((err) => console.log("error"));
+  const handleInputChange = (event) => {
+    setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    saveForm();
+    fetch("https://nyuprepapi.com/api/register/ ", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        alert("Account created successfully!");
+        console.log(data);
+      })
+      .catch((error) => console.error(error));
   };
+
 
   const navigate = useNavigate();
 
@@ -112,13 +99,13 @@ export default function SignUp() {
               <Grid item xs={12} sm={6}>
                 <TextField
                   autoComplete="given-name"
-                  name="firstName"
+                  name="first_name"
                   required
                   fullWidth
-                  id="firstName"
+                  id="first_name"
                   label="First Name"
-                  value={firstName}
-                  onChange={handleFirstNameChange}
+                  value={formData.first_name}
+                  onChange={handleInputChange}
                   autoFocus
                 />
               </Grid>
@@ -126,11 +113,11 @@ export default function SignUp() {
                 <TextField
                   required
                   fullWidth
-                  id="lastName"
+                  id="last_name"
                   label="Last Name"
-                  name="lastName"
-                  value={lastName}
-                  onChange={handleLastNameChange}
+                  name="last_name"
+                  value={formData.last_name}
+                  onChange={handleInputChange}
                   autoComplete="family-name"
                 />
               </Grid>
@@ -143,23 +130,37 @@ export default function SignUp() {
                   placeholder="@nyu.edu"
                   name="email"
                   autoComplete="email"
-                  value={email}
-                  onChange={handleEmailChange}
+                  value={formData.email}
+                  onChange={handleInputChange}
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
-                  name="password"
+                  name="password1"
                   label="Password"
-                  type="password"
-                  id="password"
-                  value={password}
-                  onChange={handlePasswordChange}
+                  type="password1"
+                  id="password1"
+                  value={formData.password1}
+                  onChange={handleInputChange}
+                  autoComplete="new-password"
+                />{" "}
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="password2"
+                  label="Re-enter Password"
+                  type="password2"
+                  id="password2"
+                  value={formData.password2}
+                  onChange={handleInputChange}
                   autoComplete="new-password"
                 />
               </Grid>
+
               <Grid item xs={12}>
                 <FormControlLabel
                   control={
