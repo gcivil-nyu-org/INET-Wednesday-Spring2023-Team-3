@@ -1,5 +1,5 @@
 from django.core.paginator import Paginator
-from .models import Question,Difficulty,Company
+from .models import Question, Difficulty, Company, Position
 from django.http import JsonResponse
 from django.core import serializers
 import json
@@ -27,6 +27,8 @@ def get_questions(request):
         response_dict["difficulties"] = [diff.pk for diff in difficulties]
         companies = Company.objects.all()
         response_dict["companies"] = [company.pk for company in companies]
+        positions = Position.objects.all()
+        response_dict["positions"] = [position.pk for position in positions]
         questions = Question.objects.all()
         param_names = ["difficulty","type","company","title","cur_page","single_page_count"]
         params = request.GET
@@ -90,12 +92,15 @@ def post_question(request):
         )
         company_list = companies.replace(" ","").split(",")
         for company in company_list:
-            company_obj = Company.objects.filter(name = company)
-            if not company_obj.count():
+            if not Company.objects.filter(name = company).count():
                 Company.objects.get_or_create(name = company)
-        difficulty_objs = Difficulty.objects.filter(text = difficulty.replace(" ",""))
-        if not difficulty_objs.count():
-            Difficulty.objects.get_or_create(text = difficulty.replace(" ",""))
+        difficulty = difficulty.replace(" ","")
+        if not Difficulty.objects.filter(text = difficulty).count():
+            Difficulty.objects.get_or_create(text = difficulty)
+        position_list = positions.replace(" ","").split(",")
+        for position in position_list:
+            if not Position.objects.filter(name = position).count():
+                Position.objects.get_or_create(name = position)
 
         if not created:
             return error_response({},f"Error in uploading question to DB")

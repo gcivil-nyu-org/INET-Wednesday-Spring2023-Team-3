@@ -28,6 +28,9 @@ class Difficulty(models.Model):
 class Company(models.Model):
     name = models.CharField(max_length=30, primary_key=True)
 
+class Position(models.Model):
+    name = models.CharField(max_length=50, primary_key=True)
+
 
 
     
