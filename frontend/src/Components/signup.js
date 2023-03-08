@@ -50,7 +50,7 @@ export default function SignUp() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    fetch("http://localhost:8000/api/register/ ", {
+    fetch("https://nyuprepapi.com/api/register/ ", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
