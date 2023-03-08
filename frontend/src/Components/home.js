@@ -24,8 +24,8 @@ import TextField from "@mui/material/TextField";
 
 import Navbar from "./navbar";
 
-function createData(type, title, difficulty) {
-  return { type, title, difficulty };
+function createData(type, title, difficulty, companies, positions) {
+  return { type, title, difficulty, companies, positions };
 }
 
 function Homepage() {
@@ -35,34 +35,76 @@ function Homepage() {
     navigate("/UploadQuestion");
   };
 
-  const [data, setData] = useState([]);
-  const [page, setPage] = useState(1);
-  const [type, setType] = useState("");
+  const [questions, setQuestions] = useState([]);
   const [rows, setRows] = useState([]);
+  const [companiesList, setCompaniesList] = useState([]);
+  const [positionsList, setPositionsList] = useState([]);
+  const [difficultiesList, setDifficultiesList] = useState([]);
+
+  const [page, setPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(1);
+
+  const [type, setType] = useState("");
   const [company, setCompany] = useState("");
   const [position, setPosition] = useState("");
   const [difficulty, setDifficulty] = useState("");
+  const [search, setSearch] = useState("");
+  const [submitSearch, setSubmitSearch] = useState("");
 
+  const QUESTIONS_PER_PAGE = 15;
+
+  // Update url
   useEffect(() => {
-    fetch(
-      "https://nyuprepapi.com/api/questions/cur_page/" +
-        page +
-        "/single_page_count/15"
-    )
+    let newUrl =
+      "https://nyuprepapi.com/api/questions/?single_page_count=" +
+      QUESTIONS_PER_PAGE +
+      "&cur_page=" +
+      page;
+    if (type.length !== 0) {
+      newUrl += "&type=" + type;
+    }
+    if (company.length !== 0) {
+      newUrl += "&company=" + company;
+    }
+    if (position.length !== 0) {
+      newUrl += "&position=" + position;
+    }
+    if (difficulty.length !== 0) {
+      newUrl += "&difficulty=" + difficulty;
+    }
+    if (submitSearch.length !== 0) {
+      newUrl += "&title=" + submitSearch;
+    }
+
+    fetch(newUrl)
       .then((response) => response.json())
-      .then((data) => setData(data))
+      .then((data) => {
+        setQuestions(data.question_data);
+        setTotalPage(Math.ceil(data.total_question_count / QUESTIONS_PER_PAGE));
+
+        setCompaniesList(data.companies);
+        setPositionsList(data.positions);
+        setDifficultiesList(data.difficulties);
+      })
       .catch((error) => console.error(error));
-  }, [page]);
+  }, [page, type, company, position, difficulty, submitSearch]);
 
   useEffect(() => {
     let newRows = [];
-    data.map((item) => {
+    questions.map((item) => {
       return newRows.push(
-        createData(item.fields.type, item.fields.title, item.fields.difficulty)
+        createData(
+          item.fields.type,
+          item.fields.title,
+          item.fields.difficulty,
+          item.fields.companies,
+          item.fields.positions
+        )
       );
     });
+    console.log("in");
     setRows(newRows);
-  }, [data]);
+  }, [questions]);
 
   const handleTypeChange = (event) => {
     setType(event.target.value);
@@ -75,6 +117,9 @@ function Homepage() {
   };
   const handleDifficultyChange = (event) => {
     setDifficulty(event.target.value);
+  };
+  const handleSearchChange = (event) => {
+    setSearch(event.target.value);
   };
   const handlePageChange = (event, value) => {
     window.scrollTo({
@@ -103,8 +148,8 @@ function Homepage() {
                     onChange={handleTypeChange}
                   >
                     <MenuItem value="">None</MenuItem>
-                    <MenuItem value={10}>Coding</MenuItem>
-                    <MenuItem value={20}>Behavioural</MenuItem>
+                    <MenuItem value={"Coding"}>Coding</MenuItem>
+                    <MenuItem value={"Behavioural"}>Behavioural</MenuItem>
                   </Select>
                 </FormControl>
               </Box>
@@ -119,9 +164,11 @@ function Homepage() {
                     onChange={handleCompanyChange}
                   >
                     <MenuItem value="">None</MenuItem>
-                    <MenuItem value={10}>Meta</MenuItem>
-                    <MenuItem value={20}>Google</MenuItem>
-                    <MenuItem value={30}>Apple</MenuItem>
+                    {companiesList.map((company) => (
+                      <MenuItem id={company} value={company}>
+                        {company}
+                      </MenuItem>
+                    ))}
                   </Select>
                 </FormControl>
               </Box>
@@ -136,9 +183,11 @@ function Homepage() {
                     onChange={handlePositionChange}
                   >
                     <MenuItem value="">None</MenuItem>
-                    <MenuItem value={10}>Software Engineer</MenuItem>
-                    <MenuItem value={20}>Data Engineer</MenuItem>
-                    <MenuItem value={30}>Product Manager</MenuItem>
+                    {positionsList.map((position) => (
+                      <MenuItem id={position} value={position}>
+                        {position}
+                      </MenuItem>
+                    ))}
                   </Select>
                 </FormControl>
               </Box>
@@ -155,9 +204,9 @@ function Homepage() {
                     onChange={handleDifficultyChange}
                   >
                     <MenuItem value="">None</MenuItem>
-                    <MenuItem value={10}>Easy</MenuItem>
-                    <MenuItem value={20}>Medium</MenuItem>
-                    <MenuItem value={30}>Hard</MenuItem>
+                    {difficultiesList.map((difficulty) => (
+                      <MenuItem value={difficulty}>{difficulty}</MenuItem>
+                    ))}
                   </Select>
                 </FormControl>
               </Box>
@@ -165,6 +214,8 @@ function Homepage() {
                 id="outlined-basic"
                 label="Search"
                 variant="outlined"
+                value={search}
+                onChange={handleSearchChange}
                 style={{ width: "40vw" }}
               />
               <Button
@@ -176,6 +227,7 @@ function Homepage() {
                   borderColor: "#9B5EA2",
                   height: 56,
                 }}
+                onClick={() => setSubmitSearch(search)}
               >
                 Search
               </Button>
@@ -215,6 +267,12 @@ function Homepage() {
                   <Typography variant="h6">Title</Typography>
                 </TableCell>
                 <TableCell>
+                  <Typography variant="h6">Companies</Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography variant="h6">Positions</Typography>
+                </TableCell>
+                <TableCell>
                   <Typography variant="h6">Difficulty</Typography>
                 </TableCell>
               </TableRow>
@@ -244,7 +302,23 @@ function Homepage() {
                       />
                     )}
                   </TableCell>
-                  <TableCell style={{ width: "80vw" }}>{row.title}</TableCell>
+                  <TableCell style={{ width: "60vw" }}>{row.title}</TableCell>
+                  <TableCell style={{ width: "10vw" }}>
+                    {row.companies.length !== 0 &&
+                      row.companies
+                        .split(",")
+                        .map((company) => (
+                          <Chip id={company} label={company} />
+                        ))}
+                  </TableCell>
+                  <TableCell style={{ width: "10vw" }}>
+                    {row.positions.length !== 0 &&
+                      row.positions
+                        .split(",")
+                        .map((position) => (
+                          <Chip id={position} label={position} />
+                        ))}
+                  </TableCell>
                   <TableCell>
                     {row.difficulty === "Easy" ? (
                       <Chip
@@ -261,11 +335,18 @@ function Homepage() {
                         label={row.difficulty}
                         style={{ color: "#FFFFFF", backgroundColor: "#41a9b6" }}
                       />
-                    ) : (
+                    ) : row.difficulty === "Expert" ? (
                       <Chip
                         label={row.difficulty}
                         style={{ color: "#FFFFFF", backgroundColor: "#276e72" }}
                       />
+                    ) : row.difficulty === "Beginner" ? (
+                      <Chip
+                        label={row.difficulty}
+                        style={{ color: "#FFFFFF", backgroundColor: "#276e72" }}
+                      />
+                    ) : (
+                      <></>
                     )}
                   </TableCell>
                 </TableRow>
@@ -283,7 +364,7 @@ function Homepage() {
           }}
         >
           <Pagination
-            count={12}
+            count={totalPage}
             page={page}
             variant="outlined"
             color="secondary"
