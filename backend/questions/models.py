@@ -1,8 +1,12 @@
 from django.db import models
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+<<<<<<< HEAD
 
+=======
+>>>>>>> bfe12a3c (Login/Logout)
 
+<<<<<<< HEAD:backend/questions/models.py
 class Question(models.Model):
     q_id = models.BigAutoField(primary_key=True)
 <<<<<<< HEAD:backend/nyuapp/models.py
@@ -27,7 +31,37 @@ class Question(models.Model):
     companies = models.CharField(verbose_name="Comma-separated list of companies", max_length=500, blank= True)
     positions = models.CharField(verbose_name="Comma-separated list of positions", max_length=500, blank= True)
     categories = models.CharField(verbose_name="Comma-separated list of categories",max_length=500, blank= True)
+<<<<<<< HEAD
 >>>>>>> 4005745b (1) Modularizing nyuapp into onbarding & questions):backend/questions/models.py
+=======
+=======
+
+class Todo(models.Model):
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+
+    def __str__(self):
+        """A string representation of the model."""
+        return self.title
+
+
+class Question(models.Model):
+    q_id = models.BigAutoField(primary_key=True)
+    title = models.CharField(max_length=50)
+    description = models.CharField(max_length=1000, blank=True)
+    difficulty = models.CharField(max_length=10, blank=True)
+    type = models.CharField(max_length=50, blank=True)
+    companies = models.CharField(
+        verbose_name="Comma-separated list of companies", max_length=500, blank=True
+    )
+    positions = models.CharField(
+        verbose_name="Comma-separated list of positions", max_length=500, blank=True
+    )
+    categories = models.CharField(
+        verbose_name="Comma-separated list of categories", max_length=500, blank=True
+    )
+>>>>>>> 39c0d99e (Login/Logout):backend/nyuapp/models.py
+>>>>>>> bfe12a3c (Login/Logout)
 
     def __str__(self):
         return f"{self.q_id} : {self.type} , {self.title} , {self.difficulty}"

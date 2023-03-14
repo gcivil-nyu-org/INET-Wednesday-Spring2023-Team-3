@@ -3,12 +3,24 @@ from .models import Question, Difficulty, Company, Position
 from django.http import JsonResponse
 from django.core import serializers
 import json
+<<<<<<< HEAD
 <<<<<<< HEAD:backend/nyuapp/views.py
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
 from json import JSONDecodeError
+=======
+<<<<<<< HEAD:backend/questions/views.py
+from django.views.decorators.csrf import csrf_exempt
+from json import JSONDecodeError
+=======
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from django.contrib.auth.models import User
+from django.views.decorators.csrf import csrf_exempt
+from json import JSONDecodeError
+>>>>>>> bfe12a3c (Login/Logout)
 from rest_framework.permissions import AllowAny
 from rest_framework.authentication import TokenAuthentication
 from rest_framework import generics
@@ -25,10 +37,14 @@ from django.contrib.auth import get_user_model
 from .utils import generate_access_token
 import jwt
 
+<<<<<<< HEAD
 =======
 from django.views.decorators.csrf import csrf_exempt
 from json import JSONDecodeError
 >>>>>>> 4005745b (1) Modularizing nyuapp into onbarding & questions):backend/questions/views.py
+=======
+>>>>>>> 39c0d99e (Login/Logout):backend/nyuapp/views.py
+>>>>>>> bfe12a3c (Login/Logout)
 
 def error_response(error_dict, err_msg: str):
     error_dict["status"] = 400
@@ -181,7 +197,13 @@ def post_question(request):
                 )
             ),
         }
+<<<<<<< HEAD
 <<<<<<< HEAD:backend/nyuapp/views.py
+=======
+<<<<<<< HEAD:backend/questions/views.py
+    )
+=======
+>>>>>>> bfe12a3c (Login/Logout)
     )
 
 
@@ -273,6 +295,10 @@ class UserLogoutViewAPI(APIView):
         response = Response()
         response.data = {"message": "User is already logged out."}
         return response
+<<<<<<< HEAD
 =======
     )
 >>>>>>> 4005745b (1) Modularizing nyuapp into onbarding & questions):backend/questions/views.py
+=======
+>>>>>>> 39c0d99e (Login/Logout):backend/nyuapp/views.py
+>>>>>>> bfe12a3c (Login/Logout)

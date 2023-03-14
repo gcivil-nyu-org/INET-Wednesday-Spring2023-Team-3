@@ -7,6 +7,7 @@ from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.contrib.auth import get_user_model
 
+<<<<<<< HEAD
 <<<<<<< HEAD:backend/nyuapp/serializers.py
 
 class TodoSerializer(serializers.ModelSerializer):
@@ -23,6 +24,9 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
     password = serializers.CharField(
         max_length=100, min_length=8, style={"input_type": "password"}
 =======
+=======
+<<<<<<< HEAD:backend/onboarding/serializers.py
+>>>>>>> bfe12a3c (Login/Logout)
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
@@ -37,6 +41,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 class RegisterSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
         required=True, validators=[UniqueValidator(queryset=User.objects.all())]
+<<<<<<< HEAD
 >>>>>>> 4005745b (1) Modularizing nyuapp into onbarding & questions):backend/onboarding/serializers.py
     )
 
@@ -45,6 +50,28 @@ class RegisterSerializer(serializers.ModelSerializer):
         model = get_user_model()
         fields = ["email", "username", "password"]
 =======
+=======
+=======
+
+class TodoSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = (
+            "id",
+            "title",
+            "description",
+        )
+        model = Todo
+
+
+class UserRegistrationSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(
+        max_length=100, min_length=8, style={"input_type": "password"}
+>>>>>>> 39c0d99e (Login/Logout):backend/nyuapp/serializers.py
+    )
+
+    class Meta:
+<<<<<<< HEAD:backend/onboarding/serializers.py
+>>>>>>> bfe12a3c (Login/Logout)
         model = User
         fields = (
             "username",
@@ -73,7 +100,14 @@ class RegisterSerializer(serializers.ModelSerializer):
         if domain.lower() not in accepted_domains:
             raise serializers.ValidationError("Email should be nyu.edu only.")
         return attrs
+<<<<<<< HEAD
 >>>>>>> 4005745b (1) Modularizing nyuapp into onbarding & questions):backend/onboarding/serializers.py
+=======
+=======
+        model = get_user_model()
+        fields = ["email", "username", "password"]
+>>>>>>> 39c0d99e (Login/Logout):backend/nyuapp/serializers.py
+>>>>>>> bfe12a3c (Login/Logout)
 
     def create(self, validated_data):
         user_password = validated_data.get("password", None)

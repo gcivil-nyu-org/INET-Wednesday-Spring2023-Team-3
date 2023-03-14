@@ -56,7 +56,16 @@ INSTALLED_APPS = [
     "corsheaders",
     "rest_framework.authtoken",
     "rest_framework_simplejwt",
+<<<<<<< HEAD
     "nyuapp",
+=======
+<<<<<<< HEAD
+    "onboarding",
+    "questions",
+=======
+    "nyuapp.apps.NyuappConfig",
+>>>>>>> 39c0d99e (Login/Logout)
+>>>>>>> bfe12a3c (Login/Logout)
 ]
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
