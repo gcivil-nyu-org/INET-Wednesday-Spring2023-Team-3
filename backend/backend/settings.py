@@ -14,8 +14,10 @@ from pathlib import Path
 from datetime import timedelta
 
 SIMPLE_JWT = {
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=15),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
     "ROTATE_REFRESH_TOKENS": True,
+    "BLACKLIST_AFTER_ROTATION": True,
 }
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -40,6 +42,8 @@ ALLOWED_HOSTS = [
 
 # Application definition
 
+AUTH_USER_MODEL = "nyuapp.User"
+
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -51,7 +55,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "rest_framework.authtoken",
     "rest_framework_simplejwt",
-    "nyuapp",
+    "nyuapp.apps.NyuappConfig",
 ]
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [

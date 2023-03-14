@@ -2,11 +2,11 @@ from rest_framework import serializers
 from .models import Todo
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.models import User
-from rest_framework import serializers
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from django.contrib.auth import get_user_model
 
 
 class TodoSerializer(serializers.ModelSerializer):
@@ -19,65 +19,29 @@ class TodoSerializer(serializers.ModelSerializer):
         model = Todo
 
 
-class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
-    @classmethod
-    def get_token(cls, user):
-        token = super(MyTokenObtainPairSerializer, cls).get_token(user)
-
-        # Add custom claims
-        token["username"] = user.username
-        return token
-
-
-# Serializer to Register User
-class RegisterSerializer(serializers.ModelSerializer):
-    email = serializers.EmailField(
-        required=True, validators=[UniqueValidator(queryset=User.objects.all())]
+class UserRegistrationSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(
+        max_length=100, min_length=8, style={"input_type": "password"}
     )
-    password1 = serializers.CharField(
-        write_only=True,
-        required=True,
-        validators=[validate_password],
-    )
-    password2 = serializers.CharField(write_only=True, required=True)
 
     class Meta:
-        model = User
-        fields = (
-            "username",
-            "first_name",
-            "last_name",
-            "email",
-            "password1",
-            "password2",
-        )
-        extra_kwargs = {
-            "first_name": {"required": True},
-            "last_name": {"required": True},
-        }
-
-    def validate(self, attrs):
-        if attrs["password1"] != attrs["password2"]:
-            raise serializers.ValidationError(
-                {"password": "Password fields didn't match."}
-            )
-        email = attrs["email"]
-        email_exists = User.objects.filter(email=email)
-        accepted_domains = ["nyu.edu"]
-        _, domain = email.split("@")
-        if email_exists.exists() and not self.instance and self.instance.pk == None:
-            raise forms.ValidationError("Email is taken")
-        if domain.lower() not in accepted_domains:
-            raise serializers.ValidationError("Email should be nyu.edu only.")
-        return attrs
+        model = get_user_model()
+        fields = ["email", "username", "password"]
 
     def create(self, validated_data):
-        user = User.objects.create(
-            username=validated_data["username"],
-            first_name=validated_data["first_name"],
-            last_name=validated_data["last_name"],
-            email=validated_data["email"],
+        user_password = validated_data.get("password", None)
+        db_instance = self.Meta.model(
+            email=validated_data.get("email"), username=validated_data.get("username")
         )
-        user.set_password(validated_data["password1"])
-        user.save()
-        return user
+        db_instance.set_password(user_password)
+        db_instance.save()
+        return db_instance
+
+
+class UserLoginSerializer(serializers.Serializer):
+    email = serializers.CharField(max_length=100)
+    username = serializers.CharField(max_length=100, read_only=True)
+    password = serializers.CharField(
+        max_length=100, min_length=8, style={"input_type": "password"}
+    )
+    token = serializers.CharField(max_length=255, read_only=True)
