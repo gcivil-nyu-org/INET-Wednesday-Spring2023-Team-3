@@ -11,7 +11,10 @@ after_script:
 
 script:
   - coverage run backend/manage.py test
-  
+
+before_deploy:
+  - cd backend
+
 deploy:
   - provider: elasticbeanstalk
     access_key_id: $ACCESSKEYID
@@ -20,16 +23,16 @@ deploy:
     app: $EBAPPNAME
     env: $EBENVNAME
     bucket_name: "elasticbeanstalk-us-east-1-076563148632"
-    bucket_path: backend
+    # bucket_path: backend
     on:
       repo: gcivil-nyu-org/INET-Wednesday-Spring2023-Team-3
       branch:
         - $BRANCHNAME
-  - provider: s3
-    access_key_id: $ACCESSKEYID
-    secret_access_key: $SECRETACCESSKEY
-    bucket: "react-cors-spa-3sovo9yui0"
-    local_dir: frontend
-    skip_cleanup: true
-    on:
-      branch: $BRANCHNAME
+  # - provider: s3
+  #   access_key_id: $ACCESSKEYID
+  #   secret_access_key: $SECRETACCESSKEY
+  #   bucket: "react-cors-spa-3sovo9yui0"
+  #   local_dir: frontend
+  #   skip_cleanup: true
+  #   on:
+  #     branch: $BRANCHNAME
