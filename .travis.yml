@@ -5,6 +5,7 @@ python:
 
 install:
    - pip install -r backend/requirements.txt
+   - cd frontend && npm install && yarn build && cd ..
 
 after_script:
   - coveralls
@@ -13,7 +14,7 @@ script:
   - coverage run backend/manage.py test
 
 before_deploy:
-  - npm install frontend && yarn build && cd .. && cd backend
+  - cd backend
 
 deploy:
   - provider: elasticbeanstalk
@@ -36,6 +37,3 @@ deploy:
     skip_cleanup: true
     on:
       branch: $BRANCHNAME
-
-after_deploy:
-  - cd $TRAVIS_BUILD_DIR
