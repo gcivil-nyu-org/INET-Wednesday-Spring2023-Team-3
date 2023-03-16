@@ -13,7 +13,7 @@ script:
   - coverage run backend/manage.py test
 
 before_deploy:
-  - cd backend
+  - cd frontend && npm install && yarn build && cd .. && cd backend
 
 deploy:
   - provider: elasticbeanstalk
@@ -32,7 +32,7 @@ deploy:
     access_key_id: $ACCESSKEYID
     secret_access_key: $SECRETACCESSKEY
     bucket: "react-cors-spa-3sovo9yui0"
-    local_dir: $TRAVIS_BUILD_DIR/frontend
+    local_dir: $TRAVIS_BUILD_DIR/frontend/build
     skip_cleanup: true
     on:
       branch: $BRANCHNAME
