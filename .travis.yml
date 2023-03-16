@@ -36,3 +36,5 @@ deploy:
     skip_cleanup: true
     on:
       branch: $BRANCHNAME
+    before_deploy:
+      - cd ..
