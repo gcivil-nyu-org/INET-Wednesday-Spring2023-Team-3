@@ -11,6 +11,9 @@ after_script:
 
 script:
   - coverage run backend/manage.py test
+  
+before_deploy:
+  - cd backend
 
 deploy:
   - provider: elasticbeanstalk
@@ -25,8 +28,6 @@ deploy:
       repo: gcivil-nyu-org/INET-Wednesday-Spring2023-Team-3
       branch:
         - $BRANCHNAME
-    before_deploy:
-      - cd backend
     after_deploy:
       - cd ..
   - provider: s3
