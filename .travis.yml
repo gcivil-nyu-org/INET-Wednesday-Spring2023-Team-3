@@ -13,7 +13,7 @@ script:
   - coverage run backend/manage.py test
 
 before_deploy:
-  - cd frontend && npm install && yarn build && cd .. && cd backend
+  - npm install frontend && yarn build && cd .. && cd backend
 
 deploy:
   - provider: elasticbeanstalk
@@ -36,3 +36,6 @@ deploy:
     skip_cleanup: true
     on:
       branch: $BRANCHNAME
+
+after_deploy:
+  - cd $TRAVIS_BUILD_DIR
