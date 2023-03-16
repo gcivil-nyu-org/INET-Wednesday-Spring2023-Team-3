@@ -11,7 +11,7 @@ after_script:
 
 script:
   - coverage run backend/manage.py test
-  
+
 before_deploy:
   - cd backend
 
@@ -28,8 +28,6 @@ deploy:
       repo: gcivil-nyu-org/INET-Wednesday-Spring2023-Team-3
       branch:
         - $BRANCHNAME
-    after_deploy:
-      - cd ..
   - provider: s3
     access_key_id: $ACCESSKEYID
     secret_access_key: $SECRETACCESSKEY
@@ -38,3 +36,5 @@ deploy:
     skip_cleanup: true
     on:
       branch: $BRANCHNAME
+    before_deploy:
+      - pushd $TRAVIS_BUILD_DIR
