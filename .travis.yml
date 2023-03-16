@@ -32,9 +32,7 @@ deploy:
     access_key_id: $ACCESSKEYID
     secret_access_key: $SECRETACCESSKEY
     bucket: "react-cors-spa-3sovo9yui0"
-    local_dir: frontend
+    local_dir: $TRAVIS_BUILD_DIR/frontend
     skip_cleanup: true
     on:
       branch: $BRANCHNAME
-    before_deploy:
-      - pushd $TRAVIS_BUILD_DIR
