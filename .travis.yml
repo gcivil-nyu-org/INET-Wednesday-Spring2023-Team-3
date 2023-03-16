@@ -1,0 +1,35 @@
+language: python
+
+python:
+  - "3.7"
+
+install:
+   - pip install -r requirements.txt
+
+after_script:
+  - coveralls
+
+script:
+  - coverage run manage.py test
+  
+deploy:
+  - provider: elasticbeanstalk
+    access_key_id: $ACCESSKEYID
+    secret_access_key: $SECRETACCESSKEY
+    region: "us-east-1"
+    app: $EBAPPNAME
+    env: $EBENVNAME
+    bucket_name: "elasticbeanstalk-us-east-1-076563148632"
+    bucket_path: backend
+    on:
+      repo: gcivil-nyu-org/INET-Wednesday-Spring2023-Team-3
+      branch:
+        - $BRANCHNAME
+  - provider: s3
+    access_key_id: $ACCESSKEYID
+    secret_access_key: $SECRETACCESSKEY
+    bucket: "react-cors-spa-3sovo9yui0"
+    local_dir: frontend
+    skip_cleanup: true
+    on:
+      branch: $BRANCHNAME
