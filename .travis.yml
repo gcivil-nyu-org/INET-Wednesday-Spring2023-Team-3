@@ -10,7 +10,7 @@ after_script:
   - coveralls
 
 script:
-  - coverage run manage.py test
+  - coverage run backend/manage.py test
   
 deploy:
   - provider: elasticbeanstalk
