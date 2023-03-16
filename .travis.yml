@@ -28,11 +28,11 @@ deploy:
       repo: gcivil-nyu-org/INET-Wednesday-Spring2023-Team-3
       branch:
         - $BRANCHNAME
-  # - provider: s3
-  #   access_key_id: $ACCESSKEYID
-  #   secret_access_key: $SECRETACCESSKEY
-  #   bucket: "react-cors-spa-3sovo9yui0"
-  #   local_dir: frontend
-  #   skip_cleanup: true
-  #   on:
-  #     branch: $BRANCHNAME
+  - provider: s3
+    access_key_id: $ACCESSKEYID
+    secret_access_key: $SECRETACCESSKEY
+    bucket: "react-cors-spa-3sovo9yui0"
+    local_dir: ../frontend
+    skip_cleanup: true
+    on:
+      branch: $BRANCHNAME
