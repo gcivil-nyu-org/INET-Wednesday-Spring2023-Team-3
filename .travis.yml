@@ -1,10 +1,4 @@
 language: python
-
-env:
-  global:
-    - DB_USERNAME=my-db-username
-    - DB_PASSWORD=my-db-password
-    - DB_HOST=my-db-host
     
 python:
   - "3.7"
@@ -30,7 +24,10 @@ deploy:
     app: $EBAPPNAME
     env: $EBENVNAME
     bucket_name: "elasticbeanstalk-us-east-1-076563148632"
-    # bucket_path: backend
+    env:
+      - DB_USERNAME=my-db-username
+      - DB_PASSWORD=my-db-password
+      - DB_HOST=my-db-host
     on:
       repo: gcivil-nyu-org/INET-Wednesday-Spring2023-Team-3
       branch:
