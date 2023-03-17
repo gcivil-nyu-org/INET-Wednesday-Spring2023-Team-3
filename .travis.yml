@@ -25,9 +25,9 @@ deploy:
     env: $EBENVNAME
     bucket_name: "elasticbeanstalk-us-east-1-076563148632"
     env:
-      - DB_USERNAME=my-db-username
-      - DB_PASSWORD=my-db-password
-      - DB_HOST=my-db-host
+      - DB_USERNAME: my-db-username
+      - DB_PASSWORD: my-db-password
+      - DB_HOST: my-db-host
     on:
       repo: gcivil-nyu-org/INET-Wednesday-Spring2023-Team-3
       branch:
