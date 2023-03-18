@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
             name='Question',
             fields=[
                 ('q_id', models.BigAutoField(primary_key=True, serialize=False)),
-                ('title', models.CharField(max_length=50)),
+                ('title', models.CharField(max_length=300)),
                 ('description', models.CharField(blank=True, max_length=1000)),
                 ('difficulty', models.CharField(blank=True, max_length=10)),
                 ('type', models.CharField(blank=True, max_length=50)),
