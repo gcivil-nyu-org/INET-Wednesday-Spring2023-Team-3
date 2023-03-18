@@ -1,2 +1,2 @@
 from django.test import TestCase
-from .models import Question
+from .models import Question, Difficulty
