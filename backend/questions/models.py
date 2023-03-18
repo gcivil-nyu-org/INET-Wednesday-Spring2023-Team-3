@@ -1,10 +1,8 @@
 from django.db import models
 
-
-
 class Question(models.Model):
     q_id = models.BigAutoField(primary_key=True)
-    title = models.CharField(max_length=50)
+    title = models.CharField(max_length=300)
     description = models.CharField(max_length=1000, blank = True)
     difficulty = models.CharField(max_length=10, blank= True)
     type = models.CharField(max_length=50, blank= True)

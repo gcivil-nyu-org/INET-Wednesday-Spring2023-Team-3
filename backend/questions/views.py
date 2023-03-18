@@ -3,18 +3,8 @@ from .models import Question, Difficulty, Company, Position
 from django.http import JsonResponse
 from django.core import serializers
 import json
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from nyuapp.serializers import RegisterSerializer
-from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
 from json import JSONDecodeError
-from rest_framework.permissions import AllowAny
-from rest_framework.authentication import TokenAuthentication
-from rest_framework import generics
-from .serializers import MyTokenObtainPairSerializer
-from rest_framework_simplejwt.views import TokenObtainPairView
-
 
 def error_response(error_dict, err_msg: str):
     error_dict["status"] = 400
@@ -168,15 +158,3 @@ def post_question(request):
             ),
         }
     )
-
-
-# Class based view to register user
-class RegisterUserAPIView(generics.CreateAPIView):
-    queryset = User.objects.all()
-    permission_classes = (AllowAny,)
-    serializer_class = RegisterSerializer
-
-
-class MyObtainTokenPairView(TokenObtainPairView):
-    permission_classes = (AllowAny,)
-    serializer_class = MyTokenObtainPairSerializer

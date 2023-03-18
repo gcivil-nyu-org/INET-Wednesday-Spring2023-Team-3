@@ -1,5 +1,4 @@
 from rest_framework import serializers
-from .models import Todo
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.models import User
 from rest_framework import serializers
@@ -7,17 +6,6 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-
-
-class TodoSerializer(serializers.ModelSerializer):
-    class Meta:
-        fields = (
-            "id",
-            "title",
-            "description",
-        )
-        model = Todo
-
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
@@ -66,7 +54,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         accepted_domains = ["nyu.edu"]
         _, domain = email.split("@")
         if email_exists.exists() and not self.instance and self.instance.pk == None:
-            raise forms.ValidationError("Email is taken")
+            raise serializers.ValidationError("Email is taken")
         if domain.lower() not in accepted_domains:
             raise serializers.ValidationError("Email should be nyu.edu only.")
         return attrs
