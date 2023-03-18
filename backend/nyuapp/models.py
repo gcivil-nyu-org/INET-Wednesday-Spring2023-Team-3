@@ -3,13 +3,6 @@ from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 
 
-class Todo(models.Model):
-    title = models.CharField(max_length=200)
-    description = models.TextField()
-
-    def __str__(self):
-        """A string representation of the model."""
-        return self.title
 
 
 class Question(models.Model):
