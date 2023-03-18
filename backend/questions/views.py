@@ -3,6 +3,7 @@ from .models import Question, Difficulty, Company, Position
 from django.http import JsonResponse
 from django.core import serializers
 import json
+<<<<<<< HEAD:backend/nyuapp/views.py
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.contrib.auth.models import User
@@ -24,6 +25,10 @@ from django.contrib.auth import get_user_model
 from .utils import generate_access_token
 import jwt
 
+=======
+from django.views.decorators.csrf import csrf_exempt
+from json import JSONDecodeError
+>>>>>>> 4005745b (1) Modularizing nyuapp into onbarding & questions):backend/questions/views.py
 
 def error_response(error_dict, err_msg: str):
     error_dict["status"] = 400
@@ -176,6 +181,7 @@ def post_question(request):
                 )
             ),
         }
+<<<<<<< HEAD:backend/nyuapp/views.py
     )
 
 
@@ -267,3 +273,6 @@ class UserLogoutViewAPI(APIView):
         response = Response()
         response.data = {"message": "User is already logged out."}
         return response
+=======
+    )
+>>>>>>> 4005745b (1) Modularizing nyuapp into onbarding & questions):backend/questions/views.py
