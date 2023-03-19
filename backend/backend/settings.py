@@ -164,3 +164,18 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+import os
+
+# EMAIL_FROM = (
+#    os.environ.get("AUTHEMAIL_DEFAULT_EMAIL_FROM") or "<YOUR DEFAULT_EMAIL_FROM HERE>"
+# )
+EMAIL_BCC = "drewtavcar@icloud.com"
+EMAIL_FROM = "Registration"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_HOST_USER = "ajt9616@nyu.edu"
+EMAIL_HOST_PASSWORD = "rqydiwrnskmggfen"
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
