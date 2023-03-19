@@ -3,6 +3,7 @@ import SignInSide from "./Components/login";
 import Homepage from "./Components/home";
 import SignUp from "./Components/signup";
 import UploadQuestion from "./Components/uploadQuestion";
+import QuestionDetails from "./Components/questionDetails";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
@@ -19,6 +20,7 @@ function App() {
             path="/UploadQuestion"
             element={<UploadQuestion />}
           ></Route>
+          <Route path="/questions/:pk" element={<QuestionDetails />} />
         </Routes>
       </Router>
     </>

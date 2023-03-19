@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { Link } from 'react-router-dom';
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
@@ -24,8 +24,8 @@ import TextField from "@mui/material/TextField";
 
 import Navbar from "./navbar";
 
-function createData(type, title, difficulty, companies, positions) {
-  return { type, title, difficulty, companies, positions };
+function createData(type, title, difficulty, companies, positions, pk) {
+  return { type, title, difficulty, companies, positions, pk };
 }
 
 function Homepage() {
@@ -98,7 +98,8 @@ function Homepage() {
           item.fields.title,
           item.fields.difficulty,
           item.fields.companies,
-          item.fields.positions
+          item.fields.positions,
+          item.pk
         )
       );
     });
@@ -301,7 +302,7 @@ function Homepage() {
                       />
                     )}
                   </TableCell>
-                  <TableCell style={{ width: "60vw" }}>{row.title}</TableCell>
+                  <TableCell style={{ width: "60vw" }}><Link to={`/questions/${row.pk}`}>{row.title}</Link></TableCell>
                   <TableCell style={{ width: "10vw" }}>
                     {row.companies.length !== 0 &&
                       row.companies
