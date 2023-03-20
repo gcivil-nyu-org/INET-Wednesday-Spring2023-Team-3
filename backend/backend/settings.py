@@ -38,6 +38,7 @@ ALLOWED_HOSTS = [
     "nyuprepapi.com",
     "localhost",
     "127.0.0.1",
+    "testserver",
 ]
 
 # Application definition
