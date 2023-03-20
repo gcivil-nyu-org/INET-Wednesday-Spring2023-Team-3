@@ -119,6 +119,9 @@ DATABASES = {
         "PASSWORD": os.environ.get("DB_PASSWORD"),
         "HOST": os.environ.get("DB_HOST"),
         "PORT": "5432",
+        "TEST": {
+            "NAME": "auto_tests",
+        }
     }
 }
 
