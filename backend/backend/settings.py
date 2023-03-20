@@ -41,6 +41,8 @@ ALLOWED_HOSTS = [
     "testserver",
 ]
 
+AUTH_USER_MODEL = "onboarding.MyUser"
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -53,6 +55,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "corsheaders",
     "rest_framework.authtoken",
+    "authemail",
     "rest_framework_simplejwt",
     "onboarding",
     "questions",
@@ -62,7 +65,9 @@ REST_FRAMEWORK = {
         "rest_framework.permissions.AllowAny",
     ],
     "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
+        "rest_framework.authentication.TokenAuthentication",
+        "rest_framework.authentication.BasicAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
     ],
 }
 CORS_ORIGIN_WHITELIST = (
@@ -108,12 +113,12 @@ WSGI_APPLICATION = "backend.wsgi.application"
 
 DATABASES = {
     "default": {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': os.environ.get('DB_USERNAME'),
-        'PASSWORD': os.environ.get('DB_PASSWORD'),
-        'HOST': os.environ.get('DB_HOST'),
-        'PORT': '5432',
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "postgres",
+        "USER": os.environ.get("DB_USERNAME"),
+        "PASSWORD": os.environ.get("DB_PASSWORD"),
+        "HOST": os.environ.get("DB_HOST"),
+        "PORT": "5432",
     }
 }
 
@@ -158,3 +163,17 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+import os
+
+# EMAIL_FROM = (
+#    os.environ.get("AUTHEMAIL_DEFAULT_EMAIL_FROM") or "<YOUR DEFAULT_EMAIL_FROM HERE>"
+# )
+EMAIL_BCC = "ajt9616@nyu.edu"
+EMAIL_FROM = "Registration"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_HOST_USER = "interviewprep@gmail.com"
+EMAIL_HOST_PASSWORD = "***********"
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
