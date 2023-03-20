@@ -11,7 +11,7 @@ after_script:
   - coveralls
 
 script:
-  - coverage run backend/manage.py test
+  - cd backend && coverage run manage.py test && cd ..
 
 before_deploy:
   - cd backend
