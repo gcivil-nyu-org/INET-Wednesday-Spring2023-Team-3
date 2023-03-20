@@ -86,9 +86,10 @@ def post_question(request):
     if request.method != "POST":
         return error_response({}, "Error: Invalid HTTP method!")
     try:
+        print(f"Requestbody: {request.body}")
         req_body = json.loads(request.body)
     except JSONDecodeError as e:
-        return error_response({}, f"Error: Invalid request body => {e}!")
+        return error_response({}, f"Error: Invalid request body JSONDecodeError => {e}!")
     print(req_body)
     try:
         title, description, companies = (
