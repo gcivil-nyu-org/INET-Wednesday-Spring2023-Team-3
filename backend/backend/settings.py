@@ -35,6 +35,8 @@ DEBUG = True
 ALLOWED_HOSTS = [
     "backend-api-env.eba-grsw3sj9.us-west-2.elasticbeanstalk.com",
     "backend-env.eba-w252mies.us-east-1.elasticbeanstalk.com",
+    "nyuinterviewapp.com",
+    "nyuinterviewappdevelop.com",
     "nyuprepapi.com",
     "localhost",
     "127.0.0.1",
