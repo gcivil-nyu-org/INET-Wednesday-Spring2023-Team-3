@@ -2,9 +2,9 @@ language: python
 
 env:
   global:
-    - DB_USERNAME=postgres_6063
-    - DB_PASSWORD=iHowv8bJ6Rg6CxLXdpWP
-    - DB_HOST=db-6063.cbfrwjkvxdrf.us-east-1.rds.amazonaws.com
+    - DB_USERNAME=$RDSNAME
+    - DB_PASSWORD=$RDSPW
+    - DB_HOST=$RDSHOST
 
 python:
   - "3.7"
