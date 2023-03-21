@@ -18,6 +18,7 @@ script:
 
 after_script:
   - cd $TRAVIS_BUILD_DIR
+  - coveralls
 
 before_deploy:
   - cd backend
