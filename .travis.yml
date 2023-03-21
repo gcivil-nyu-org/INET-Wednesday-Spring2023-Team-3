@@ -13,11 +13,11 @@ install:
    - pip install -r backend/requirements.txt
    - cd frontend && npm install && yarn build && cd ..
 
-after_script:
-  - coveralls
+# after_script:
 
 script:
   - coverage run backend/manage.py test questions
+  - coveralls
 
 before_deploy:
   - cd backend
