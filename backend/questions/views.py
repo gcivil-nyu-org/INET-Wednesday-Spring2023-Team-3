@@ -55,12 +55,16 @@ def get_questions(request):
         if param_vals[3]:
             questions = questions.filter(title__icontains=param_vals[3])
         if param_vals[4]:
+            positions = positions.filter(name=param_vals[4])
+            if not positions.count():
+                return error_response(response_dict, "Error: Position not found!")
             questions = questions.filter(positions__icontains=param_vals[4])
         if param_vals[5]:
             questions = questions.filter(q_id=param_vals[5])
         response_dict["total_question_count"] = questions.count()
         if param_vals[6] and param_vals[7]:
             if not param_vals[6].isdigit() or not param_vals[7].isdigit():
+                response_dict["total_question_count"] = 0
                 return error_response(
                     response_dict, "Error: Pagination params not valid!"
                 )
