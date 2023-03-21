@@ -14,7 +14,7 @@ install:
    - cd frontend && npm install && yarn build && cd ..
 
 script:
-  - coverage run backend/manage.py test questions
+  - coverage run backend/manage.py test backend
   - coveralls
 
 before_deploy:

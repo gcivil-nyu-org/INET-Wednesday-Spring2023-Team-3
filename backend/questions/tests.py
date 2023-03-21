@@ -127,6 +127,24 @@ class QuestionViewTest(TestCase):
         self.assertEqual(400, param_vals[0])
         self.assertTrue("Invalid HTTP method" in str(param_vals[1]))
 
+    def assert_success_num_questions(self, param_vals, status, error_msg, qnum):
+        self.assertEqual(status, param_vals[0])
+        self.assertEqual(qnum, param_vals[1])
+        self.assertEqual(1, len(param_vals[2]))
+       
+        sample_question = self.get_sample_success_request_body()
+        self.assertEqual(len(param_vals[3]), len(sample_question["companies"].split(',')))
+        self.assertEqual(len(param_vals[4]), len(sample_question["positions"].split(',')))
+        self.assertEqual(error_msg, param_vals[5])
+
+        question = param_vals[6]
+        self.assertEqual(qnum, len(question))
+
+        if qnum > 0:
+            question = question[0]
+            self.assertEqual("questions.question", question["model"])
+            self.assertEqual(sample_question, question["fields"])
+
     def test_get_question_success_plain(self):
         self.test_post_question_success()
         response = self.client.get(reverse("get_questions"))
@@ -144,20 +162,38 @@ class QuestionViewTest(TestCase):
         self.assertTrue(all([param in response_dict for param in response_params]))
         param_vals = [response_dict[param] for param in response_params]
 
-        self.assertEqual(200, param_vals[0])
-        self.assertEqual(1, param_vals[1])
-        self.assertEqual(1, len(param_vals[2]))
-       
-        sample_question = self.get_sample_success_request_body()
-        self.assertEqual(len(param_vals[3]), len(sample_question["companies"].split(',')))
-        self.assertEqual(len(param_vals[4]), len(sample_question["positions"].split(',')))
-        self.assertEqual("", param_vals[5])
+        self.assert_success_num_questions(param_vals = param_vals, status = 200, error_msg = "", qnum = 1)
 
-        question = param_vals[6]
-        self.assertEqual(1, len(question))
-        question = question[0]
-        self.assertEqual("questions.question", question["model"])
-        self.assertEqual(sample_question, question["fields"])
+    def test_get_question_params(self):
+        self.test_post_question_success()
+        urls_expected_responses = {
+            "?difficulty=d1": [1, 200, ""],
+            "?difficulty=unknown": [0, 400, "Error: Difficulty not found. Enter a valid difficulty level!"],
+            "?company=test_comp1": [1, 200, ""],
+            "?company=test_comp2": [1, 200, ""],
+            "?company=unknown": [0, 400, "Error: Company not found!"],
+            "?position=p1": [1, 200, ""],
+            "?position=p2": [1, 200, ""],
+            "?position=unknown": [0, 400, "Error: Position not found!"],
+            "?cur_page=1&single_page_count=1": [1, 200, ""],
+            "?cur_page=string&single_page_count=string": [0, 400, "Error: Pagination params not valid!"]
+        }
 
+        for key, val in urls_expected_responses.items():
+            response = self.client.get(reverse("get_questions") + key)
+            self.assertIsNotNone(response)
+            response_dict = json.loads(response.content)
+            self.assertIsNotNone(response_dict)
 
+            response_params = ["status", 
+                            "total_question_count", 
+                            "difficulties", 
+                            "companies", 
+                            "positions", 
+                            "error_msg",
+                            "question_data"]
+            self.assertTrue(all([param in response_dict for param in response_params]))
+            param_vals = [response_dict[param] for param in response_params]
+
+            self.assert_success_num_questions(param_vals = param_vals, status = val[1], error_msg = val[2], qnum = val[0])
         
