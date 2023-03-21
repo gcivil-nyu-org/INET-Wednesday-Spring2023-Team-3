@@ -15,7 +15,9 @@ install:
 
 script:
   - coverage run backend/manage.py test backend
-  - coveralls
+
+after_script:
+  - cd $TRAVIS_BUILD_DIR
 
 before_deploy:
   - cd backend
