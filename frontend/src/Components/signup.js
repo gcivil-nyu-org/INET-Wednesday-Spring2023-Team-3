@@ -36,6 +36,7 @@ const theme = createTheme();
 
 export default function SignUp() {
   const [formData, setFormData] = useState({
+    username: "",
     first_name: "",
     last_name: "",
     email: "@nyu.edu",
@@ -96,6 +97,19 @@ export default function SignUp() {
             sx={{ mt: 3 }}
           >
             <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  autoComplete="given-name"
+                  name="username"
+                  required
+                  fullWidth
+                  id="username"
+                  label="username"
+                  value={formData.username}
+                  onChange={handleInputChange}
+                  autoFocus
+                />
+              </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
                   autoComplete="given-name"
