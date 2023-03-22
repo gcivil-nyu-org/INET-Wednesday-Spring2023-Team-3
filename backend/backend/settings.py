@@ -165,14 +165,11 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 import os
 
-# EMAIL_FROM = (
-#    os.environ.get("AUTHEMAIL_DEFAULT_EMAIL_FROM") or "<YOUR DEFAULT_EMAIL_FROM HERE>"
-# )
 EMAIL_BCC = "ajt9616@nyu.edu"
 EMAIL_FROM = "Registration"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
-EMAIL_HOST_USER = "nyuinterviewprep@gmail.com"
-EMAIL_HOST_PASSWORD = "gpuidebojoeeyvgv"
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
