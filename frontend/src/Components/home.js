@@ -45,7 +45,7 @@ function Homepage() {
 
   useEffect(() => {
     fetch(
-      "https://nyuprepapi.com/api/questions/cur_page/" +
+      "https://localhost/api/questions/cur_page/" +
         page +
         "/single_page_count/15"
     )
