@@ -42,7 +42,6 @@ function Register() {
     last_name: "",
     email: "@nyu.edu",
     password1: "",
-    password2: "",
   });
 
   const handleInputChange = (event) => {
@@ -54,8 +53,9 @@ function Register() {
       formData.email,
       formData.first_name,
       formData.last_name,
-      formData.password
+      formData.password1
     );
+    console.log(" Successful register");
   };
   const navigate = useNavigate();
   const loginPage = () => {
