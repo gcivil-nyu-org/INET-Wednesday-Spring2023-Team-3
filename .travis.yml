@@ -13,6 +13,9 @@ install:
    - pip install -r backend/requirements.txt
    - cd frontend && npm install && yarn build && cd ..
 
+before_script:
+  - if [ "$TRAVIS_BRANCH" = "main" ]; then echo 'export const API_ENDPOINT = "https://nyuinterviewapp.com";' > frontend/src/Components/api.js; else echo 'export const API_ENDPOINT = "http://nyuinterviewappdevelop.com";' > frontend/src/Components/api.js; fi
+
 script:
   - coverage run backend/manage.py test backend
 
@@ -38,7 +41,7 @@ deploy:
   - provider: s3
     access_key_id: $ACCESSKEYID
     secret_access_key: $SECRETACCESSKEY
-    bucket: "react-cors-spa-3sovo9yui0"
+    bucket: $BUCKETNAME
     local_dir: $TRAVIS_BUILD_DIR/frontend/build
     skip_cleanup: true
     on:

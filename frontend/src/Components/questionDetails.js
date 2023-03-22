@@ -3,15 +3,15 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-
 import Navbar from "./navbar";
+import { API_ENDPOINT } from "./api";
 
 function QuestionDetails() {
   const { pk } = useParams();
   const [question, setQuestion] = useState({});
 
   useEffect(() => {
-    const url = `https://nyuprepapi.com/api/questions/?q_id=${pk}`;
+    const url = `${API_ENDPOINT}/questions/get-questions/?q_id=${pk}`;
     
     fetch(url)
       .then((response) => response.json())
