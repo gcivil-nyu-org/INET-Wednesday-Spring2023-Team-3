@@ -1,5 +1,5 @@
 import * as React from "react";
-import SignInSide from "./Components/login";
+// import SignInSide from "./Components/login";
 import Homepage from "./Components/home";
 // import SignUp from "./Components/signup";
 import UploadQuestion from "./Components/uploadQuestion";
