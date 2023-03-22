@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
@@ -302,7 +302,9 @@ function Homepage() {
                       />
                     )}
                   </TableCell>
-                  <TableCell style={{ width: "60vw" }}><Link to={`/questions/${row.pk}`}>{row.title}</Link></TableCell>
+                  <TableCell style={{ width: "60vw" }}>
+                    <Link to={`/questions/${row.pk}`}>{row.title}</Link>
+                  </TableCell>
                   <TableCell style={{ width: "10vw" }}>
                     {row.companies.length !== 0 &&
                       row.companies
