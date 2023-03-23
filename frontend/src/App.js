@@ -21,6 +21,7 @@ function App() {
             path="/UploadQuestion"
             element={<UploadQuestion />}
           ></Route>
+          <Route path="/questions/:pk" element={<QuestionDetails />} />
         </Routes>
       </Router>
     </>
