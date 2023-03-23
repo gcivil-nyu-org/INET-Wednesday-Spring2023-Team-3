@@ -319,5 +319,3 @@ function QuestionDetails() {
 }
 
 export default QuestionDetails;
-
-export default QuestionDetails;
