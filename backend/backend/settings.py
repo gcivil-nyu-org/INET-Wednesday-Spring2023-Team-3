@@ -76,7 +76,7 @@ CORS_ORIGIN_WHITELIST = (
     "http://localhost:3000",
     "https://nyuprep.netlify.app",
     "https://d1q57xtm4w01tn.cloudfront.net",
-    "https://d18n0qdaf2b6ye.cloudfront.net"
+    "https://d18n0qdaf2b6ye.cloudfront.net",
 )
 
 MIDDLEWARE = [
