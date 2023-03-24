@@ -19,7 +19,7 @@ function App() {
           <Routes>
             {/* <Route exact path='/' element={<PrivateRoute/>}/> */}
             <Route exact path="/" element={<Homepage />} />
-            
+            <Route exact path="/QuestionDetails" element={<QuestionDetails />} />
             <Route exact path="/login" element={<Login />} />
             <Route exact path="/register" element={<Register />}></Route>
             <Route
@@ -28,7 +28,7 @@ function App() {
               element={<UploadQuestion />}
             ></Route>
              <Route path="/questions/:pk" element={<QuestionDetails />} />
-          </Routes>{" "}
+          </Routes>
         </AuthProvider>
       </Router>
     </>

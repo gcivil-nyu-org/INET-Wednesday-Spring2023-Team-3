@@ -76,7 +76,7 @@ CORS_ORIGIN_WHITELIST = (
     "http://localhost:3000",
     "https://nyuprep.netlify.app",
     "https://d1q57xtm4w01tn.cloudfront.net",
-    "https://d18n0qdaf2b6ye.cloudfront.net"
+    "https://d18n0qdaf2b6ye.cloudfront.net",
 )
 
 MIDDLEWARE = [
@@ -172,9 +172,7 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-import os
-
-EMAIL_BCC = "ajt9616@nyu.edu"
+EMAIL_BCC = ""
 EMAIL_FROM = "Registration"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
@@ -182,4 +180,3 @@ EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
-SITE_NAME = os.environ.get("SITE_NAME")
