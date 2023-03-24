@@ -7,12 +7,11 @@ class SignupSerializer(serializers.Serializer):
     Don't require email to be unique so visitor can signup multiple times,
     if misplace verification email.  Handle in view.
     """
+
     email = serializers.EmailField(max_length=255)
     password = serializers.CharField(max_length=128)
-    first_name = serializers.CharField(max_length=30, default='',
-                                       required=False)
-    last_name = serializers.CharField(max_length=30, default='',
-                                      required=False)
+    first_name = serializers.CharField(max_length=30, default="", required=False)
+    last_name = serializers.CharField(max_length=30, default="", required=False)
 
 
 class LoginSerializer(serializers.Serializer):
@@ -44,4 +43,4 @@ class EmailChangeVerifySerializer(serializers.Serializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
-        fields = ('id', 'email', 'first_name', 'last_name')
+        fields = ("id", "email", "first_name", "last_name")

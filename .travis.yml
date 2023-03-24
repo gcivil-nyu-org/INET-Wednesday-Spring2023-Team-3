@@ -12,16 +12,18 @@ python:
 install:
   - pip install -r backend/requirements.txt
   - if [ "$TRAVIS_BRANCH" = "main" ]; then echo 'export const API_ENDPOINT = "https://nyuinterviewapp.com";' > frontend/src/Components/api.js; else echo 'export const API_ENDPOINT = "https://nyuinterviewappdevelop.com";' > frontend/src/Components/api.js; fi
-  - cd frontend && npm install && yarn build && cd ..
 
 script:
   - coverage run backend/manage.py test backend
+  # - black --check backend
+  # - flake8 backend
 
 after_script:
   - cd $TRAVIS_BUILD_DIR
   - coveralls
 
 before_deploy:
+  - cd frontend && npm install && yarn build && cd ..
   - cd backend
 
 deploy:
