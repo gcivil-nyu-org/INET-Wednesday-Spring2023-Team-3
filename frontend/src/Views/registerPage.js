@@ -13,65 +13,55 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import AuthContext from "../context/AuthContext";
+
+
 function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        NYU Interview Prep
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
+    return (
+      <Typography
+        variant="body2"
+        color="text.secondary"
+        align="center"
+        {...props}
+      >
+        {"Copyright © "}
+        <Link color="inherit" href="https://mui.com/">
+          NYU Interview Prep
+        </Link>{" "}
+        {new Date().getFullYear()}
+        {"."}
+      </Typography>
+    );
+  }
+function Register() {
+  const { registerUser } = useContext(AuthContext);
 
-const theme = createTheme();
-
-export default function SignUp() {
   const [formData, setFormData] = useState({
-    username: "",
     first_name: "",
     last_name: "",
     email: "@nyu.edu",
     password1: "",
-    password2: "",
   });
 
   const handleInputChange = (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    fetch("https://nyuprepapi.com/api/register/ ", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        alert("Account created successfully!");
-        console.log(data);
-      })
-      .catch((error) => console.error(error));
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    registerUser(
+      formData.email,
+      formData.first_name,
+      formData.last_name,
+      formData.password1
+    );
+    console.log(" Successful register");
   };
-
-
   const navigate = useNavigate();
-
   const loginPage = () => {
-    navigate("/SignInSide");
+    navigate("/login");
   };
-
+  const theme = createTheme();
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -97,19 +87,6 @@ export default function SignUp() {
             sx={{ mt: 3 }}
           >
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  autoComplete="given-name"
-                  name="username"
-                  required
-                  fullWidth
-                  id="username"
-                  label="username"
-                  value={formData.username}
-                  onChange={handleInputChange}
-                  autoFocus
-                />
-              </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
                   autoComplete="given-name"
@@ -161,7 +138,7 @@ export default function SignUp() {
                   autoComplete="new-password"
                 />{" "}
               </Grid>
-              <Grid item xs={12}>
+              {/* <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
@@ -169,11 +146,11 @@ export default function SignUp() {
                   label="Re-enter Password"
                   type="password"
                   id="password2"
-                  value={formData.password2}
+                  value={password2}
                   onChange={handleInputChange}
                   autoComplete="new-password"
                 />
-              </Grid>
+              </Grid> */}
 
               <Grid item xs={12}>
                 <FormControlLabel
@@ -206,3 +183,5 @@ export default function SignUp() {
     </ThemeProvider>
   );
 }
+
+export default Register;
