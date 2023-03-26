@@ -61,7 +61,7 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "onboarding",
     "questions",
-    "Profile",
+    "userprofile",
 ]
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
