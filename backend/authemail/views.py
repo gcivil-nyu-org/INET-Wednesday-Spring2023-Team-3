@@ -20,6 +20,26 @@ from authemail.serializers import EmailChangeSerializer
 from authemail.serializers import PasswordChangeSerializer
 from authemail.serializers import UserSerializer
 
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from rest_framework_simplejwt.serializers import (
+    TokenObtainPairSerializer,
+    TokenRefreshSerializer,
+)
+
+from rest_framework_simplejwt.tokens import RefreshToken
+from .serializers import (
+    TokenObtainPairWithEmailSerializer,
+    TokenRefreshWithEmailSerializer,
+)
+
+
+class ObtainTokenPairWithEmailView(TokenObtainPairView):
+    serializer_class = TokenObtainPairWithEmailSerializer
+
+
+class RefreshTokenViewWithEmail(TokenRefreshView):
+    serializer_class = TokenRefreshWithEmailSerializer
+
 
 class Signup(APIView):
     permission_classes = (AllowAny,)
@@ -116,8 +136,13 @@ class Login(APIView):
             if user:
                 if user.is_verified:
                     if user.is_active:
-                        token, created = Token.objects.get_or_create(user=user)
-                        return Response({"token": token.key}, status=status.HTTP_200_OK)
+                        refresh = RefreshToken.for_user(user)
+                        response_data = {
+                            "refresh": str(refresh),
+                            "access": str(refresh.access_token),
+                        }
+                        return Response(response_data, status=status.HTTP_200_OK)
+                    #        return Response({"token": token.key}, status=status.HTTP_200_OK)
                     else:
                         content = {"detail": _("User account not active.")}
                         return Response(content, status=status.HTTP_401_UNAUTHORIZED)

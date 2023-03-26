@@ -1,10 +1,12 @@
 from django.urls import path
 from rest_framework.urlpatterns import format_suffix_patterns
-
 from authemail import views
+from .views import ObtainTokenPairWithEmailView, RefreshTokenViewWithEmail
 
 
 urlpatterns = [
+    path("token/", ObtainTokenPairWithEmailView.as_view(), name="token_obtain_pair"),
+    path("token/refresh/", RefreshTokenViewWithEmail.as_view(), name="token_refresh"),
     path("signup/", views.Signup.as_view(), name="authemail-signup"),
     path(
         "signup/verify/", views.SignupVerify.as_view(), name="authemail-signup-verify"
