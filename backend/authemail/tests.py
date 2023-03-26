@@ -129,7 +129,6 @@ class SignupTests(APITestCase):
         self.assertEqual(response.data["success"], "Email address verified.")
 
     def test_signup_without_email_verification(self):
-
         with self.settings(AUTH_EMAIL_VERIFICATION=False):
             # Send Signup request
             url = reverse("authemail-signup")
@@ -301,9 +300,9 @@ class LoginTests(APITestCase):
         response = self.client.post(url, payload)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertIn("token", response.data)
+        self.assertIn("refresh", response.data)
 
-        token = response.data["token"]
+        token = response.data["refresh"]
 
         # Log out as the user
         self.client.credentials(HTTP_AUTHORIZATION="Token " + token)
@@ -660,7 +659,7 @@ class PasswordResetTests(APITestCase):
         response = self.client.post(url, payload)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertIn("token", response.data)
+        self.assertIn("refresh", response.data)
 
 
 class EmailChangeTests(APITestCase):
@@ -1035,7 +1034,7 @@ class PasswordChangeTests(APITestCase):
         response = self.client.post(url, payload)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertIn("token", response.data)
+        self.assertIn("refresh", response.data)
 
 
 class UserDetailTests(APITestCase):
