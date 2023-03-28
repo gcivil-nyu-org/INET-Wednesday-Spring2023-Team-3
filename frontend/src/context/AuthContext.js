@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }) => {
   const history = useNavigate();
 
   const loginUser = async (email, password) => {
-    const response = await fetch("https://nyuinterviewappdevelop.com/login/", {
+    const response = await fetch("http://127.0.0.1:8000/token/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -39,6 +39,9 @@ export const AuthProvider = ({ children }) => {
       setUser(jwt_decode(data.access));
       localStorage.setItem("authTokens", JSON.stringify(data));
       history("/");
+    } else if (response.status === 401) {
+      alert("Invalid login credentials");
+      throw new Error("Invalid login credentials");
     } else {
       alert("Something went wrong!");
     }

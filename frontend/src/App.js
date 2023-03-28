@@ -7,8 +7,8 @@ import QuestionDetails from "./Components/questionDetails";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
-// import PrivateRoute from "./utils/PrivateRoute";
-// import ProtectedPage from "./Views/utils_ProtectedPage";
+import PrivateRoute from "./utils/PrivateRoute";
+import ProtectedPage from "./Views/utils_ProtectedPage";
 import Login from "./Views/loginPage";
 import Register from "./Views/registerPage"
 function App() {
@@ -28,6 +28,14 @@ function App() {
               element={<UploadQuestion />}
             ></Route>
              <Route path="/questions/:pk" element={<QuestionDetails />} />
+             <Route
+              path="/protected"
+              element={
+                <PrivateRoute>
+                  <ProtectedPage />
+                </PrivateRoute>
+              }
+            />
           </Routes>
         </AuthProvider>
       </Router>
