@@ -32,10 +32,7 @@ function Navbar() {
             NYU Interview Prep
           </Typography>
           <Link to="/protected">Protected Page</Link>
-              <button onClick={logoutUser}>Logout</button>
-          <Button color="inherit" onClick={loginPage}>
-            Login
-          </Button>
+              <Button color="inherit" onClick={logoutUser}>Logout</Button>
           
         </Toolbar>
       ) : (
