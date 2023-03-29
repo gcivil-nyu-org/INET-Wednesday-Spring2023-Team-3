@@ -7,6 +7,7 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
+import { API_ENDPOINT } from "./api";
 
 import Navbar from "./navbar";
 
@@ -27,7 +28,7 @@ function UploadQuestion() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    fetch("https://nyuprepapi.com/api/post-question/ ", {
+    fetch(`${API_ENDPOINT}/api/post-question/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
