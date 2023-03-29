@@ -1,2 +1,2 @@
 Confirm your new email address by clicking on this link:
-    http://http://localhost:3000/email/change/verify/?code={{ code }}
+    http://localhost:3000/email/change/verify/?code={{ code }}
