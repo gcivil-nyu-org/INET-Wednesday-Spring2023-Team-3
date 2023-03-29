@@ -48,6 +48,9 @@ const LoginPage = () => {
   };
 
   const navigate = useNavigate();
+  const resetPassword = () => {
+    navigate("/password/reset");
+  }
   const signUp = () => {
     navigate("/register");
   };
@@ -131,7 +134,7 @@ const LoginPage = () => {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                <Link onClick={resetPassword} variant="body2">
                   Forgot password?
                 </Link>
               </Grid>
