@@ -51,7 +51,7 @@ const LoginPage = () => {
   const signUp = () => {
     navigate("/register");
   };
-  const [name, setName] = React.useState("@nyu.edu");
+  const [name, setName] = React.useState("");
   const [emailError, setEmailError] = useState("");
   return (
     <ThemeProvider theme={theme}>
@@ -86,17 +86,17 @@ const LoginPage = () => {
               name="email"
               autoComplete="email"
               autoFocus
-              value={name}
-              onChange={(event) => {
-                const myArray = name.split("@");
-                let re = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
-                let word = myArray[1];
-                if (word === "nyu.edu" && re.test(event.target.value)) {
-                  setName(event.target.value);
-                } else {
-                  setEmailError("Enter valid NYU Email!");
-                }
-              }}
+              // value={name}
+              // onChange={(event) => {
+              //   const myArray = name.split("@");
+              //   let re = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+              //   let word = myArray[1];
+              //   if (word === "nyu.edu" && re.test(event.target.value)) {
+              //     setName(event.target.value);
+              //   } else {
+              //     setEmailError("Enter valid NYU Email!");
+              //   }
+              // }}
             />
             <br />
             <span

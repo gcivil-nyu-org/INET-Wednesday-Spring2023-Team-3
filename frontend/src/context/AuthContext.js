@@ -1,5 +1,6 @@
 import { createContext, useState, useEffect } from "react";
 import jwt_decode from "jwt-decode";
+import { API_ENDPOINT } from "../Components/api";
 
 import { useNavigate } from "react-router-dom";
 const AuthContext = createContext();
@@ -7,6 +8,7 @@ const AuthContext = createContext();
 export default AuthContext;
 
 export const AuthProvider = ({ children }) => {
+
   const [authTokens, setAuthTokens] = useState(() =>
     localStorage.getItem("authTokens")
       ? JSON.parse(localStorage.getItem("authTokens"))
@@ -22,7 +24,7 @@ export const AuthProvider = ({ children }) => {
   const history = useNavigate();
 
   const loginUser = async (email, password) => {
-    const response = await fetch("http://127.0.0.1:8000/token/", {
+    const response = await fetch(`${API_ENDPOINT}/token/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -48,7 +50,7 @@ export const AuthProvider = ({ children }) => {
   };
   
   const registerUser = async (email, firstname, lastname, password) => {
-    const response = await fetch("https://nyuinterviewappdevelop.com/signup/", {
+    const response = await fetch(`${API_ENDPOINT}/signup/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -73,7 +75,6 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("authTokens");
     history("/");
   };
-
 
   const contextData = {
     user,
