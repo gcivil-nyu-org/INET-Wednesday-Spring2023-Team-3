@@ -1,2 +1,2 @@
 Verify your email address by clicking on this link:
-    http://nyuinterviewappdevelop.com/signupverify.html/?code={{ code }}
+    https://d1q57xtm4w01tn.cloudfront.net/signupverify.html/?code={{ code }}
