@@ -1,5 +1,32 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
+from rest_framework_simplejwt.serializers import (
+    TokenObtainPairSerializer,
+    TokenRefreshSerializer,
+)
+
+
+class TokenObtainPairWithEmailSerializer(TokenObtainPairSerializer):
+    email = serializers.EmailField(required=True)
+    password = serializers.CharField(max_length=128)
+
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        data["email"] = attrs["email"]
+        return data
+
+    def get_token(cls, user):
+        token = super().get_token(user)
+
+        # Add custom claims
+        token["email"] = user.email
+        # ...
+
+        return token
+
+
+class TokenRefreshWithEmailSerializer(TokenRefreshSerializer):
+    email = serializers.EmailField(required=True)
 
 
 class SignupSerializer(serializers.Serializer):
