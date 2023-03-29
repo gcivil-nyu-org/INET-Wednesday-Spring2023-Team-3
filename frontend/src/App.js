@@ -7,6 +7,8 @@ import { AuthProvider } from "./context/AuthContext";
 import ProfilePage from "./Views/profilePage";
 import Login from "./Views/loginPage";
 import Register from "./Views/registerPage"
+import PasswordReset from "./Components/passwordReset"
+import SetNewPassword from "./Components/setNewPassword";
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
             <Route exact path="/register" element={<Register />} />
             <Route exact path="/UploadQuestion" element={<UploadQuestion />} />
             <Route path="/questions/:pk" element={<QuestionDetails />} />
+            <Route path="/password/reset" element={<PasswordReset />} />
+            <Route path="/password/reset/verify" element={<SetNewPassword />} />
             <Route path="/profile" element={<ProfilePage />} />
           </Routes>
         </AuthProvider>
