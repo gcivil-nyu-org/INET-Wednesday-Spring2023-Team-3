@@ -20,7 +20,14 @@ def _generate_code():
 
 class EmailUserManager(BaseUserManager):
     def _create_user(
-        self, email, password, is_staff, is_superuser, is_verified, **extra_fields
+        self,
+        userType,
+        email,
+        password,
+        is_staff,
+        is_superuser,
+        is_verified,
+        **extra_fields
     ):
         """
         Creates and saves a User with a given email and password.
@@ -31,6 +38,7 @@ class EmailUserManager(BaseUserManager):
         email = self.normalize_email(email)
         user = self.model(
             email=email,
+            userType=userType,
             is_staff=is_staff,
             is_active=True,
             is_superuser=is_superuser,
@@ -43,8 +51,10 @@ class EmailUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_user(self, email, password=None, **extra_fields):
-        return self._create_user(email, password, False, False, False, **extra_fields)
+    def create_user(self, userType, email, password=None, **extra_fields):
+        return self._create_user(
+            email, userType, password, False, False, False, **extra_fields
+        )
 
     def create_superuser(self, email, password, **extra_fields):
         return self._create_user(email, password, True, True, True, **extra_fields)
@@ -58,6 +68,7 @@ class EmailAbstractUser(AbstractBaseUser, PermissionsMixin):
     Email and password are required. Other fields are optional.
     """
 
+    userType = models.CharField(_("User Type"), max_length=30, blank=True)
     first_name = models.CharField(_("first name"), max_length=30, blank=True)
     last_name = models.CharField(_("last name"), max_length=30, blank=True)
     email = models.EmailField(_("email address"), max_length=255, unique=True)

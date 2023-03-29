@@ -8,7 +8,7 @@ from authemail.admin import EmailUserAdmin
 
 class MyUserAdmin(EmailUserAdmin):
     fieldsets = (
-        (None, {"fields": ("email", "password")}),
+        (None, {"fields": ("email", "password", "userType")}),
         ("Personal Info", {"fields": ("first_name", "last_name")}),
         (
             "Permissions",

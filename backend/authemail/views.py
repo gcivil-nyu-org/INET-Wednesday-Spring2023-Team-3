@@ -1,5 +1,6 @@
 from datetime import date
 from ipware import get_client_ip
+from rest_framework import generics
 
 from django.conf import settings
 from django.contrib.auth import authenticate, get_user_model
@@ -11,7 +12,13 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from authemail.models import SignupCode, EmailChangeCode, PasswordResetCode
+from authemail.models import (
+    SignupCode,
+    EmailChangeCode,
+    PasswordResetCode,
+    EmailUserManager,
+    EmailAbstractUser,
+)
 from authemail.models import send_multi_format_email
 from authemail.serializers import SignupSerializer, LoginSerializer
 from authemail.serializers import PasswordResetSerializer
@@ -19,6 +26,7 @@ from authemail.serializers import PasswordResetVerifiedSerializer
 from authemail.serializers import EmailChangeSerializer
 from authemail.serializers import PasswordChangeSerializer
 from authemail.serializers import UserSerializer
+
 
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from rest_framework_simplejwt.serializers import (
@@ -53,6 +61,7 @@ class Signup(APIView):
             password = serializer.data["password"]
             first_name = serializer.data["first_name"]
             last_name = serializer.data["last_name"]
+            userType = serializer.data["userType"]
 
             must_validate_email = getattr(settings, "AUTH_EMAIL_VERIFICATION", True)
 
@@ -70,9 +79,12 @@ class Signup(APIView):
                     pass
 
             except get_user_model().DoesNotExist:
-                user = get_user_model().objects.create_user(email=email)
+                user = get_user_model().objects.create_user(
+                    email=email, userType=userType
+                )
 
             # Set user fields provided
+            user.userType = userType
             user.set_password(password)
             user.first_name = first_name
             user.last_name = last_name
@@ -95,7 +107,12 @@ class Signup(APIView):
                 signup_code = SignupCode.objects.create_signup_code(user, client_ip)
                 signup_code.send_signup_email()
 
-            content = {"email": email, "first_name": first_name, "last_name": last_name}
+            content = {
+                "email": email,
+                "first_name": first_name,
+                "last_name": last_name,
+                "userType": userType,
+            }
             return Response(content, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
