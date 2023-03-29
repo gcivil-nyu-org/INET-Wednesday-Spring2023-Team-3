@@ -6,6 +6,7 @@ import json
 from django.views.decorators.csrf import csrf_exempt
 from json import JSONDecodeError
 
+
 def error_response(error_dict, err_msg: str):
     error_dict["status"] = 400
     error_dict["error_msg"] = err_msg
@@ -93,7 +94,9 @@ def post_question(request):
         print(f"Requestbody: {request.body}")
         req_body = json.loads(request.body)
     except JSONDecodeError as e:
-        return error_response({}, f"Error: Invalid request body JSONDecodeError => {e}!")
+        return error_response(
+            {}, f"Error: Invalid request body JSONDecodeError => {e}!"
+        )
     print(req_body)
     try:
         title, description, companies = (
@@ -145,9 +148,13 @@ def post_question(request):
                 Position.objects.get_or_create(name=position)
 
         if not created:
-            return error_response({}, f"Error in uploading question to DB")
-    except Exception as e:
-        return error_response({}, f"Error in uploading question to DB")
+            return error_response({}, "Error in uploading question to DB")
+    except Exception:
+        return error_response({}, "Error in uploading question to DB")
+    #     if not created:
+    #         return error_response({}, f"Error in uploading question to DB")
+    # except Exception as e:
+    #     return error_response({}, f"Error in uploading question to DB")
 
     return JsonResponse(
         {
