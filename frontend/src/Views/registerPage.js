@@ -15,32 +15,36 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import { useState, useContext } from "react";
 import AuthContext from "../context/AuthContext";
-
+import Select from "@mui/material/Select";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import { FormControl } from "@mui/material";
 
 function Copyright(props) {
-    return (
-      <Typography
-        variant="body2"
-        color="text.secondary"
-        align="center"
-        {...props}
-      >
-        {"Copyright © "}
-        <Link color="inherit" href="https://mui.com/">
-          NYU Interview Prep
-        </Link>{" "}
-        {new Date().getFullYear()}
-        {"."}
-      </Typography>
-    );
-  }
+  return (
+    <Typography
+      variant="body2"
+      color="text.secondary"
+      align="center"
+      {...props}
+    >
+      {"Copyright © "}
+      <Link color="inherit" href="https://mui.com/">
+        NYU Interview Prep
+      </Link>{" "}
+      {new Date().getFullYear()}
+      {"."}
+    </Typography>
+  );
+}
 function Register() {
   const { registerUser } = useContext(AuthContext);
 
   const [formData, setFormData] = useState({
+    userType: "Student/Alumni",
     first_name: "",
     last_name: "",
-    email: "@nyu.edu",
+    email: "",
     password1: "",
   });
 
@@ -50,12 +54,14 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     registerUser(
+      formData.userType,
       formData.email,
       formData.first_name,
       formData.last_name,
       formData.password1
     );
     console.log(" Successful register");
+    alert(" Successful register");
   };
   const navigate = useNavigate();
   const loginPage = () => {
@@ -86,7 +92,25 @@ function Register() {
             onSubmit={handleSubmit}
             sx={{ mt: 3 }}
           >
-            <Grid container spacing={2}>
+            <Grid container spacing={3}>
+              <Grid item xs={12}>
+                <FormControl fullWidth required>
+                  <InputLabel id="demo-simple-select-label">
+                    Type of User
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    label="Type of User"
+                    value={formData.userType}
+                    onChange={handleInputChange}
+                    autoWidth
+                  >
+                    <MenuItem value={10}>Student/Alumni</MenuItem>
+                    <MenuItem value={20}>Hiring Manager</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
                   autoComplete="given-name"
@@ -138,20 +162,6 @@ function Register() {
                   autoComplete="new-password"
                 />{" "}
               </Grid>
-              {/* <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="password2"
-                  label="Re-enter Password"
-                  type="password"
-                  id="password2"
-                  value={password2}
-                  onChange={handleInputChange}
-                  autoComplete="new-password"
-                />
-              </Grid> */}
-
               <Grid item xs={12}>
                 <FormControlLabel
                   control={
