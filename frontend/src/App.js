@@ -23,9 +23,9 @@ function App() {
             <Route exact path="/register" element={<Register />} />
             <Route exact path="/UploadQuestion" element={<UploadQuestion />} />
             <Route path="/questions/:pk" element={<QuestionDetails />} />
-            <Route path="/signup/verify" element={<VerifyEmail />} />
+            <Route path="/signup/verify/*" element={<VerifyEmail />} />
             <Route path="/password/reset" element={<PasswordReset />} />
-            <Route path="/password/reset/verify" element={<SetNewPassword />} />
+            <Route path="/password/reset/verify/*" element={<SetNewPassword />} />
             <Route path="/profile" element={<ProfilePage />} />
           </Routes>
         </AuthProvider>
