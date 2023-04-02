@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     "onboarding",
     "questions",
     "userprofile",
+    "answerrecordings",
 ]
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
@@ -182,3 +183,13 @@ EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
+
+AWS_ACCESS_KEY_ID = os.environ.get("ACCESSKEYID")
+AWS_SECRET_ACCESS_KEY = os.environ.get("SECRETACCESSKEY")
+AWS_STORAGE_BUCKET_NAME = "6063-project-vid-recording"
+AWS_S3_SIGNATURE_VERSION = 's3v4'
+AWS_S3_REGION_NAME = "us-east-1"
+AWS_S3_FILE_OVERWRITE = True
+AWS_DEFAULT_ACL = None
+AWS_S3_VERIFY = True
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
