@@ -9,22 +9,28 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('questions', '0002_alter_question_title'),
+        ("questions", "0002_alter_question_title"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='DropBox',
+            name="DropBox",
             fields=[
-                ('ans_id', models.BigAutoField(primary_key=True, serialize=False)),
-                ('title', models.CharField(max_length=30)),
-                ('file', models.FileField(max_length=150, upload_to='')),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('question', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='questions.question')),
+                ("ans_id", models.BigAutoField(primary_key=True, serialize=False)),
+                ("title", models.CharField(max_length=30)),
+                ("file", models.FileField(max_length=150, upload_to="")),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                (
+                    "question",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="questions.question",
+                    ),
+                ),
             ],
             options={
-                'verbose_name_plural': 'Drop Boxes',
+                "verbose_name_plural": "Drop Boxes",
             },
         ),
     ]
