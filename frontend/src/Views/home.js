@@ -21,8 +21,8 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Pagination from "@mui/material/Pagination";
 import TextField from "@mui/material/TextField";
-import Navbar from "./navbar";
-import { API_ENDPOINT } from "./api";
+import Navbar from "../Components/navbar";
+import { API_ENDPOINT } from "../Components/api";
 
 function createData(type, title, difficulty, companies, positions, pk) {
   return { type, title, difficulty, companies, positions, pk };
