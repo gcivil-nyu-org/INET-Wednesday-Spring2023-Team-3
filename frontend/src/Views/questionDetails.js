@@ -17,6 +17,7 @@ import { ReactMediaRecorder } from "react-media-recorder";
 import MonacoEditor from "@uiw/react-monacoeditor";
 
 import Navbar from "../Components/navbar";
+import UploadVideoButton from "../Components/uploadVideoButtom";
 import { API_ENDPOINT } from "../Components/api";
 
 const VideoPreview = ({ stream }) => {
@@ -160,7 +161,6 @@ function QuestionDetails() {
                     stopRecording,
                     mediaBlobUrl,
                   }) => {
-                    console.log(previewStream);
                     return (
                       <div>
                         <Stack direction="row" spacing={1}>
@@ -184,6 +184,7 @@ function QuestionDetails() {
                           >
                             Stop Recording
                           </Button>
+                          <UploadVideoButton questionId={pk} />
                           <Chip
                             label={"Video status: " + status}
                             variant="outlined"
@@ -219,7 +220,6 @@ function QuestionDetails() {
                     stopRecording,
                     mediaBlobUrl,
                   }) => {
-                    console.log(previewStream);
                     return (
                       <div>
                         <Stack direction="row" spacing={1}>
@@ -243,6 +243,14 @@ function QuestionDetails() {
                           >
                             Stop Recording
                           </Button>
+                          <Chip
+                            label={"Video status: " + status}
+                            variant="outlined"
+                            style={{
+                              marginTop: 2,
+                            }}
+                          />
+                          <UploadVideoButton questionId={pk} />
                           <Chip
                             label={"Video status: " + status}
                             variant="outlined"
