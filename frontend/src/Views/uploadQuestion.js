@@ -7,9 +7,9 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
-import { API_ENDPOINT } from "./api";
+import { API_ENDPOINT } from "../Components/api";
 
-import Navbar from "./navbar";
+import Navbar from "../Components/navbar";
 
 function UploadQuestion() {
   const [formData, setFormData] = useState({

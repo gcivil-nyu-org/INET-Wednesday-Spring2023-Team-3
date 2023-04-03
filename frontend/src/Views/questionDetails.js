@@ -16,8 +16,8 @@ import Select from "@mui/material/Select";
 import { ReactMediaRecorder } from "react-media-recorder";
 import MonacoEditor from "@uiw/react-monacoeditor";
 
-import Navbar from "./navbar";
-import { API_ENDPOINT } from "./api";
+import Navbar from "../Components/navbar";
+import { API_ENDPOINT } from "../Components/api";
 
 const VideoPreview = ({ stream }) => {
   const videoRef = useRef(null);
