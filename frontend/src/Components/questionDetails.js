@@ -53,6 +53,36 @@ function QuestionDetails() {
     setLanguage(event.target.value);
   };
 
+  const [code, setCode] = useState("# Definition for singly-linked list.\n" +
+  "# class ListNode(object):\n" +
+  "#     def __init__(self, val=0, next=None):\n" +
+  "#         self.val = val\n" +
+  "#         self.next = next\n" +
+  "class Solution(object):\n\n" +
+  "    def __init__(self, head):\n" +
+  " =      \"\"\"\n" +
+  "        :type head: Optional[ListNode]\n" +
+  "        \"\"\"\n" +
+  "        \n\n" +
+  "    def getRandom(self):\n" +
+  "        \"\"\"\n" +
+  "        :rtype: int\n" +
+  "        \"\"\"\n" +
+  "        \n\n" +
+  "# Your Solution object will be instantiated and called as such:\n" +
+  "# obj = Solution(head)\n" +
+  "# param_1 = obj.getRandom()");
+
+  const submitCode = () => {
+    console.log("This is the real code submitted: \n" + code);
+  };
+
+  function handleEditorChange(value, event) {
+    setCode(value);
+  }
+  function clearCode() {
+    setCode("");
+  }
   return (
     <>
       <Navbar />
@@ -286,32 +316,76 @@ function QuestionDetails() {
           <Typography variant="h5" gutterBottom>
             Write your code here:
           </Typography>
-          <FormControl style={{ width: "10vw" }}>
-            <InputLabel id="demo-simple-select-label">language</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={language}
-              label="language"
-              onChange={handleLanguageChange}
-            >
-              <MenuItem value={"python"}>python</MenuItem>
-              <MenuItem value={"c"}>c</MenuItem>
-              <MenuItem value={"java"}>java</MenuItem>
-              <MenuItem value={"javascript"}>javascript</MenuItem>
-            </Select>
-          </FormControl>
+          <Box
+            sx={{ marginTop: 2 }}
+            style={{ marginTop: 30, marginBottom: 30 }}
+          >
+            <Stack direction="row" spacing={1}>
+              <Stack
+                direction="row"
+                spacing={1}
+                sx={{ justifyContent: "flex-start" }}
+              >
+                <FormControl style={{ width: "10vw" }}>
+                  <InputLabel id="demo-simple-select-label">
+                    language
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={language}
+                    label="language"
+                    onChange={handleLanguageChange}
+                  >
+                    <MenuItem value={"python"}>python</MenuItem>
+                    <MenuItem value={"c"}>c</MenuItem>
+                    <MenuItem value={"java"}>java</MenuItem>
+                    <MenuItem value={"javascript"}>javascript</MenuItem>
+                  </Select>
+                </FormControl>
+              </Stack>
+              <Stack
+                direction="row"
+                spacing={1}
+                sx={{ justifyContent: "flex-end" }}
+              >
+                <Button
+                  variant="outlined"
+                  onClick={submitCode}
+                  style={{
+                    textTransform: "none",
+                  }}
+                >
+                  Compile
+                </Button>
+                <Button
+                  variant="outlined"
+                  onClick={clearCode}
+                  style={{
+                    textTransform: "none",
+                  }}
+                >
+                  Clear
+                </Button>
+              </Stack>
+            </Stack>
+          </Box>
+         
           <MonacoEditor
+            value={code}
             language={language}
+            height="60vh"
             options={{
               theme: "vs-dark",
             }}
             style={{
               display: "flex",
-              justifyContent: "center",
+              justifyContent: "flex-start",
               alignItems: "center",
             }}
+            onChange={handleEditorChange}
           />
+          
         </div>
       )}
     </>
