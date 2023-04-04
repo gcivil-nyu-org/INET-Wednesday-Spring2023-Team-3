@@ -6,16 +6,19 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('answerrecordings', '0005_auto_20230403_2009'),
+        ("answerrecordings", "0005_auto_20230403_2009"),
     ]
 
     operations = [
         migrations.RemoveConstraint(
-            model_name='comment',
-            name='A rating value is valid between 1 and 10',
+            model_name="comment",
+            name="A rating value is valid between 1 and 10",
         ),
         migrations.AddConstraint(
-            model_name='comment',
-            constraint=models.CheckConstraint(check=models.Q(('rating__gte', 1), ('rating__lte', 10)), name='A rating value is valid between 1 and 10'),
+            model_name="comment",
+            constraint=models.CheckConstraint(
+                check=models.Q(("rating__gte", 1), ("rating__lte", 10)),
+                name="A rating value is valid between 1 and 10",
+            ),
         ),
     ]

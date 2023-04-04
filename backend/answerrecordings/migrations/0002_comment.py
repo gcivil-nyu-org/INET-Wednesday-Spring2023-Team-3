@@ -7,19 +7,42 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('answerrecordings', '0001_initial'),
+        ("answerrecordings", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Comment',
+            name="Comment",
             fields=[
-                ('comment_id', models.BigAutoField(primary_key=True, serialize=False)),
-                ('text', models.CharField(max_length=300)),
-                ('rating', models.IntegerField(choices=[(0, 0), (1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6), (7, 7), (8, 8), (9, 9), (10, 10)])),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('ans_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='answerrecordings.dropbox')),
+                ("comment_id", models.BigAutoField(primary_key=True, serialize=False)),
+                ("text", models.CharField(max_length=300)),
+                (
+                    "rating",
+                    models.IntegerField(
+                        choices=[
+                            (0, 0),
+                            (1, 1),
+                            (2, 2),
+                            (3, 3),
+                            (4, 4),
+                            (5, 5),
+                            (6, 6),
+                            (7, 7),
+                            (8, 8),
+                            (9, 9),
+                            (10, 10),
+                        ]
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                (
+                    "ans_id",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="answerrecordings.dropbox",
+                    ),
+                ),
             ],
         ),
     ]

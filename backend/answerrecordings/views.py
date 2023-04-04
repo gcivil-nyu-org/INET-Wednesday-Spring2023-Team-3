@@ -7,11 +7,13 @@ import json
 from django.views.decorators.csrf import csrf_exempt
 from json import JSONDecodeError
 
+
 def error_response(error_dict, err_msg: str):
     error_dict["status"] = 400
     error_dict["error_msg"] = err_msg
 
     return JsonResponse(error_dict)
+
 
 class DropBoxViewset(viewsets.ModelViewSet):
 
@@ -32,6 +34,7 @@ def list_answers_for_ques(request, q_id):
 
     return JsonResponse(response_dict)
 
+
 def get_comments(request, answer_id):
     response_dict = {}
     comments = Comment.objects.filter(answer=answer_id)
@@ -42,6 +45,7 @@ def get_comments(request, answer_id):
     response_dict["status_code"] = 200
 
     return JsonResponse(response_dict)
+
 
 @csrf_exempt
 def post_comment(request):
@@ -75,7 +79,7 @@ def post_comment(request):
     try:
         obj, created = Comment.objects.get_or_create(
             rating=rating,
-            answer=DropBox.objects.get(ans_id = answer),
+            answer=DropBox.objects.get(ans_id=answer),
             text=text,
         )
         if not created:

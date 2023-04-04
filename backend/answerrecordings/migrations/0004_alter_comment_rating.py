@@ -7,13 +7,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('answerrecordings', '0003_rename_ans_id_comment_answer'),
+        ("answerrecordings", "0003_rename_ans_id_comment_answer"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='comment',
-            name='rating',
-            field=models.IntegerField(validators=[django.core.validators.MaxValueValidator(10), django.core.validators.MinValueValidator(1)]),
+            model_name="comment",
+            name="rating",
+            field=models.IntegerField(
+                validators=[
+                    django.core.validators.MaxValueValidator(10),
+                    django.core.validators.MinValueValidator(1),
+                ]
+            ),
         ),
     ]

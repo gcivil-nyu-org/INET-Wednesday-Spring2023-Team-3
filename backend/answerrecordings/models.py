@@ -1,6 +1,7 @@
 from django.db import models
 from questions.models import Question
 
+
 class DropBox(models.Model):
     ans_id = models.BigAutoField(primary_key=True)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
@@ -28,4 +29,3 @@ class Comment(models.Model):
                 name="A rating value is valid between 1 and 10",
             )
         ]
-
