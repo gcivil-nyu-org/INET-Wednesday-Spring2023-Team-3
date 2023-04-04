@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useRef, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -52,6 +53,11 @@ function QuestionDetails() {
   const [language, setLanguage] = useState("python");
   const handleLanguageChange = (event) => {
     setLanguage(event.target.value);
+  };
+
+  let navigate = useNavigate();
+  const routeChange = () => {
+    navigate(`/answers/${pk}`);
   };
 
   return (
@@ -199,6 +205,16 @@ function QuestionDetails() {
                           controls
                           style={{ width: "48vw", marginTop: "20px" }}
                         />
+                        <Button
+                          variant="outlined"
+                          style={{
+                            textTransform: "none",
+                            marginTop: "20px",
+                          }}
+                          onClick={routeChange}
+                        >
+                          See all solutions
+                        </Button>
                       </div>
                     );
                   }}
@@ -243,13 +259,6 @@ function QuestionDetails() {
                           >
                             Stop Recording
                           </Button>
-                          <Chip
-                            label={"Video status: " + status}
-                            variant="outlined"
-                            style={{
-                              marginTop: 2,
-                            }}
-                          />
                           <UploadVideoButton questionId={pk} />
                           <Chip
                             label={"Video status: " + status}
@@ -272,6 +281,18 @@ function QuestionDetails() {
                         {status !== "stopped" && (
                           <VideoPreview stream={previewStream} />
                         )}
+                        <Box>
+                          <Button
+                            variant="outlined"
+                            style={{
+                              textTransform: "none",
+                              marginTop: "20px",
+                            }}
+                            onClick={routeChange}
+                          >
+                            See all solutions
+                          </Button>
+                        </Box>
                       </div>
                     );
                   }}
