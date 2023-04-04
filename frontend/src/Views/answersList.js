@@ -8,7 +8,6 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import Alert from "@mui/material/Alert";
 
 import Navbar from "../Components/navbar";
 import { API_ENDPOINT } from "../Components/api";
