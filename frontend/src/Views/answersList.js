@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import Table from "@mui/material/Table";
@@ -36,6 +36,8 @@ function AnswersList() {
       })
       .catch((error) => console.error(error));
   }, [question_id]);
+
+  console.log(rows);
 
   return (
     <>
@@ -78,7 +80,7 @@ function AnswersList() {
                   {rows.map((row) => (
                     <TableRow key={row.name}>
                       <TableCell component="th" scope="row">
-                        {row.title}
+                        <Link to={`/answer/${row.answerID}`}>{row.title}</Link>
                       </TableCell>
                       <TableCell>{row.createdDate}</TableCell>
                     </TableRow>

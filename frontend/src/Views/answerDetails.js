@@ -32,7 +32,7 @@ function AnswerDetails() {
         sx={{
           paddingLeft: 12,
           paddingRight: 12,
-          paddingTop: 8,
+          paddingTop: 2,
           paddingBottom: 8,
         }}
       >
