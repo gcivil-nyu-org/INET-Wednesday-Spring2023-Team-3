@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
@@ -8,10 +8,15 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import { API_ENDPOINT } from "../Components/api";
+import AuthContext from "../context/AuthContext";
+import { Navigate } from "react-router-dom";
 
 import Navbar from "../Components/navbar";
 
 function UploadQuestion() {
+
+  const { user } = useContext(AuthContext);
+    
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -42,6 +47,10 @@ function UploadQuestion() {
       })
       .catch((error) => console.error(error));
   };
+  
+  if (!user) {
+    return <Navigate to="/login" />;
+  } else {
 
   return (
     <div>
@@ -200,6 +209,7 @@ function UploadQuestion() {
       </div>
     </div>
   );
+              }
 }
 
 export default UploadQuestion;

@@ -1,6 +1,8 @@
 import { useState } from "react";
 import * as React from "react";
 
+import { useContext } from "react";
+
 import Button from "@mui/material/Button";
 import DialogTitle from "@mui/material/DialogTitle";
 import Dialog from "@mui/material/Dialog";
@@ -11,6 +13,7 @@ import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import MuiAlert from "@mui/material/Alert";
+import AuthContext from "../context/AuthContext";
 
 import { API_ENDPOINT } from "../Components/api";
 
@@ -143,15 +146,21 @@ function UploadVideoDialog({ onClose, open, questionId }) {
 }
 
 function UploadVideoButton({ questionId }) {
+  const { user } = useContext(AuthContext); 
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
-    setOpen(true);
+    if (!user) {
+      alert("Please log in.")
+    } else {
+      setOpen(true);
+    }
   };
 
   const handleClose = () => {
     setOpen(false);
   };
+  
   return (
     <>
       <Button
