@@ -19,7 +19,7 @@ function Navbar() {
   };
   const profilePage = () => {
     navigate("/profile");
-  }
+  };
   const { user, logoutUser } = useContext(AuthContext);
   return (
     <AppBar position="sticky" style={{ backgroundColor: "#57068c" }}>
@@ -33,9 +33,12 @@ function Navbar() {
           >
             NYU Interview Prep
           </Typography>
-          <Button color="inherit" onClick={profilePage}>Profile</Button>
-          <Button color="inherit" onClick={logoutUser}>Logout</Button>
-          
+          <Button color="inherit" onClick={profilePage}>
+            Profile
+          </Button>
+          <Button color="inherit" onClick={logoutUser}>
+            Logout
+          </Button>
         </Toolbar>
       ) : (
         <Toolbar>
