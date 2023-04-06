@@ -11,6 +11,7 @@ import PasswordReset from "./Views/passwordReset";
 import SetNewPassword from "./Views/setNewPassword";
 import VerifyEmail from "./Views/verifyEmail";
 import AnswersList from "./Views/answersList";
+import AnswerDetails from "./Views/answerDetails";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
             <Route exact path="/UploadQuestion" element={<UploadQuestion />} />
             <Route path="/questions/:pk" element={<QuestionDetails />} />
             <Route path="/answers/:question_id" element={<AnswersList />} />
+            <Route path="/answer/:answer_id" element={<AnswerDetails />} />
             <Route path="/signup/verify/*" element={<VerifyEmail />} />
             <Route path="/password/reset" element={<PasswordReset />} />
             <Route
