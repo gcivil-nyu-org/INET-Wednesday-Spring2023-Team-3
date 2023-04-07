@@ -21,4 +21,5 @@ urlpatterns = [
     path("", include("authemail.urls")),
     path("questions/", include("questions.urls")),
     path("", include("userprofile.urls")),
+    path("", include("answerrecordings.urls")),
 ]

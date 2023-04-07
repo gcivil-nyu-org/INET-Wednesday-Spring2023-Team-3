@@ -148,9 +148,13 @@ def post_question(request):
                 Position.objects.get_or_create(name=position)
 
         if not created:
-            return error_response({}, f"Error in uploading question to DB")
-    except Exception as e:
-        return error_response({}, f"Error in uploading question to DB")
+            return error_response({}, "Error in uploading question to DB")
+    except Exception:
+        return error_response({}, "Error in uploading question to DB")
+    #     if not created:
+    #         return error_response({}, f"Error in uploading question to DB")
+    # except Exception as e:
+    #     return error_response({}, f"Error in uploading question to DB")
 
     return JsonResponse(
         {

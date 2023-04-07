@@ -11,3 +11,5 @@ coverage==6.5.0
 coveralls==3.3.1
 psycopg2-binary
 django-ipware
+django-storages
+boto3

@@ -4,7 +4,6 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
-import { Link } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 function Navbar() {
   const navigate = useNavigate();
@@ -17,6 +16,9 @@ function Navbar() {
   };
   const signUp = () => {
     navigate("/register");
+  };
+  const profilePage = () => {
+    navigate("/profile");
   };
   const { user, logoutUser } = useContext(AuthContext);
   return (
@@ -31,12 +33,12 @@ function Navbar() {
           >
             NYU Interview Prep
           </Typography>
-          <Link to="/protected">Protected Page</Link>
-              <button onClick={logoutUser}>Logout</button>
-          <Button color="inherit" onClick={loginPage}>
-            Login
+          <Button color="inherit" onClick={profilePage}>
+            Profile
           </Button>
-          
+          <Button color="inherit" onClick={logoutUser}>
+            Logout
+          </Button>
         </Toolbar>
       ) : (
         <Toolbar>

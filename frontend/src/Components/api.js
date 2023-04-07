@@ -1,1 +1,1 @@
-export const API_ENDPOINT = "https://nyuinterviewapp.com"
+export const API_ENDPOINT = "https://nyuinterviewappdevelop.com"

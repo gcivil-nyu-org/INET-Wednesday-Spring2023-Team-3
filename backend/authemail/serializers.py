@@ -5,8 +5,6 @@ from rest_framework_simplejwt.serializers import (
     TokenRefreshSerializer,
 )
 
-from .models import EmailAbstractUser
-
 
 class TokenObtainPairWithEmailSerializer(TokenObtainPairSerializer):
     email = serializers.EmailField(required=True)
