@@ -35,7 +35,6 @@ class SignupSerializer(serializers.Serializer):
     if misplace verification email.  Handle in view.
     """
 
-    userType = serializers.CharField(max_length=30, required=True)
     email = serializers.EmailField(max_length=255)
     password = serializers.CharField(max_length=128)
     first_name = serializers.CharField(max_length=30, default="", required=False)
