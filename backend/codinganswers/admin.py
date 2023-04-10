@@ -1,3 +1,6 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import QuestionStarterCode, QuestionSubmissionCode
+
+admin.site.register(QuestionStarterCode)
+admin.site.register(QuestionSubmissionCode)
