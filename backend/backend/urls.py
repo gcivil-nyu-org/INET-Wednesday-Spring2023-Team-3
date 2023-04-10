@@ -22,4 +22,5 @@ urlpatterns = [
     path("questions/", include("questions.urls")),
     path("", include("userprofile.urls")),
     path("", include("answerrecordings.urls")),
+    path("codinganswers/", include("codinganswers.urls")),
 ]

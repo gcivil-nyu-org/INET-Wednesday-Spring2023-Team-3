@@ -93,3 +93,15 @@ for q in questions:
     current_picks = random.sample(companies, cur_num)
     q.companies = ",".join(current_picks)
     q.save()
+
+# Script 8 - Populate question starter code
+from questions.models import Question
+from codinganswers.models import QuestionStarterCode
+
+questions = Question.objects.all()
+for q in questions:
+    QuestionStarterCode.objects.get_or_create(
+        question=q,
+        language="python",
+        sc_text="class Solution: \n   def do_something():\n       return",
+    )

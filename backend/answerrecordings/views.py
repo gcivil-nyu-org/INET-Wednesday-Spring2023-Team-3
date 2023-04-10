@@ -1,5 +1,6 @@
 from rest_framework import viewsets, parsers
 from .models import DropBox, Comment
+from onboarding.models import MyUser
 from .serializers import DropBoxSerializer
 from django.http import JsonResponse
 from django.core import serializers
@@ -40,6 +41,9 @@ def get_comments(request, answer_id):
     comments = Comment.objects.filter(answer=answer_id)
 
     response_dict["comment_data"] = json.loads(serializers.serialize("json", comments))
+    for i, comment in enumerate(comments):
+        username = f"{comment.user.first_name} {comment.user.last_name}"
+        response_dict["comment_data"][i]["fields"]["username"] = username
 
     response_dict["error_msg"] = ""
     response_dict["status_code"] = 200
@@ -60,10 +64,11 @@ def post_comment(request):
         )
     print(req_body)
     try:
-        rating, answer, text = (
+        rating, answer, text, user = (
             req_body["rating"],
             req_body["answer"],
             req_body["text"],
+            req_body["user"],
         )
     except KeyError as e:
         return error_response(
@@ -71,6 +76,7 @@ def post_comment(request):
         )
     print(
         "Comment passed :",
+        user,
         rating,
         answer,
         text,
@@ -78,6 +84,7 @@ def post_comment(request):
 
     try:
         obj, created = Comment.objects.get_or_create(
+            user=MyUser.objects.get(id=user),
             rating=rating,
             answer=DropBox.objects.get(ans_id=answer),
             text=text,
