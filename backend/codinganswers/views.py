@@ -30,8 +30,8 @@ def get_starter_code(request):
         return error_response(response_dict, "Error: Question not entered!")
     try:
         question = int(param_vals[2])
-    except:
-        return error_response(response_dict, "Error: Unable to parse question_id!")
+    except Exception as e:
+        return error_response(response_dict, f"Error: Unable to parse question_id! {e}")
     if param_vals[0] and param_vals[1]:
         try:
             user_submission = QuestionSubmissionCode.objects.filter(
@@ -50,9 +50,9 @@ def get_starter_code(request):
             response_dict["status"] = 200
             return JsonResponse(response_dict)
 
-        except:
+        except Exception as e:
             response_dict["starter_code"] = ""
-            return error_response(response_dict, "Error: Something went wrong!")
+            return error_response(response_dict, f"Error: Something went wrong!: {e}")
 
     return error_response(response_dict, "Error: Enter user and language fields!")
 
@@ -91,8 +91,8 @@ def post_coding_answer(request):
         )
         if not created:
             return error_response({}, "Error in uploading answer to DB")
-    except Exception:
-        return error_response({}, "Error in uploading answer to DB")
+    except Exception as e:
+        return error_response({}, f"Error in uploading answer to DB: {e}")
 
     return JsonResponse(
         {
