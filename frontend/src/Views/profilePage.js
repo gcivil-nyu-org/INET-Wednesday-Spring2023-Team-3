@@ -14,6 +14,7 @@ import Divider from "@mui/material/Divider";
 
 import AuthContext from "../context/AuthContext";
 import Navbar from "../Components/navbar";
+import { API_ENDPOINT } from "../Components/api";
 
 function ProfilePage() {
   const { user } = useContext(AuthContext);
@@ -24,7 +25,7 @@ function ProfilePage() {
     previousEmployer,
     linkedinLink,
     githubLink;
-  fetch(`https://nyuinterviewappdevelop.com/nyu-profile/?email=${user.email}`)
+  fetch(`${API_ENDPOINT}/nyu-profile/?email=${user.email}`)
     .then((response) => response.json())
     .then((data) => {
       console.log(data);

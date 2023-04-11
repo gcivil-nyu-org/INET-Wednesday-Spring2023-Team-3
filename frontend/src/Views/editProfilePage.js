@@ -18,6 +18,7 @@ import axios from "axios";
 
 import AuthContext from "../context/AuthContext";
 import Navbar from "../Components/navbar";
+import { API_ENDPOINT } from "../Components/api";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -46,7 +47,7 @@ function EditProfile() {
   const handleSubmit = (event) => {
     event.preventDefault();
     axios
-      .post("https://nyuinterviewappdevelop.com/nyu-profile/", {
+      .post(`${API_ENDPOINT}/nyu-profile/`, {
         ...formData,
         user,
       })
