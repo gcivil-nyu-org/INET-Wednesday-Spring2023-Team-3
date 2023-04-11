@@ -1,5 +1,5 @@
 from datetime import date
-from ipware import get_client_ip
+# from ipware import get_client_ip
 
 from django.conf import settings
 from django.contrib.auth import authenticate, get_user_model
