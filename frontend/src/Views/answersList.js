@@ -80,7 +80,7 @@ function AnswersList() {
                       <TableCell component="th" scope="row">
                         <Link to={`/answer/${row.answerID}`}>{row.title}</Link>
                       </TableCell>
-                      <TableCell>{row.createdDate}</TableCell>
+                      <TableCell>{row.createdDate.slice(0, 10)}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

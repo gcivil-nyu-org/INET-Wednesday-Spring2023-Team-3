@@ -130,7 +130,7 @@ function AnswerComments({ answerId }) {
               <Comment.Content>
                 <Comment.Author>{comment.username}</Comment.Author>
                 <Comment.Metadata>
-                  <div>{comment.created_at}</div>
+                  <div>{comment.created_at.slice(0, 10)}</div>
                 </Comment.Metadata>
                 <Comment.Text>
                   <Chip
