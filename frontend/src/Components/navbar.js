@@ -8,7 +8,6 @@ import AuthContext from "../context/AuthContext";
 function Navbar() {
   const navigate = useNavigate();
   const path = useLocation();
-  console.log(path);
 
   const homePage = () => {
     navigate("/");
@@ -43,9 +42,11 @@ function Navbar() {
             Edit Profile
           </Button>
         ) : (
-          <Button color="inherit" onClick={profilePage}>
-            Profile
-          </Button>
+          user && (
+            <Button color="inherit" onClick={profilePage}>
+              Profile
+            </Button>
+          )
         )}
         {user && (
           <Button color="inherit" onClick={logoutUser}>

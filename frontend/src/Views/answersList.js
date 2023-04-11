@@ -37,8 +37,6 @@ function AnswersList() {
       .catch((error) => console.error(error));
   }, [question_id]);
 
-  console.log(rows);
-
   return (
     <>
       <Navbar />
