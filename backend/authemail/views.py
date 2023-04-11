@@ -53,6 +53,7 @@ class Signup(APIView):
             password = serializer.data["password"]
             first_name = serializer.data["first_name"]
             last_name = serializer.data["last_name"]
+            user_type = serializer.data["user_type"]
 
             must_validate_email = getattr(settings, "AUTH_EMAIL_VERIFICATION", True)
 
@@ -76,6 +77,7 @@ class Signup(APIView):
             user.set_password(password)
             user.first_name = first_name
             user.last_name = last_name
+            user.user_type = user_type
             if not must_validate_email:
                 user.is_verified = True
                 send_multi_format_email(
@@ -95,7 +97,12 @@ class Signup(APIView):
                 signup_code = SignupCode.objects.create_signup_code(user, client_ip)
                 signup_code.send_signup_email()
 
-            content = {"email": email, "first_name": first_name, "last_name": last_name}
+            content = {
+                "email": email,
+                "first_name": first_name,
+                "last_name": last_name,
+                "user_type": user_type,
+            }
             return Response(content, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

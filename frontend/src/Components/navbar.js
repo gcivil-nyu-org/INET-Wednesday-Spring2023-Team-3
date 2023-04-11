@@ -6,40 +6,45 @@ import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
 function Navbar() {
-  const navigate = useNavigate();
+ const navigate = useNavigate();
 
-  const homePage = () => {
-    navigate("/");
-  };
-  const loginPage = () => {
-    navigate("/login");
-  };
-  const signUp = () => {
-    navigate("/register");
-  };
-  const profilePage = () => {
-    navigate("/profile");
-  };
-  const { user, logoutUser } = useContext(AuthContext);
-  return (
-    <AppBar position="sticky" style={{ backgroundColor: "#57068c" }}>
-      {user ? (
-        <Toolbar>
-          <Typography
-            variant="h5"
-            component="div"
-            sx={{ flexGrow: 1 }}
-            onClick={homePage}
-          >
-            NYU Interview Prep
-          </Typography>
-          <Button color="inherit" onClick={profilePage}>
-            Profile
-          </Button>
-          <Button color="inherit" onClick={logoutUser}>
-            Logout
-          </Button>
-        </Toolbar>
+
+ const homePage = () => {
+   navigate("/");
+ };
+ const loginPage = () => {
+   navigate("/login");
+ };
+ const signUp = () => {
+   navigate("/register");
+ };
+ const profilePage = () => {
+   navigate("/profile");
+ };
+ const editProfilePage = () => {
+   navigate("/editProfilePage")
+ };
+ const { user, logoutUser } = useContext(AuthContext);
+ return (
+   <AppBar position="sticky" style={{ backgroundColor: "#57068c" }}>
+     {user ? (
+
+      <Toolbar>
+        <Typography
+          variant="h5"
+          component="div"
+          sx={{ flexGrow: 1 }}
+          onClick={homePage}
+        >
+          NYU Interview Prep
+        </Typography>
+        <Button color="inherit" onClick={profilePage}>
+          Profile
+        </Button>
+        <Button color="inherit" onClick={logoutUser}>
+          Logout
+        </Button>
+      </Toolbar>
       ) : (
         <Toolbar>
           <Typography
@@ -57,9 +62,10 @@ function Navbar() {
             Sign Up
           </Button>
         </Toolbar>
-      )}
-    </AppBar>
-  );
+     )} : 
+   </AppBar>
+ );
 }
+
 
 export default Navbar;

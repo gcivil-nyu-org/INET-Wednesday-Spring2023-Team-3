@@ -12,6 +12,7 @@ import SetNewPassword from "./Views/setNewPassword";
 import VerifyEmail from "./Views/verifyEmail";
 import AnswersList from "./Views/answersList";
 import AnswerDetails from "./Views/answerDetails";
+import EditProfile from "./Views/editProfilePage";
 
 function App() {
   return (
@@ -38,6 +39,9 @@ function App() {
               element={<SetNewPassword />}
             />
             <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/editProfilePage" element={<EditProfile />} />
+
+            
           </Routes>
         </AuthProvider>
       </Router>
