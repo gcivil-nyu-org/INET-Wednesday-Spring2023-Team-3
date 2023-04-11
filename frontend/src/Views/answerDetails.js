@@ -1,12 +1,13 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-import Navbar from "../Components/navbar";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { Media, Video } from "@vidstack/player-react";
 
 import { API_ENDPOINT } from "../Components/api";
+import AnswerComments from "../Components/answerComments";
+import Navbar from "../Components/navbar";
 
 function AnswerDetails() {
   const { answer_id } = useParams();
@@ -22,7 +23,6 @@ function AnswerDetails() {
       })
       .catch((error) => console.error(error));
   }, [answer_id]);
-  console.log(answerData);
 
   return (
     <>
@@ -54,6 +54,16 @@ function AnswerDetails() {
             </Video>
           </Media>
         </Box>
+      </Box>
+      <Box
+        sx={{
+          paddingLeft: 12,
+          paddingRight: 12,
+          paddingTop: 2,
+          paddingBottom: 8,
+        }}
+      >
+        <AnswerComments answerId={answer_id} />
       </Box>
     </>
   );
