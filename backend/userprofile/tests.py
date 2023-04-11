@@ -1,8 +1,4 @@
-# from django.test import TestCase
-
-# Create your tests here.
-import re
-from datetime import timedelta
+# Test Cases
 from django.test import TestCase
 from .models import StudentAlumniProfile
 from .serializers import StudentAlumniProfileSerializer
