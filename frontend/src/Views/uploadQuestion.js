@@ -10,11 +10,39 @@ import InputLabel from "@mui/material/InputLabel";
 import { API_ENDPOINT } from "../Components/api";
 import AuthContext from "../context/AuthContext";
 import { Navigate } from "react-router-dom";
+import Snackbar from "@mui/material/Snackbar";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+import MuiAlert from "@mui/material/Alert";
 
 import Navbar from "../Components/navbar";
 
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
 function UploadQuestion() {
   const { user } = useContext(AuthContext);
+  const [openAlert, setOpenAlert] = useState(false);
+  const [alertStatus, setAlertStatus] = useState("success");
+  const [alertMessage, setAlertMessage] = useState("Upload successful");
+
+  const handleCloseAlert = () => {
+    setOpenAlert(false);
+  };
+
+  const action = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleCloseAlert}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
 
   const [formData, setFormData] = useState({
     title: "",
@@ -41,10 +69,17 @@ function UploadQuestion() {
     })
       .then((response) => response.json())
       .then((data) => {
-        alert("Question uploaded successfully!");
+        setOpenAlert(true);
+        setAlertMessage("Question has been uploaded successfully");
+        setAlertStatus("success");
         console.log(data);
       })
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        setOpenAlert(true);
+        setAlertMessage("Fail to upload question");
+        setAlertStatus("error");
+        console.error(error);
+      });
   };
 
   if (!user) {
@@ -188,7 +223,9 @@ function UploadQuestion() {
                       formData.title.length === 0 ||
                       formData.description.length === 0
                     ) {
-                      alert("Please enter all the required field!");
+                      setOpenAlert(true);
+                      setAlertMessage("Please enter all the required fields");
+                      setAlertStatus("error");
                     } else {
                       handleSubmit(event);
                     }
@@ -207,6 +244,17 @@ function UploadQuestion() {
             <br />
           </div>
         </div>
+
+        <Snackbar
+          open={openAlert}
+          autoHideDuration={6000}
+          action={action}
+          onClose={handleCloseAlert}
+        >
+          <Alert onClose={handleCloseAlert} severity={alertStatus}>
+            {alertMessage}
+          </Alert>
+        </Snackbar>
       </div>
     );
   }
