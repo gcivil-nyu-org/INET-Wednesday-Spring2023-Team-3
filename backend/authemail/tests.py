@@ -86,7 +86,7 @@ class SignupTests(APITestCase):
         response = self.client.post(url, payload)
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        # self.assertEqual(response.data["detail"], "Email address already taken.")
+        self.assertEqual(response.data["detail"], "Email address already taken.")
 
     def test_signup_verify_invalid_code(self):
         url = reverse("authemail-signup-verify")

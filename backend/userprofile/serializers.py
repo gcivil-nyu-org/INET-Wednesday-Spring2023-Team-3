@@ -5,7 +5,7 @@ from .models import StudentAlumniProfile, CompanyProfile
 class StudentAlumniProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = StudentAlumniProfile()
-        fields = ["__all__"]
+        fields = "__all__"
 
 
 class CompanySerializer(serializers.ModelSerializer):
