@@ -27,10 +27,16 @@ class SignupTests(APITestCase):
         # A visitor to the site
         self.user_visitor_email = "visitor@mail.com"
         self.user_visitor_pw = "visitor"
+        self.user_visitor_first_name = "first"
+        self.user_visitor_last_name = "last"
+        self.user_visitor_type = "student"
 
         # A verified user on the site
         self.user_verified_email = "user_verified@mail.com"
         self.user_verified_pw = "user_verified"
+        self.user_verified_first_name = "first"
+        self.user_verified_last_name = "last"
+        self.user_verified_type = "alumni"
         user = get_user_model().objects.create_user(
             self.user_verified_email, self.user_verified_pw
         )
@@ -73,6 +79,9 @@ class SignupTests(APITestCase):
         payload = {
             "email": self.user_verified_email,
             "password": self.user_verified_pw,
+            "first_name": self.user_verified_first_name,
+            "last_name": self.user_verified_last_name,
+            "user_type": self.user_verified_type,
         }
         response = self.client.post(url, payload)
 
@@ -95,6 +104,9 @@ class SignupTests(APITestCase):
         payload = {
             "email": self.user_visitor_email,
             "password": self.user_visitor_pw,
+            "first_name": self.user_visitor_first_name,
+            "last_name": self.user_visitor_last_name,
+            "user_type": self.user_visitor_type,
         }
         response = self.client.post(url, payload)
 
@@ -135,6 +147,9 @@ class SignupTests(APITestCase):
             payload = {
                 "email": self.user_visitor_email,
                 "password": self.user_visitor_pw,
+                "first_name": self.user_visitor_first_name,
+                "last_name": self.user_visitor_last_name,
+                "user_type": self.user_visitor_type,
             }
             self.client.post(url, payload)
 
@@ -157,6 +172,9 @@ class SignupTests(APITestCase):
             payload = {
                 "email": self.user_visitor_email,
                 "password": self.user_visitor_pw,
+                "first_name": self.user_visitor_first_name,
+                "last_name": self.user_visitor_last_name,
+                "user_type": self.user_visitor_type,
             }
             response = self.client.post(url, payload)
 
