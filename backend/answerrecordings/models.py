@@ -1,9 +1,11 @@
 from django.db import models
 from questions.models import Question
+from onboarding.models import MyUser
 
 
 class DropBox(models.Model):
     ans_id = models.BigAutoField(primary_key=True)
+    user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     title = models.CharField(max_length=30)
     file = models.FileField(max_length=150)
@@ -16,6 +18,7 @@ class DropBox(models.Model):
 
 class Comment(models.Model):
     comment_id = models.BigAutoField(primary_key=True)
+    user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
     answer = models.ForeignKey(DropBox, on_delete=models.CASCADE)
     text = models.CharField(max_length=300)
     rating = models.IntegerField()
