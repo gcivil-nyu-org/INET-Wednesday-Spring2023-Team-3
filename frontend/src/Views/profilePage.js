@@ -20,14 +20,11 @@ function ProfilePage() {
   const { user } = useContext(AuthContext);
   const theme = createTheme();
 
-  let jobPreference,
-    yearsOfExperience,
-    previousEmployer,
-    linkedinLink,
-    githubLink;
-  fetch(`${API_ENDPOINT}/nyu-profile/?email=${user.email}`)
-    .then((response) => response.json())
-    .then((data) => {
+
+  let jobPreference, yearsOfExperience, previousEmployer, linkedinLink, githubLink;
+  fetch(`https://nyuinterviewappdevelop.com/nyu-profile/`)
+    .then(response => response.json())
+    .then(data => {
       console.log(data);
       // Assign retrieved data to variables with default values if empty or undefined
       jobPreference = data.job_preference || "Not entered yet";
