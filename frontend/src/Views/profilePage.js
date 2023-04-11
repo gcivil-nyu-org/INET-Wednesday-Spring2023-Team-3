@@ -22,7 +22,7 @@ function ProfilePage() {
   const theme = createTheme();
 
   let jobPreference, yearsOfExperience, previousEmployer, linkedinLink, githubLink;
-  fetch(`https://nyuinterviewappdevelop.com/nyu-profile/?email=${user.email}`)
+  fetch(`https://nyuinterviewappdevelop.com/nyu-profile/`)
     .then(response => response.json())
     .then(data => {
       console.log(data);
