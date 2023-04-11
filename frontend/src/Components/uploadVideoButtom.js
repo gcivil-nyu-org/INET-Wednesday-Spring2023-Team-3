@@ -146,12 +146,12 @@ function UploadVideoDialog({ onClose, open, questionId }) {
 }
 
 function UploadVideoButton({ questionId }) {
-  const { user } = useContext(AuthContext); 
+  const { user } = useContext(AuthContext);
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
     if (!user) {
-      alert("Please log in.")
+      alert("Please log in.");
     } else {
       setOpen(true);
     }
@@ -160,7 +160,7 @@ function UploadVideoButton({ questionId }) {
   const handleClose = () => {
     setOpen(false);
   };
-  
+
   return (
     <>
       <Button
