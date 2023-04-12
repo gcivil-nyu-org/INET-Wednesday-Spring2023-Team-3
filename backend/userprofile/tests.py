@@ -2,6 +2,7 @@
 from django.test import TestCase
 from .models import StudentAlumniProfile
 from .serializers import StudentAlumniProfileSerializer
+from userprofile.models import CompanyProfile
 
 
 class StudentAlumniProfileTestCase(TestCase):
@@ -52,3 +53,24 @@ class StudentAlumniProfileTestCase(TestCase):
         self.assertEqual(
             serializer.data["github_link"], self.profile_data["github_link"]
         )
+
+
+class CompanyProfileTestCase(TestCase):
+    def setUp(self):
+        # Create a CompanyProfile object for testing
+        self.company = CompanyProfile.objects.create(
+            name="Example Company",
+            website="https://www.example.com",
+            description="This is an example company.",
+        )
+
+    def test_company_profile_creation(self):
+        # Test that a CompanyProfile object was created successfully
+        self.assertIsInstance(self.company, CompanyProfile)
+        self.assertEqual(CompanyProfile.objects.count(), 1)
+
+    def test_company_profile_attributes(self):
+        # Test that the CompanyProfile object has the correct attributes
+        self.assertEqual(self.company.name, "Example Company")
+        self.assertEqual(self.company.website, "https://www.example.com")
+        self.assertEqual(self.company.description, "This is an example company.")
