@@ -13,15 +13,17 @@ import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import MuiAlert from "@mui/material/Alert";
-import AuthContext from "../context/AuthContext";
 
 import { API_ENDPOINT } from "../Components/api";
+import AuthContext from "../context/AuthContext";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
 function UploadVideoDialog({ onClose, open, questionId }) {
+  const { user } = useContext(AuthContext);
+
   const [title, setTitle] = useState("");
   const [file, setFile] = useState(null);
   const [openAlert, setOpenAlert] = useState(false);
@@ -43,6 +45,7 @@ function UploadVideoDialog({ onClose, open, questionId }) {
     formData.append("title", title);
     formData.append("question", questionId);
     formData.append("file", file);
+    formData.append("user", user.user_id);
 
     fetch(`${API_ENDPOINT}/answerrecording/`, {
       method: "POST",
@@ -115,7 +118,7 @@ function UploadVideoDialog({ onClose, open, questionId }) {
             <Button
               variant="outlined"
               onClick={() => {
-                if (!file || title == "") {
+                if (!file || title === "") {
                   handleUploadClickError();
                 } else {
                   handleUploadClickSuccess();
@@ -146,12 +149,32 @@ function UploadVideoDialog({ onClose, open, questionId }) {
 }
 
 function UploadVideoButton({ questionId }) {
-  const { user } = useContext(AuthContext); 
+  const { user } = useContext(AuthContext);
   const [open, setOpen] = useState(false);
+  const [openAlert, setOpenAlert] = useState(false);
+  const [alertStatus, setAlertStatus] = useState("success");
+  const [alertMessage, setAlertMessage] = useState("Upload successful");
+
+  const action = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={() => {
+          setOpenAlert(false);
+        }}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
 
   const handleClickOpen = () => {
     if (!user) {
-      alert("Please log in.")
+      setOpenAlert(true);
+      setAlertMessage("Please login first");
+      setAlertStatus("error");
     } else {
       setOpen(true);
     }
@@ -160,7 +183,7 @@ function UploadVideoButton({ questionId }) {
   const handleClose = () => {
     setOpen(false);
   };
-  
+
   return (
     <>
       <Button
@@ -178,6 +201,24 @@ function UploadVideoButton({ questionId }) {
         onClose={handleClose}
         questionId={questionId}
       />
+
+      <Snackbar
+        open={openAlert}
+        autoHideDuration={6000}
+        action={action}
+        onClose={() => {
+          setOpenAlert(false);
+        }}
+      >
+        <Alert
+          onClose={() => {
+            setOpenAlert(false);
+          }}
+          severity={alertStatus}
+        >
+          {alertMessage}
+        </Alert>
+      </Snackbar>
     </>
   );
 }

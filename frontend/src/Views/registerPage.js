@@ -59,18 +59,18 @@ function Register() {
   const { registerUser } = useContext(AuthContext);
 
   const [formData, setFormData] = useState({
-    userType: "",
+    email: "",
     first_name: "",
     last_name: "",
-    email: "",
     password1: "",
+    user_type: "",
   });
 
   const handleInputChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
-    if (name === "userType") {
-      setFormData({ ...formData, userType: value });
+    if (name === "user_type") {
+      setFormData({ ...formData, user_type: value });
     } else {
       setFormData({ ...formData, [name]: value });
     }
@@ -78,11 +78,11 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     registerUser(
-      formData.userType,
       formData.email,
       formData.first_name,
       formData.last_name,
-      formData.password1
+      formData.password1,
+      formData.user_type,
     );
     setOpen(true);
     console.log(formData);
@@ -134,11 +134,11 @@ function Register() {
                       Type of User
                     </InputLabel>
                     <Select
-                      labelId="userType"
-                      name="userType"
-                      id="userType"
+                      labelId="user_type"
+                      name="user_type"
+                      id="user_type"
                       label="Type of User"
-                      value={formData.userType}
+                      value={formData.user_type}
                       onChange={handleInputChange}
                       autoWidth
                       autoFocus

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
@@ -20,7 +20,7 @@ import MonacoEditor from "@uiw/react-monacoeditor";
 import Navbar from "../Components/navbar";
 import UploadVideoButton from "../Components/uploadVideoButtom";
 import { API_ENDPOINT } from "../Components/api";
-
+import AuthContext from "../context/AuthContext";
 const VideoPreview = ({ stream }) => {
   const videoRef = useRef(null);
 
@@ -55,6 +55,105 @@ function QuestionDetails() {
     setLanguage(event.target.value);
   };
 
+  const [starterCode, setStarterCode] = useState("");
+  const [error, setError] = useState("");
+  const { user } = useContext(AuthContext);
+  const noneUser = -1;
+  useEffect(() => {
+    const fetchStarterCode = async () => {
+      try {
+        let endpoint = "";
+        if (user) {
+          endpoint = `${API_ENDPOINT}/codinganswers/get-starter-code/?user=${user.user_id}&language=${language}&question=${pk}`;
+        } else {
+          endpoint = `${API_ENDPOINT}/codinganswers/get-starter-code/?user=${noneUser}&language=${language}&question=${pk}`;
+        }
+  
+        const response = await fetch(endpoint, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+  
+        if (response.ok) {
+          const data = await response.json();
+          if (data.status === 200) {
+            setStarterCode(data.starter_code);
+            setError("");
+          } else {
+            setError(data.error_msg);
+          }
+        } else {
+          setError("Error: Failed to fetch starter code");
+        }
+      } catch (error) {
+        setError(`Error: ${error.message}`);
+      }
+    };
+  
+    fetchStarterCode();
+  }, [user, language, pk]);
+  
+  const submitCode = async (e) => {
+    e.preventDefault();
+    setError("");
+
+    try {
+      const requestBody = {
+        user: user.user_id,
+        question: pk,
+        submission: starterCode,
+        language,
+      };
+
+      // Validate request body as JSON
+      const isValidJson = validateJson(requestBody);
+      if (!isValidJson) {
+        throw new Error("Invalid request body. Please check your input.");
+      }
+
+      const response = await fetch(
+        `${API_ENDPOINT}/codinganswers/post-answer`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(requestBody),
+        }
+      );
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error_msg);
+      }
+
+      const data = await response.json();
+      console.log("Response:", data);
+      // Handle successful response here
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
+  // Helper function to validate JSON
+  const validateJson = (json) => {
+    try {
+      JSON.stringify(json);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  };
+
+  function handleEditorChange(value, event) {
+    setStarterCode(value);
+    console.log(value);
+  }
+  function clearCode() {
+    setStarterCode("");
+  }
   let navigate = useNavigate();
   const routeChange = () => {
     navigate(`/answers/${pk}`);
@@ -315,31 +414,74 @@ function QuestionDetails() {
           <Typography variant="h5" gutterBottom>
             Write your code here:
           </Typography>
-          <FormControl style={{ width: "10vw" }}>
-            <InputLabel id="demo-simple-select-label">language</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={language}
-              label="language"
-              onChange={handleLanguageChange}
-            >
-              <MenuItem value={"python"}>python</MenuItem>
-              <MenuItem value={"c"}>c</MenuItem>
-              <MenuItem value={"java"}>java</MenuItem>
-              <MenuItem value={"javascript"}>javascript</MenuItem>
-            </Select>
-          </FormControl>
+          <Box
+            sx={{ marginTop: 2 }}
+            style={{ marginTop: 30, marginBottom: 30 }}
+          >
+            <Stack direction="row" spacing={1}>
+              <Stack
+                direction="row"
+                spacing={1}
+                sx={{ justifyContent: "flex-start" }}
+              >
+                <FormControl style={{ width: "10vw" }}>
+                  <InputLabel id="demo-simple-select-label">
+                    language
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={language}
+                    label="language"
+                    onChange={handleLanguageChange}
+                  >
+                    <MenuItem value={"python"}>python</MenuItem>
+                    <MenuItem value={"c"}>c</MenuItem>
+                    <MenuItem value={"java"}>java</MenuItem>
+                    <MenuItem value={"javascript"}>javascript</MenuItem>
+                  </Select>
+                </FormControl>
+              </Stack>
+              <Stack
+                direction="row"
+                spacing={1}
+                sx={{ justifyContent: "flex-end" }}
+              >
+                <Button
+                  variant="outlined"
+                  onClick={submitCode}
+                  style={{
+                    textTransform: "none",
+                  }}
+                >
+                  Compile
+                </Button>
+                <Button
+                  variant="outlined"
+                  onClick={clearCode}
+                  style={{
+                    textTransform: "none",
+                  }}
+                >
+                  Clear
+                </Button>
+              </Stack>
+            </Stack>
+          </Box>
+
           <MonacoEditor
+            value={starterCode}
             language={language}
+            height="60vh"
             options={{
               theme: "vs-dark",
             }}
             style={{
               display: "flex",
-              justifyContent: "center",
+              justifyContent: "flex-start",
               alignItems: "center",
             }}
+            onChange={handleEditorChange}
           />
         </div>
       )}

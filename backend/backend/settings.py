@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     "questions",
     "userprofile",
     "answerrecordings",
+    "codinganswers",
 ]
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
