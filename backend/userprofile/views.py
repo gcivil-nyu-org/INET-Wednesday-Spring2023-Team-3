@@ -3,6 +3,8 @@ from .models import StudentAlumniProfile, CompanyProfile
 from .serializers import StudentAlumniProfileSerializer, CompanySerializer
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework.response import Response
+from rest_framework import status
 
 
 @csrf_exempt  # This is added to disable CSRF protection for demonstration purposes, you should add proper CSRF protection in production
@@ -29,6 +31,22 @@ class StudentAlumniProfileCreateView(generics.UpdateAPIView):
     serializer_class = StudentAlumniProfileSerializer
     lookup_field = "email"
     lookup_url_kwarg = "email"
+
+    def update(self, request, *args, **kwargs):
+        email = kwargs.get("email")
+        try:
+            instance = self.queryset.get(email=email)
+            serializer = self.get_serializer(instance, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except StudentAlumniProfile.DoesNotExist:
+            serializer = self.get_serializer(data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class CompanyProfileCreate(generics.ListCreateAPIView):
