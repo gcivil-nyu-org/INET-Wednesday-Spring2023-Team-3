@@ -8,7 +8,7 @@ from .views import (
 
 urlpatterns = [
     path(
-        "nyu-profile/",
+        "nyu-profile/<str:email>/",
         StudentAlumniProfileCreateView.as_view(),
         name="student_alumni_profile",
     ),
