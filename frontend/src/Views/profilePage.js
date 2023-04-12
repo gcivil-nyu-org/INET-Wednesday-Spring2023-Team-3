@@ -8,32 +8,40 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import Stack from "@mui/material/Stack";
 import Divider from "@mui/material/Divider";
 
 import AuthContext from "../context/AuthContext";
 import Navbar from "../Components/navbar";
-import { API_ENDPOINT } from "../Components/api";
 
 function ProfilePage() {
   const { user } = useContext(AuthContext);
   const theme = createTheme();
 
+  // Define state variables for the fetched data
+  const [jobPreference, setJobPreference] = useState("Not entered yet");
+  const [yearsOfExperience, setYearsOfExperience] = useState("Not entered yet");
+  const [previousEmployer, setPreviousEmployer] = useState("Not entered yet");
+  const [linkedinLink, setLinkedinLink] = useState("Not entered yet");
+  const [githubLink, setGithubLink] = useState("Not entered yet");
 
-  let jobPreference, yearsOfExperience, previousEmployer, linkedinLink, githubLink;
-  fetch(`https://nyuinterviewappdevelop.com/nyu-profile/?email=${user.email}`)
-    .then(response => response.json())
-    .then(data => {
-      console.log(data);
-      // Assign retrieved data to variables with default values if empty or undefined
-      jobPreference = data.job_preference || "Not entered yet";
-      yearsOfExperience = data.years_of_experience || "Not entered yet";
-      previousEmployer = data.previous_employer || "Not entered yet";
-      linkedinLink = data.linkedin_link || "Not entered yet";
-      githubLink = data.github_link || "Not entered yet";
-    })
-    .catch((error) => console.error(error));
+
+  useEffect(() => {
+    // Fetch data from API and update state variables based on email
+    fetch(`https://nyuinterviewappdevelop.com/profile-info/?email=${user.email}`)
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        setJobPreference(data.job_preference || "Not entered yet");
+        setYearsOfExperience(data.years_of_experience || "Not entered yet");
+        setPreviousEmployer(data.previous_employer || "Not entered yet");
+        setLinkedinLink(data.linkedin_link || "Not entered yet");
+        setGithubLink(data.github_link || "Not entered yet");
+      })
+      .catch((error) => console.error(error));
+  }, [user.email]); // Add user.email as a dependency to useEffect
+
 
   if (!user) {
     return <Navigate to="/login" />;
