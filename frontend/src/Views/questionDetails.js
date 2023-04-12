@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
@@ -20,7 +20,7 @@ import MonacoEditor from "@uiw/react-monacoeditor";
 import Navbar from "../Components/navbar";
 import UploadVideoButton from "../Components/uploadVideoButtom";
 import { API_ENDPOINT } from "../Components/api";
-
+import AuthContext from "../context/AuthContext";
 const VideoPreview = ({ stream }) => {
   const videoRef = useRef(null);
 
@@ -55,35 +55,104 @@ function QuestionDetails() {
     setLanguage(event.target.value);
   };
 
-  const [code, setCode] = useState("# Definition for singly-linked list.\n" +
-  "# class ListNode(object):\n" +
-  "#     def __init__(self, val=0, next=None):\n" +
-  "#         self.val = val\n" +
-  "#         self.next = next\n" +
-  "class Solution(object):\n\n" +
-  "    def __init__(self, head):\n" +
-  " =      \"\"\"\n" +
-  "        :type head: Optional[ListNode]\n" +
-  "        \"\"\"\n" +
-  "        \n\n" +
-  "    def getRandom(self):\n" +
-  "        \"\"\"\n" +
-  "        :rtype: int\n" +
-  "        \"\"\"\n" +
-  "        \n\n" +
-  "# Your Solution object will be instantiated and called as such:\n" +
-  "# obj = Solution(head)\n" +
-  "# param_1 = obj.getRandom()");
+  const [starterCode, setStarterCode] = useState("");
+  const [error, setError] = useState("");
+  const { user } = useContext(AuthContext);
+  const noneUser = -1;
+  useEffect(() => {
+    const fetchStarterCode = async () => {
+      try {
+        let endpoint = "";
+        if (user) {
+          endpoint = `${API_ENDPOINT}/codinganswers/get-starter-code/?user=${user.user_id}&language=${language}&question=${pk}`;
+        } else {
+          endpoint = `${API_ENDPOINT}/codinganswers/get-starter-code/?user=${noneUser}&language=${language}&question=${pk}`;
+        }
+  
+        const response = await fetch(endpoint, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+  
+        if (response.ok) {
+          const data = await response.json();
+          if (data.status === 200) {
+            setStarterCode(data.starter_code);
+            setError("");
+          } else {
+            setError(data.error_msg);
+          }
+        } else {
+          setError("Error: Failed to fetch starter code");
+        }
+      } catch (error) {
+        setError(`Error: ${error.message}`);
+      }
+    };
+  
+    fetchStarterCode();
+  }, [user, language, pk]);
+  
+  const submitCode = async (e) => {
+    e.preventDefault();
+    setError("");
 
-  const submitCode = () => {
-    console.log("This is the real code submitted: \n" + code);
+    try {
+      const requestBody = {
+        user: user.user_id,
+        question: pk,
+        submission: starterCode,
+        language,
+      };
+
+      // Validate request body as JSON
+      const isValidJson = validateJson(requestBody);
+      if (!isValidJson) {
+        throw new Error("Invalid request body. Please check your input.");
+      }
+
+      const response = await fetch(
+        `${API_ENDPOINT}/codinganswers/post-answer`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(requestBody),
+        }
+      );
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error_msg);
+      }
+
+      const data = await response.json();
+      console.log("Response:", data);
+      // Handle successful response here
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
+  // Helper function to validate JSON
+  const validateJson = (json) => {
+    try {
+      JSON.stringify(json);
+      return true;
+    } catch (error) {
+      return false;
+    }
   };
 
   function handleEditorChange(value, event) {
-    setCode(value);
+    setStarterCode(value);
+    console.log(value);
   }
   function clearCode() {
-    setCode("");
+    setStarterCode("");
   }
   let navigate = useNavigate();
   const routeChange = () => {
@@ -399,9 +468,9 @@ function QuestionDetails() {
               </Stack>
             </Stack>
           </Box>
-         
+
           <MonacoEditor
-            value={code}
+            value={starterCode}
             language={language}
             height="60vh"
             options={{
@@ -414,7 +483,6 @@ function QuestionDetails() {
             }}
             onChange={handleEditorChange}
           />
-          
         </div>
       )}
     </>
