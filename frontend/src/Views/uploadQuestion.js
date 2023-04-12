@@ -60,7 +60,7 @@ function UploadQuestion() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    fetch(`${API_ENDPOINT}/api/post-question/`, {
+    fetch(`${API_ENDPOINT}/questions/post-question/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
