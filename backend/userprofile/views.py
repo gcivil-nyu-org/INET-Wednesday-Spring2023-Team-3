@@ -3,7 +3,7 @@ from .models import StudentAlumniProfile, CompanyProfile
 from .serializers import StudentAlumniProfileSerializer, CompanySerializer
 
 
-class StudentAlumniProfileCreateView(generics.ListCreateAPIView):
+class StudentAlumniProfileCreateView(generics.CreateAPIView):
     queryset = StudentAlumniProfile.objects.all()
     serializer_class = StudentAlumniProfileSerializer
 
