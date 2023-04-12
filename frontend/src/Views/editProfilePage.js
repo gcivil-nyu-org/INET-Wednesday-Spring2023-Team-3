@@ -129,7 +129,7 @@ function EditProfile() {
                       <TextField
                         autoComplete="Job"
                         name="job_preference"
-                        required
+                        //required
                         fullWidth
                         id="job_preference"
                         label="Job Preference"
@@ -139,7 +139,7 @@ function EditProfile() {
                     </Grid>
                     <Grid item xs={12}>
                       <TextField
-                        required
+                        // required
                         fullWidth
                         id="years_of_experience"
                         label="Years of Working Experience"
