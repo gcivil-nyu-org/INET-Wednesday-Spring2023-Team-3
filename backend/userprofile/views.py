@@ -24,9 +24,11 @@ def get_student_alumni_profile(request, email):
         return JsonResponse({"error": "Student Alumni Profile not found"}, status=404)
 
 
-class StudentAlumniProfileCreateView(generics.CreateAPIView):
+class StudentAlumniProfileCreateView(generics.UpdateAPIView):
     queryset = StudentAlumniProfile.objects.all()
     serializer_class = StudentAlumniProfileSerializer
+    lookup_field = 'email'
+    lookup_url_kwarg = 'email'
 
 
 class CompanyProfileCreate(generics.ListCreateAPIView):
