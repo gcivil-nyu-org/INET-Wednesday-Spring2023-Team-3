@@ -13,15 +13,17 @@ import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import MuiAlert from "@mui/material/Alert";
-import AuthContext from "../context/AuthContext";
 
 import { API_ENDPOINT } from "../Components/api";
+import AuthContext from "../context/AuthContext";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
 function UploadVideoDialog({ onClose, open, questionId }) {
+  const { user } = useContext(AuthContext);
+
   const [title, setTitle] = useState("");
   const [file, setFile] = useState(null);
   const [openAlert, setOpenAlert] = useState(false);
@@ -43,6 +45,7 @@ function UploadVideoDialog({ onClose, open, questionId }) {
     formData.append("title", title);
     formData.append("question", questionId);
     formData.append("file", file);
+    formData.append("user", user.user_id);
 
     fetch(`${API_ENDPOINT}/answerrecording/`, {
       method: "POST",
