@@ -47,8 +47,8 @@ export const AuthProvider = ({ children }) => {
       alert("Something went wrong!");
     }
   };
-
-  const registerUser = async (email, firstname, lastname, password) => {
+  
+  const registerUser = async (email, first_name, last_name, password, user_type) => {
     const response = await fetch(`${API_ENDPOINT}/signup/`, {
       method: "POST",
       headers: {
@@ -56,10 +56,11 @@ export const AuthProvider = ({ children }) => {
       },
       body: JSON.stringify({
         email,
-        firstname,
-        lastname,
+        first_name,
+        last_name,
         password,
-      }),
+        user_type
+      })
     });
     if (response.status === 201) {
       history("/login");
