@@ -3,7 +3,6 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import CssBaseline from "@mui/material/CssBaseline";
-import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
@@ -26,12 +25,11 @@ function ProfilePage() {
   const [linkedinLink, setLinkedinLink] = useState("Not entered yet");
   const [githubLink, setGithubLink] = useState("Not entered yet");
 
-
   useEffect(() => {
     // Fetch data from API and update state variables based on email
     fetch(`https://nyuinterviewappdevelop.com/profile-info/${user.email}`)
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         console.log(data);
         setJobPreference(data.job_preference || "Not entered yet");
         setYearsOfExperience(data.years_of_experience || "Not entered yet");
@@ -41,7 +39,6 @@ function ProfilePage() {
       })
       .catch((error) => console.error(error));
   }, [user.email]); // Add user.email as a dependency to useEffect
-
 
   if (!user) {
     return <Navigate to="/login" />;
@@ -69,29 +66,38 @@ function ProfilePage() {
                 <Typography component="h1" variant="h5">
                   Profile Page
                 </Typography>
-                <Box>
-                  <Grid container spacing={3}>
-                    <Typography item xs={12}>
-                      {jobPreference}
-                    </Typography>
-                    <Divider />
-                    <Typography item xs={12}>
-                      {yearsOfExperience}
-                    </Typography>
-                    <Divider />
-                    <Grid item xs={12}>
-                      {previousEmployer}
-                    </Grid>
-                    <Divider />
-                    <Grid item xs={12}>
-                      {linkedinLink}
-                    </Grid>
-                    <Divider />
-                    <Grid item xs={12}>
-                      {githubLink}
-                    </Grid>
-                  </Grid>
-                </Box>
+                <div style={{ marginTop: 20, marginBottom: 20 }}>
+                  <Divider variant="middle" width="600px" />
+                </div>
+                <Typography
+                  component="h3"
+                  variant="h7"
+                  style={{ marginTop: 10, marginBottom: 10 }}
+                >
+                  Job Perference: {jobPreference}
+                </Typography>
+                <Typography
+                  component="h3"
+                  variant="h7"
+                  style={{ marginTop: 10, marginBottom: 10 }}
+                >
+                  Years of Experience: {yearsOfExperience}
+                </Typography>
+                <Typography
+                  component="h3"
+                  variant="h7"
+                  style={{ marginTop: 10, marginBottom: 10 }}
+                >
+                  Previous Employer: {previousEmployer}
+                </Typography>
+                <Typography
+                  component="h3"
+                  variant="h7"
+                  style={{ marginTop: 10, marginBottom: 10 }}
+                >
+                  <a href={linkedinLink}>Linkedin</a> |{" "}
+                  <a href={githubLink}>Github</a>
+                </Typography>
               </Box>
             </Stack>
           </Container>
