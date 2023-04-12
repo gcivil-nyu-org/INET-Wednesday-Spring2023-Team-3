@@ -8,7 +8,6 @@ const AuthContext = createContext();
 export default AuthContext;
 
 export const AuthProvider = ({ children }) => {
-
   const [authTokens, setAuthTokens] = useState(() =>
     localStorage.getItem("authTokens")
       ? JSON.parse(localStorage.getItem("authTokens"))
@@ -27,12 +26,12 @@ export const AuthProvider = ({ children }) => {
     const response = await fetch(`${API_ENDPOINT}/token/`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         email,
-        password
-      })
+        password,
+      }),
     });
     const data = await response.json();
 
@@ -49,17 +48,18 @@ export const AuthProvider = ({ children }) => {
     }
   };
   
-  const registerUser = async (email, firstname, lastname, password) => {
+  const registerUser = async (email, first_name, last_name, password, user_type) => {
     const response = await fetch(`${API_ENDPOINT}/signup/`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         email,
-        firstname,
-        lastname,
-        password
+        first_name,
+        last_name,
+        password,
+        user_type
       })
     });
     if (response.status === 201) {
@@ -83,7 +83,7 @@ export const AuthProvider = ({ children }) => {
     setAuthTokens,
     registerUser,
     loginUser,
-    logoutUser
+    logoutUser,
   };
 
   useEffect(() => {
