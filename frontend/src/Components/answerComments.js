@@ -48,7 +48,6 @@ function AnswerComments({ answerId }) {
             text: data.fields.text,
           });
         });
-        console.log(newCommentData);
         setCommentData(newCommentData);
       })
       .catch((error) => console.error(error));
@@ -87,16 +86,7 @@ function AnswerComments({ answerId }) {
     })
       .then((response) => response.json())
       .then(() => {
-        let newCommentData = [
-          ...commentData,
-          {
-            username: user.username,
-            created_at: "now",
-            rating: rating,
-            text: newComment,
-          },
-        ];
-        setCommentData(newCommentData);
+        window.location.reload(false);
       })
       .catch((error) => console.error(error));
   };
@@ -124,7 +114,6 @@ function AnswerComments({ answerId }) {
         </Header>
 
         {commentData.map((comment) => {
-          console.log(comment);
           return (
             <Comment>
               <Comment.Content>
