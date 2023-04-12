@@ -1,4 +1,4 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import * as React from "react";
 import Avatar from "@mui/material/Avatar";
@@ -23,9 +23,19 @@ import { API_ENDPOINT } from "../Components/api";
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
+const isValidUrl = (urlString) => {
+  try {
+    return Boolean(new URL(urlString));
+  } catch (e) {
+    return false;
+  }
+};
 
 function EditProfile() {
+  const navigate = useNavigate();
+
   const [open, setOpen] = React.useState(false);
+  const [alertMessage, setAlertMessage] = React.useState("error");
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -33,7 +43,7 @@ function EditProfile() {
     }
     setOpen(false);
   };
-  
+
   const { user } = useContext(AuthContext);
 
   const [formData, setFormData] = useState({
@@ -46,23 +56,52 @@ function EditProfile() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    if (
+      formData.job_preference.length === 0 ||
+      formData.years_of_experience.length === 0 ||
+      formData.previous_employer.length === 0 ||
+      formData.linkedin_link.length === 0 ||
+      formData.github_link.length === 0
+    ) {
+      setAlertMessage("Please enter all the fields");
+      setOpen(true);
+      return;
+    }
+    if (isNaN(formData.years_of_experience)) {
+      setAlertMessage("Years of working experience has to be a number");
+      setOpen(true);
+      return;
+    }
+    if (!isValidUrl(formData.linkedin_link)) {
+      setAlertMessage("Linkedin link is not valid");
+      setOpen(true);
+      return;
+    }
+    if (!isValidUrl(formData.github_link)) {
+      setAlertMessage("Github link is not valid");
+      setOpen(true);
+      return;
+    }
+
     const url = `${API_ENDPOINT}/nyu-profile/${user.email}/`;
+
     const postReq = JSON.stringify({
       ...formData,
-      'email': user.email,
+      email: user.email,
     });
     console.log(postReq);
-  
+
     try {
       const response = await axios.put(url, postReq, {
         headers: {
-          'Content-Type': 'application/json'
-        }
+          "Content-Type": "application/json",
+        },
       });
-    
+
       const data = response.data;
+      navigate("/profile", { replace: true });
       console.log(data);
-    
     } catch (error) {
       console.log(error);
     }
@@ -95,10 +134,10 @@ function EditProfile() {
               >
                 <Alert
                   onClose={handleClose}
-                  severity="success"
+                  severity="error"
                   sx={{ width: "100%" }}
                 >
-                  Profile Updated
+                  {alertMessage}
                 </Alert>
               </Snackbar>
               <Box
