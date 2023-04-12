@@ -13,6 +13,7 @@ import Divider from "@mui/material/Divider";
 
 import AuthContext from "../context/AuthContext";
 import Navbar from "../Components/navbar";
+import { API_ENDPOINT } from "../Components/api";
 
 function ProfilePage() {
   const { user } = useContext(AuthContext);
@@ -27,7 +28,7 @@ function ProfilePage() {
 
   useEffect(() => {
     // Fetch data from API and update state variables based on email
-    fetch(`https://nyuinterviewappdevelop.com/profile-info/${user.email}`)
+    fetch(`${API_ENDPOINT}/profile-info/${user.email}`)
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
