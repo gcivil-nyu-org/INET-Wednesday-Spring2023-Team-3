@@ -29,7 +29,7 @@ function ProfilePage() {
 
   useEffect(() => {
     // Fetch data from API and update state variables based on email
-    fetch(`https://nyuinterviewappdevelop.com/profile-info/?email=${user.email}`)
+    fetch(`https://nyuinterviewappdevelop.com/profile-info/${user.email}`)
       .then(response => response.json())
       .then(data => {
         console.log(data);
