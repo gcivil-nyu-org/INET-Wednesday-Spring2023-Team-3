@@ -31,9 +31,9 @@ function EditProfile() {
     if (reason === "clickaway") {
       return;
     }
-
     setOpen(false);
   };
+  
   const { user } = useContext(AuthContext);
 
   const [formData, setFormData] = useState({
@@ -44,19 +44,28 @@ function EditProfile() {
     github_link: "",
   });
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    axios
-      .post(`${API_ENDPOINT}/nyu-profile/`, {
-        ...formData,
-        user,
-      })
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
+    const url = `${API_ENDPOINT}/nyu-profile/${user.email}/`;
+    const postReq = JSON.stringify({
+      ...formData,
+      'email': user.email,
+    });
+    console.log(postReq);
+  
+    try {
+      const response = await axios.put(url, postReq, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
       });
+    
+      const data = response.data;
+      console.log(data);
+    
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleInputChange = (event) => {

@@ -67,17 +67,17 @@ function ProfilePage() {
                   <LockOutlinedIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                  {user.email} Profile Page
+                  Profile Page
                 </Typography>
                 <Box>
                   <Grid container spacing={3}>
-                    <Grid item xs={12}>
+                    <Typography item xs={12}>
                       {jobPreference}
-                    </Grid>
+                    </Typography>
                     <Divider />
-                    <Grid item xs={12}>
+                    <Typography item xs={12}>
                       {yearsOfExperience}
-                    </Grid>
+                    </Typography>
                     <Divider />
                     <Grid item xs={12}>
                       {previousEmployer}
