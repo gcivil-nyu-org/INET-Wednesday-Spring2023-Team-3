@@ -55,54 +55,35 @@ function QuestionDetails() {
     setLanguage(event.target.value);
   };
 
-  const [starterCode, setStarterCode] = useState("");
-  const [editorValue, setEditorValue] = useState('');
-  const [error, setError] = useState("");
-  const user = 1; // value for 'user' parameter
-  useEffect(() => {
-    const fetchStarterCode = async () => {
-      try {
-        const response = await fetch(
-          `${API_ENDPOINT}/codinganswers/get-starter-code/?user=${user}&language=${language}&question=${pk}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-
-        if (response.ok) {
-          const data = await response.json();
-          if (data.status === 200) {
-            setStarterCode(data.starter_code);
-            setError("");
-          } else {
-            setError(data.error_msg);
-          }
-        } else {
-          setError("Error: Failed to fetch starter code");
-        }
-      } catch (error) {
-        setError(`Error: ${error.message}`);
-      }
-    };
-
-    fetchStarterCode();
-  }, []);
-
+  const [code, setCode] = useState("# Definition for singly-linked list.\n" +
+  "# class ListNode(object):\n" +
+  "#     def __init__(self, val=0, next=None):\n" +
+  "#         self.val = val\n" +
+  "#         self.next = next\n" +
+  "class Solution(object):\n\n" +
+  "    def __init__(self, head):\n" +
+  " =      \"\"\"\n" +
+  "        :type head: Optional[ListNode]\n" +
+  "        \"\"\"\n" +
+  "        \n\n" +
+  "    def getRandom(self):\n" +
+  "        \"\"\"\n" +
+  "        :rtype: int\n" +
+  "        \"\"\"\n" +
+  "        \n\n" +
+  "# Your Solution object will be instantiated and called as such:\n" +
+  "# obj = Solution(head)\n" +
+  "# param_1 = obj.getRandom()");
 
   const submitCode = () => {
-    console.log("This is the real code submitted: \n" + starterCode);
+    console.log("This is the real code submitted: \n" + code);
   };
 
   function handleEditorChange(value, event) {
-    setStarterCode(value);
-    console.log(value);
-    
+    setCode(value);
   }
   function clearCode() {
-    setStarterCode("");
+    setCode("");
   }
   let navigate = useNavigate();
   const routeChange = () => {
@@ -418,9 +399,9 @@ function QuestionDetails() {
               </Stack>
             </Stack>
           </Box>
-
+         
           <MonacoEditor
-            defaultValue="// some comment"
+            value={code}
             language={language}
             height="60vh"
             options={{
@@ -432,8 +413,8 @@ function QuestionDetails() {
               alignItems: "center",
             }}
             onChange={handleEditorChange}
-            
           />
+          
         </div>
       )}
     </>
