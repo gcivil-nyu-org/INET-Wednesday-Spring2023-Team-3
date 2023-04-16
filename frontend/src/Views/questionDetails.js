@@ -13,6 +13,10 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import Grid from "@mui/material/Unstable_Grid2";
+import { styled } from "@mui/material/styles";
+import Paper from "@mui/material/Paper";
+import TextareaAutosize from "@mui/base/TextareaAutosize";
 
 import { ReactMediaRecorder } from "react-media-recorder";
 import MonacoEditor from "@uiw/react-monacoeditor";
@@ -68,14 +72,14 @@ function QuestionDetails() {
         } else {
           endpoint = `${API_ENDPOINT}/codinganswers/get-starter-code/?user=${noneUser}&language=${language}&question=${pk}`;
         }
-  
+
         const response = await fetch(endpoint, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
           },
         });
-  
+
         if (response.ok) {
           const data = await response.json();
           if (data.status === 200) {
@@ -91,10 +95,10 @@ function QuestionDetails() {
         setError(`Error: ${error.message}`);
       }
     };
-  
+
     fetchStarterCode();
   }, [user, language, pk]);
-  
+
   const submitCode = async (e) => {
     e.preventDefault();
     setError("");
@@ -159,6 +163,13 @@ function QuestionDetails() {
     navigate(`/answers/${pk}`);
   };
 
+  const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: "center",
+    color: theme.palette.text.secondary,
+  }));
   return (
     <>
       <Navbar />
@@ -454,6 +465,15 @@ function QuestionDetails() {
                     textTransform: "none",
                   }}
                 >
+                  Save
+                </Button>
+                <Button
+                  variant="outlined"
+                  onClick={submitCode}
+                  style={{
+                    textTransform: "none",
+                  }}
+                >
                   Compile
                 </Button>
                 <Button
@@ -468,21 +488,53 @@ function QuestionDetails() {
               </Stack>
             </Stack>
           </Box>
-
-          <MonacoEditor
-            value={starterCode}
-            language={language}
-            height="60vh"
-            options={{
-              theme: "vs-dark",
-            }}
-            style={{
-              display: "flex",
-              justifyContent: "flex-start",
-              alignItems: "center",
-            }}
-            onChange={handleEditorChange}
-          />
+          <Box sx={{ marginTop: 2 }} style={{ marginTop: 30 }}>
+            <Grid container spacing={2} columns={16}>
+              <Grid xs={8} style={{ fontSize: 24 }}>
+                {language}
+                <Item style={{marginTop: "30px", textAlign:"left"}}>
+                  {" "}
+                  <MonacoEditor
+                    value={starterCode}
+                    language={language}
+                    height="60vh"
+                    options={{
+                      theme: "vs-dark",
+                    }}
+                    style={{
+                      display: "flex",
+                      justifyContent: "flex-start",
+                      alignItems: "left",
+                    }}
+                    onChange={handleEditorChange}
+                  />
+                </Item>
+              </Grid>
+              <Grid xs={8} style={{ fontSize: 24 }}>
+                Output
+                <Item style={{marginTop: "30px", textAlign:"left"}}>
+                  <TextareaAutosize
+                    maxRows={8}
+                    aria-label="maximum height"
+                    placeholder="Maximum 4 rows"
+                    defaultValue="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+          ut labore et dolore magna aliqua."
+                    style={{
+                      width: 500,
+                      height: "60vh",
+                      borderSyle: "none",
+                      borderColor: "Transparent",
+                      overflow: "auto",
+                      outline: "none",
+                      resize: "none"
+                    }}
+                    readOnly
+                    spellCheck={false}
+                  />
+                </Item>
+              </Grid>
+            </Grid>
+          </Box>
         </div>
       )}
     </>
