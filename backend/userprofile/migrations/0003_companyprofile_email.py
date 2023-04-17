@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('userprofile', '0002_studentalumniprofile_email'),
+        ("userprofile", "0002_studentalumniprofile_email"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='companyprofile',
-            name='email',
-            field=models.EmailField(default='', max_length=255, unique=True),
+            model_name="companyprofile",
+            name="email",
+            field=models.EmailField(default="", max_length=255, unique=True),
         ),
     ]
