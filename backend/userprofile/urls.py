@@ -23,5 +23,9 @@ urlpatterns = [
         get_student_alumni_profile,
         name="get_student_alumni_profile",
     ),
-    path("company-info/<str:email>/", company_profile, name="company_profile"),
+    path(
+        "company-info/<str:email>/",
+        company_profile,
+        name="company_profile",
+    ),
 ]
