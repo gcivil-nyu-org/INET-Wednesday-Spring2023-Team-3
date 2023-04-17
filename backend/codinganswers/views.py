@@ -108,3 +108,27 @@ def post_coding_answer(request):
             ),
         }
     )
+    @csrf_exempt
+    def submission(request):
+        if request.method == "POST":
+            try:
+                language = request.POST.get("language")
+                code = request.POST.get("code")
+                version_index = 0
+
+                input_params = {
+                    "script": code,
+                    "language": language,
+                    "versionIndex": version_index,
+                    "clientId": os.environ.get("JDOODLE_CLIENT_ID"),
+                    "clientSecret": os.environ.get("JDOODLE_CLIENT_SECRET"),
+                }
+
+                response = requests.post("https://api.jdoodle.com/v1/execute", json=input_params)
+                data = json.loads(response.text)
+
+                return JsonResponse(data, status=200)
+            except Exception as e:
+                return JsonResponse({"error": str(e)}, status=400)
+        else:
+            return JsonResponse({"error": "Invalid request method"}, status=400)
