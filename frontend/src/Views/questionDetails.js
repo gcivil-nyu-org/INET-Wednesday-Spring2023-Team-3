@@ -68,14 +68,14 @@ function QuestionDetails() {
         } else {
           endpoint = `${API_ENDPOINT}/codinganswers/get-starter-code/?user=${noneUser}&language=${language}&question=${pk}`;
         }
-  
+
         const response = await fetch(endpoint, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
           },
         });
-  
+
         if (response.ok) {
           const data = await response.json();
           if (data.status === 200) {
@@ -91,10 +91,10 @@ function QuestionDetails() {
         setError(`Error: ${error.message}`);
       }
     };
-  
+
     fetchStarterCode();
   }, [user, language, pk]);
-  
+
   const submitCode = async (e) => {
     e.preventDefault();
     setError("");
@@ -210,7 +210,9 @@ function QuestionDetails() {
           ) : (
             <></>
           )}
-          <Divider orientation="vertical" flexItem />
+          {question.companies && question.companies.length !== 0 && (
+            <Divider orientation="vertical" flexItem />
+          )}
           {question.companies &&
             question.companies.length !== 0 &&
             question.companies
@@ -218,7 +220,9 @@ function QuestionDetails() {
               .map((company) => (
                 <Chip id={company} label={company} style={{ marginLeft: 10 }} />
               ))}
-          <Divider orientation="vertical" flexItem />
+          {question.positions && question.positions.length !== 0 && (
+            <Divider orientation="vertical" flexItem />
+          )}
           {question.positions &&
             question.positions.length !== 0 &&
             question.positions
