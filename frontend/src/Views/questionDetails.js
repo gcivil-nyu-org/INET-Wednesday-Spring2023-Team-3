@@ -16,6 +16,7 @@ import Select from "@mui/material/Select";
 import Grid from "@mui/material/Unstable_Grid2";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
+import TextareaAutosize from "@mui/base/TextareaAutosize";
 
 import { ReactMediaRecorder } from "react-media-recorder";
 import MonacoEditor from "@uiw/react-monacoeditor";
@@ -59,7 +60,6 @@ function QuestionDetails() {
   };
 
   const [starterCode, setStarterCode] = useState("");
-  const [code, setCode] = useState("");
   const [error, setError] = useState("");
   const { user } = useContext(AuthContext);
   const noneUser = -1;
@@ -84,7 +84,6 @@ function QuestionDetails() {
           const data = await response.json();
           if (data.status === 200) {
             setStarterCode(data.starter_code);
-            setCode(data.starter_code);
             setError("");
           } else {
             setError(data.error_msg);
@@ -92,9 +91,8 @@ function QuestionDetails() {
         } else {
           setError("Error: Failed to fetch starter code");
         }
-      } catch (e) {
-        setError(`Error: ${e.message}`);
-        console.log(error);
+      } catch (error) {
+        setError(`Error: ${error.message}`);
       }
     };
 
@@ -165,7 +163,7 @@ function QuestionDetails() {
   };
 
   function clearCode() {
-    setStarterCode(code);
+    setStarterCode("");
   }
   let navigate = useNavigate();
   const routeChange = () => {
@@ -527,12 +525,12 @@ function QuestionDetails() {
                 </Button>
                 <Button
                   variant="outlined"
-                  onClick={compileCode}
+                  onClick={submitCode}
                   style={{
                     textTransform: "none",
                   }}
                 >
-                  {isSubmitting ? "Compiling..." : "Run"}
+                  Compile
                 </Button>
                 <Button
                   variant="outlined"
@@ -546,95 +544,49 @@ function QuestionDetails() {
               </Stack>
             </Stack>
           </Box>
-
           <Box sx={{ marginTop: 2 }} style={{ marginTop: 30 }}>
             <Grid container spacing={2} columns={16}>
               <Grid xs={8} style={{ fontSize: 24 }}>
-                <Typography variant="h5" gutterBottom>
-                  Language : {language}
-                </Typography>
-
-                <Item style={{ marginTop: "30px", textAlign: "left" }}>
+                {language}
+                <Item style={{marginTop: "30px", textAlign:"left"}}>
                   {" "}
                   <MonacoEditor
+                    value={starterCode}
                     language={language}
                     height="60vh"
                     options={{
                       theme: "vs-dark",
-                      selectOnLineNumbers: true,
                     }}
                     style={{
                       display: "flex",
                       justifyContent: "flex-start",
                       alignItems: "left",
                     }}
-                    value={starterCode}
-                    editorDidMount={editorDidMount}
+                    onChange={handleEditorChange}
                   />
                 </Item>
               </Grid>
               <Grid xs={8} style={{ fontSize: 24 }}>
-                <Typography variant="h5" gutterBottom>
-                  Output:
-                </Typography>
-                <Item
-                  style={{
-                    marginTop: "30px",
-                    textAlign: "left",
-                    backgroundColor: "#000000",
-                    height: "62vh",
-                  }}
-                >
-                  <Box
-                    sx={{ marginTop: 2 }}
-                    style={{ marginTop: 30, marginBottom: 30 }}
-                  >
-                    <Stack
-                      direction="column"
-                      spacing={2}
-                      sx={{ justifyContent: "flex-end" }}
-                    >
-                      <Stack
-                        direction="row"
-                        spacing={2}
-                        sx={{ justifyContent: "flex-start" }}
-                      >
-                        <Typography
-                          variant="h5"
-                          style={{ color: "#eff2f699" }}
-                          gutterBottom
-                        >
-                          CPUtime: {output.cpuTime} sec
-                        </Typography>
-                        <Typography
-                          variant="h5"
-                          style={{ color: "#eff2f699" }}
-                          gutterBottom
-                        >
-                          Memory: {output.memory} kb
-                        </Typography>
-                      </Stack>
-                      <Typography
-                        variant="h5"
-                        style={{ color: "#eff2f699" }}
-                        gutterBottom
-                      >
-                        Output
-                      </Typography>
-                      <Typography
-                        variant="p"
-                        style={{
-                          color: "#fff",
-                          backgroundColor: "#808080",
-                          borderRadius: "10px",
-                          padding: "10px",
-                        }}
-                        gutterBottom
-                      >
-                        [{output.output}]
-                      </Typography>
-                    </Stack>
-                  </Box>
+                Output
+                <Item style={{marginTop: "30px", textAlign:"left"}}>
+                  <TextareaAutosize
+                    maxRows={8}
+                    aria-label="maximum height"
+                    placeholder="Maximum 4 rows"
+                    defaultValue="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+          ut labore et dolore magna aliqua."
+                    style={{
+                      width: 500,
+                      height: "60vh",
+                      borderSyle: "none",
+                      borderColor: "Transparent",
+                      overflow: "auto",
+                      outline: "none",
+                      resize: "none"
+                    }}
+                    readOnly
+                    spellCheck={false}
+                  />
                 </Item>
               </Grid>
             </Grid>
