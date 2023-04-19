@@ -6,6 +6,8 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 from django.core import serializers
 from json import JSONDecodeError
+import requests
+import os
 
 
 def error_response(error_dict, err_msg: str):
@@ -108,3 +110,32 @@ def post_coding_answer(request):
             ),
         }
     )
+
+
+@csrf_exempt
+def submission(request):
+    if request.method == "POST":
+        try:
+            req_body = json.loads(request.body)
+            code = req_body.get("script")
+            language = req_body.get("language")
+            version_index = req_body.get("versionIndex")
+
+            input_params = {
+                "clientId": os.environ.get("MakendyClientID"),
+                "clientSecret": os.environ.get("MakendyClientSecret"),
+                "script": code,
+                "language": language,
+                "versionIndex": version_index,
+            }
+
+            response = requests.post(
+                "https://api.jdoodle.com/v1/execute", json=input_params
+            )
+            data = json.loads(response.text)
+
+            return JsonResponse(data, status=200)
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=400)
+    else:
+        return JsonResponse({"error": "Invalid request method"}, status=400)
