@@ -7,15 +7,9 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
-import Divider from "@mui/material/Divider";
 import Button from "@mui/material/Button";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
 
 import { ReactMediaRecorder } from "react-media-recorder";
-import MonacoEditor from "@uiw/react-monacoeditor";
 
 const VideoPreview = ({ stream }) => {
   const videoRef = useRef(null);
@@ -39,13 +33,16 @@ function MockInterview() {
     const [codingCntr, setCodingCntr ] = useState(userConfig.number_of_coding_questions);
     const [behaviouralCntr, setBehaviouralCntr ] = useState(userConfig.number_of_behavioural_questions);
 
+    // let codingCntr = userConfig.number_of_coding_questions;
+    // let behaviouralCntr = userConfig.number_of_behavioural_questions;
+
     const [timer, setTimer] = useState(userConfig.time_limit * 60);
     const [isActive, setIsActive] = useState(false);
     const [swapVisible, setSwapVisible] = useState(false);
 
     const [codingQuestions, setCodingQuestions] = useState([]);
     const [behaviouralQuestions, setBehaviouralQuestions] = useState([]);
-    const [activeQuestion, setActiveQuestion] = useState([]);
+    const [activeQuestion, setActiveQuestion] = useState({fields: {title: "Hello!", description: "Click on start to begin."}});
 
 
     let codingURL = `${API_ENDPOINT}/questions/mock-interview/?type=Coding&company=` + userConfig.selectedCompany + `&position=` + userConfig.selectedPosition;
@@ -98,21 +95,27 @@ function MockInterview() {
     const nextQuestion = () => {
 
         setSwapVisible(true);
+        console.log("next: " + behaviouralCntr, codingCntr, behaviouralCntr > 0, behaviouralQuestions.length === 0);
 
         if (behaviouralCntr > 0) {
             setBehaviouralCntr(behaviouralCntr - 1);
+            // behaviouralCntr -= 1;
         } else if (codingCntr > 0) {
+            console.log("cntr before reduced:" + codingCntr);
             setCodingCntr(codingCntr - 1);
-        } 
-
+            // codingCntr -= 1;
+            console.log("cntr reduced:" + codingCntr);
+        }
         populateQuestion();
     }
 
     const populateQuestion = () => {
+        console.log(behaviouralCntr, codingCntr, behaviouralCntr > 0, behaviouralQuestions.length === 0);
 
         if (behaviouralCntr > 0) {
-            if (behaviouralQuestions.length == 0) {
+            if (behaviouralQuestions.length === 0) {
                 setBehaviouralCntr(0);
+                // behaviouralCntr = 0;
                 setActiveQuestion({fields: {title: "Sorry", description: "Behavioural questions depleted"}});
                 setSwapVisible(false);
             } else {
@@ -120,8 +123,9 @@ function MockInterview() {
                 setActiveQuestion(temp);
             }
         } else if (codingCntr > 0) {
-            if (codingQuestions.length == 0) {
+            if (codingQuestions.length === 0) {
                 setCodingCntr(0);
+                // codingCntr = 0;
                 setActiveQuestion({fields: {title: "Sorry", description: "Coding questions depleted"}});
                 setSwapVisible(false);
             } else {
@@ -146,8 +150,10 @@ function MockInterview() {
         fetchCodingQuestions();
         fetchBehaviouralQuestions();
         setCodingCntr(userConfig.number_of_coding_questions);
+        // codingCntr = userConfig.number_of_coding_questions
         setBehaviouralCntr(userConfig.number_of_behavioural_questions);
-        setActiveQuestion({fields: {}});
+        // behaviouralCntr = userConfig.number_of_behavioural_questions;
+        setActiveQuestion({fields: {title: "Complete!", description: "Click on start to start another interview."}});
     };
 
     const formatTime = (time) => {
@@ -172,8 +178,6 @@ function MockInterview() {
                     {isActive && <Button onClick={resetTimer}>Reset</Button>}
                 </Typography>
             </Box>
-            {isActive ? (
-            <>
             <Box sx={{ marginTop: 2 }} style={{ marginTop: 30 }}>
                 <Stack direction="row" spacing={3}>
                     <div
@@ -269,8 +273,6 @@ function MockInterview() {
                     </div>
                 </Stack>
             </Box>
-            </>
-            ) : null}
         </div>
     );
 }
