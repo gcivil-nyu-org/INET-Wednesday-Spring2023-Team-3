@@ -8,6 +8,8 @@ from django.core import serializers
 from json import JSONDecodeError
 import requests
 import os
+
+
 def error_response(error_dict, err_msg: str):
     error_dict["status"] = 400
     error_dict["error_msg"] = err_msg
@@ -108,15 +110,16 @@ def post_coding_answer(request):
             ),
         }
     )
+
+
 @csrf_exempt
 def submission(request):
     if request.method == "POST":
         try:
             req_body = json.loads(request.body)
-            code = req_body.get("script") 
+            code = req_body.get("script")
             language = req_body.get("language")
             version_index = req_body.get("versionIndex")
-            
 
             input_params = {
                 "clientId": os.environ.get("MakendyClientID"),
@@ -124,10 +127,11 @@ def submission(request):
                 "script": code,
                 "language": language,
                 "versionIndex": version_index,
-
             }
 
-            response = requests.post("https://api.jdoodle.com/v1/execute", json=input_params)
+            response = requests.post(
+                "https://api.jdoodle.com/v1/execute", json=input_params
+            )
             data = json.loads(response.text)
 
             return JsonResponse(data, status=200)
