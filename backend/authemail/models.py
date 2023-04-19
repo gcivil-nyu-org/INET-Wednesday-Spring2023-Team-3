@@ -117,7 +117,7 @@ class EmailAbstractUser(AbstractBaseUser, PermissionsMixin):
         send_mail(subject, message, from_email, [self.email], **kwargs)
 
     def __str__(self):
-        return self.email, self.user_type
+        return self.email
 
 
 class SignupCodeManager(models.Manager):

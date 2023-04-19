@@ -51,7 +51,7 @@ function UploadQuestion() {
     categories: "",
     difficulty: "",
     positions: "",
-    type: "Coding",
+    type: "",
   });
 
   const handleInputChange = (event) => {
@@ -69,34 +69,16 @@ function UploadQuestion() {
     })
       .then((response) => response.json())
       .then((data) => {
-        if (data.status === 200) {
-          setOpenAlert(true);
-          setAlertMessage("Question has been uploaded successfully");
-          setAlertStatus("success");
-          console.log(data);
-          setFormData({
-            title: "",
-            description: "",
-            companies: "",
-            categories: "",
-            difficulty: "",
-            positions: "",
-            type: "Coding",
-          });
-        } else {
-          setOpenAlert(true);
-          setAlertMessage(data.error_msg);
-          setAlertStatus("error");
-          console.error(data);
-          return;
-        }
+        setOpenAlert(true);
+        setAlertMessage("Question has been uploaded successfully");
+        setAlertStatus("success");
+        console.log(data);
       })
       .catch((error) => {
         setOpenAlert(true);
-        setAlertMessage(error);
+        setAlertMessage("Fail to upload question");
         setAlertStatus("error");
         console.error(error);
-        return;
       });
   };
 
@@ -191,7 +173,7 @@ function UploadQuestion() {
                     value={formData.difficulty}
                     onChange={handleInputChange}
                   >
-                    <MenuItem value="">None</MenuItem>
+                    <MenuItem value="">Not satisfied</MenuItem>
                     <MenuItem value="Beginner">Beginner</MenuItem>
                     <MenuItem value="Easy">Easy</MenuItem>
                     <MenuItem value="Medium">Medium</MenuItem>
@@ -212,6 +194,7 @@ function UploadQuestion() {
                     value={formData.type}
                     onChange={handleInputChange}
                   >
+                    <MenuItem value="">Not satisfied</MenuItem>
                     <MenuItem value="Coding">Coding</MenuItem>
                     <MenuItem value="Behavioural">Behavioural</MenuItem>
                   </Select>
