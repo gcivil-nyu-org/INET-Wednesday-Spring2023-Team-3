@@ -49,6 +49,42 @@ class StudentAlumniProfileCreateView(generics.UpdateAPIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class CompanyProfileCreate(generics.ListCreateAPIView):
+@csrf_exempt  # This is added to disable CSRF protection for demonstration purposes, you should add proper CSRF protection in production
+def company_profile(request, email):
+    try:
+        company = CompanyProfile.objects.get(email=email)
+        response_data = {
+            "email": company.email,
+            "name": company.name,
+            "website": company.website,
+            "description": company.description,
+        }
+        return JsonResponse(response_data)
+    except StudentAlumniProfile.DoesNotExist:
+        # Handle case where the email does not exist in the model
+        return JsonResponse(
+            {"error": "Company/Recruiter Profile not found"}, status=404
+        )
+
+
+class CompanyProfileCreate(generics.UpdateAPIView):
     queryset = CompanyProfile.objects.all()
     serializer_class = CompanySerializer
+    lookup_field = "email"
+    lookup_url_kwarg = "email"
+
+    def update(self, request, *args, **kwargs):
+        email = kwargs.get("email")
+        try:
+            instance = self.queryset.get(email=email)
+            serializer = self.get_serializer(instance, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except CompanyProfile.DoesNotExist:
+            serializer = self.get_serializer(data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
