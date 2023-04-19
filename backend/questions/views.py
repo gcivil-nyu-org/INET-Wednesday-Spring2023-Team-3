@@ -5,7 +5,6 @@ from django.core import serializers
 import json
 from django.views.decorators.csrf import csrf_exempt
 from json import JSONDecodeError
-import random
 
 
 def error_response(error_dict, err_msg: str):
@@ -13,86 +12,6 @@ def error_response(error_dict, err_msg: str):
     error_dict["error_msg"] = err_msg
 
     return JsonResponse(error_dict)
-
-
-def metadata(request):
-
-    response_dict = {}
-    try:
-        data = {}
-        questions = Question.objects.all()
-
-        for question in questions:
-            positions = question.positions.split(",")
-            companies = question.companies.split(",")
-            for company in companies:
-                for position in positions:
-                    if position != "":
-                        if company not in data:
-                            data[company] = set()
-                        data[company].add(position)
-
-        for item in data:
-            data[item] = list(data[item])
-
-        response_dict["metadata"] = data
-        response_dict["error_msg"] = ""
-        response_dict["status"] = 200
-        return JsonResponse(response_dict)
-
-    except Exception as e:
-        return error_response(
-            response_dict,
-            f"Error: Something went wrong! Please try again later! => {e}",
-        )
-
-
-def mock(request):
-    response_dict = {}
-
-    try:
-        difficulties = Difficulty.objects.all()
-        response_dict["difficulties"] = [diff.pk for diff in difficulties]
-        companies = Company.objects.all()
-        response_dict["companies"] = [company.pk for company in companies]
-        positions = Position.objects.all()
-        response_dict["positions"] = [position.pk for position in positions]
-        questions = Question.objects.all()
-        param_names = ["type", "company", "position"]
-        params = request.GET
-        param_vals = [params.get(key) for key in param_names]
-
-        if param_vals[0]:
-            questions = questions.filter(type=param_vals[0])
-
-        if param_vals[1]:
-            companies = companies.filter(name=param_vals[1])
-            if not companies.count():
-                return error_response(response_dict, "Error: Company not found!")
-            questions = questions.filter(companies__icontains=param_vals[1])
-
-        if param_vals[2]:
-            positions = positions.filter(name=param_vals[2])
-            if not positions.count():
-                return error_response(response_dict, "Error: Position not found!")
-            questions = questions.filter(positions__icontains=param_vals[2])
-
-        if len(questions) > 100:
-            questions = random.choices(questions, k=100)
-
-        response_dict["question_data"] = json.loads(
-            serializers.serialize("json", questions)
-        )
-
-        response_dict["error_msg"] = ""
-        response_dict["status"] = 200
-        return JsonResponse(response_dict)
-
-    except Exception as e:
-        return error_response(
-            response_dict,
-            f"Error: Something went wrong! Please try again later! => {e}",
-        )
 
 
 def get_questions(request):

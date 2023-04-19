@@ -23,5 +23,4 @@ urlpatterns = [
     path("", include("userprofile.urls")),
     path("", include("answerrecordings.urls")),
     path("codinganswers/", include("codinganswers.urls")),
-    path("", include("onboarding.urls")),
 ]
