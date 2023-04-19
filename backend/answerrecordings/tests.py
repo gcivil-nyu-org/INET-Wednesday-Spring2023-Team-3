@@ -14,10 +14,16 @@ class CommentTests(TestCase):
         self.client = APIClient()
 
         self.user1 = MyUser.objects.create_user(
-            email="user1@test.com", password="testpass123", first_name="John", last_name="Doe"
+            email="user1@test.com",
+            password="testpass123",
+            first_name="John",
+            last_name="Doe",
         )
         self.user2 = MyUser.objects.create_user(
-            email="user2@test.com", password="testpass123", first_name="Jane", last_name="Doe"
+            email="user2@test.com",
+            password="testpass123",
+            first_name="Jane",
+            last_name="Doe",
         )
 
         self.question1 = Question.objects.create(
@@ -55,8 +61,12 @@ class CommentTests(TestCase):
         print(response)
         self.assertEqual(response["status_code"], status.HTTP_200_OK)
         self.assertEqual(len(response["comment_data"]), 2)
-        self.assertEqual(response["comment_data"][0]["fields"]["text"], "Test comment 1")
-        self.assertEqual(response["comment_data"][1]["fields"]["text"], "Test comment 2")
+        self.assertEqual(
+            response["comment_data"][0]["fields"]["text"], "Test comment 1"
+        )
+        self.assertEqual(
+            response["comment_data"][1]["fields"]["text"], "Test comment 2"
+        )
         self.assertEqual(response["comment_data"][0]["fields"]["username"], "John Doe")
         self.assertEqual(response["comment_data"][1]["fields"]["username"], "Jane Doe")
 
@@ -68,6 +78,7 @@ class CommentTests(TestCase):
         self.assertEqual(response["status_code"], status.HTTP_200_OK)
         self.assertEqual(response["error_msg"], "")
         self.assertEqual(len(response["comment_data"]), 0)
+
 
 class ModelTestCase(TestCase):
     def setUp(self):
@@ -151,7 +162,9 @@ class ViewTestCase(TestCase):
     def test_post_comment_view(self):
         self.client.login(username="test@example.com", password="testpassword")
         response = self.client.post(
-            reverse("post_comment"), json.dumps(self.comment_data), content_type="application/json"
+            reverse("post_comment"),
+            json.dumps(self.comment_data),
+            content_type="application/json",
         )
         response = json.loads(response.content)
         print(response)
