@@ -75,7 +75,7 @@ function Homepage() {
     if (submitSearch.length !== 0) {
       newUrl += "&title=" + submitSearch;
     }
-
+    console.log(newUrl)
     fetch(newUrl)
       .then((response) => response.json())
       .then((data) => {
@@ -107,18 +107,23 @@ function Homepage() {
   }, [questions]);
 
   const handleTypeChange = (event) => {
+    setPage(1);
     setType(event.target.value);
   };
   const handleCompanyChange = (event) => {
+    setPage(1);
     setCompany(event.target.value);
   };
   const handlePositionChange = (event) => {
+    setPage(1);
     setPosition(event.target.value);
   };
   const handleDifficultyChange = (event) => {
+    setPage(1);
     setDifficulty(event.target.value);
   };
   const handleSearchChange = (event) => {
+    setPage(1);
     setSearch(event.target.value);
   };
   const handlePageChange = (event, value) => {

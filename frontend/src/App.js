@@ -13,6 +13,8 @@ import VerifyEmail from "./Views/verifyEmail";
 import AnswersList from "./Views/answersList";
 import AnswerDetails from "./Views/answerDetails";
 import EditProfile from "./Views/editProfilePage";
+import QuickStart from "./Views/quickstart";
+import MockInterview from "./Views/mockInterview";
 
 function App() {
   return (
@@ -34,13 +36,14 @@ function App() {
             <Route path="/answer/:answer_id" element={<AnswerDetails />} />
             <Route path="/signup/verify/*" element={<VerifyEmail />} />
             <Route path="/password/reset" element={<PasswordReset />} />
+            <Route path="/start" element={<QuickStart />} />
+            <Route path="/mock-interview" element={<MockInterview/>}/>
             <Route
               path="/password/reset/verify/*"
               element={<SetNewPassword />}
             />
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/editProfilePage" element={<EditProfile />} />
-
             
           </Routes>
         </AuthProvider>
