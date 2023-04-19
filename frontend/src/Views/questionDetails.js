@@ -151,79 +151,16 @@ function QuestionDetails() {
     }
   };
 
-  const editorRef = useRef(null);
-
-  const editorDidMount = (editor, monaco) => {
-    editorRef.current = editor;
-    console.log("editorDidMount", editor);
-    editor.focus();
-  };
-  const onChange = (newValue, e) => {
-    console.log("onChange", newValue, e);
-  };
-
+  function handleEditorChange(value, event) {
+    setStarterCode(value);
+    console.log(value);
+  }
   function clearCode() {
     setStarterCode("");
   }
   let navigate = useNavigate();
   const routeChange = () => {
     navigate(`/answers/${pk}`);
-  };
-
-  const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: "center",
-    color: theme.palette.text.secondary,
-  }));
-
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [output, setOutput] = useState("");
-  const compileCode = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setError("");
-
-    try {
-      const versionIndex = 0;
-
-      const inputParams = {
-        script: editorRef.current.getValue(),
-        language: "python3",
-        versionIndex: versionIndex,
-      };
-
-      // Validate request body as JSON
-      const isValidJson = validateJson(inputParams);
-      if (!isValidJson) {
-        throw new Error("Invalid request body. Please check your input.");
-      }
-
-      const resp = await fetch(
-        `${API_ENDPOINT}/codinganswers/submission`,
-        {
-          method: "POST",
-          body: JSON.stringify(inputParams),
-          headers: { "Content-type": "application/json" },
-        }
-      );
-
-      if (!resp.ok) {
-        const data = await resp.json();
-        throw new Error(data.error_msg);
-      }
-
-      const data = await resp.json();
-      console.log("Response:", data);
-      setOutput(data);
-      // Handle successful response here
-    } catch (error) {
-      setError(error.message);
-      console.log(error);
-    }
-
-    setIsSubmitting(false);
   };
 
   return (
@@ -277,7 +214,9 @@ function QuestionDetails() {
           ) : (
             <></>
           )}
-          <Divider orientation="vertical" flexItem />
+          {question.companies && question.companies.length !== 0 && (
+            <Divider orientation="vertical" flexItem />
+          )}
           {question.companies &&
             question.companies.length !== 0 &&
             question.companies
@@ -285,7 +224,9 @@ function QuestionDetails() {
               .map((company) => (
                 <Chip id={company} label={company} style={{ marginLeft: 10 }} />
               ))}
-          <Divider orientation="vertical" flexItem />
+          {question.positions && question.positions.length !== 0 && (
+            <Divider orientation="vertical" flexItem />
+          )}
           {question.positions &&
             question.positions.length !== 0 &&
             question.positions
