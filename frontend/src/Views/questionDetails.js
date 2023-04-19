@@ -276,7 +276,9 @@ function QuestionDetails() {
           ) : (
             <></>
           )}
-          <Divider orientation="vertical" flexItem />
+          {question.companies && question.companies.length !== 0 && (
+            <Divider orientation="vertical" flexItem />
+          )}
           {question.companies &&
             question.companies.length !== 0 &&
             question.companies
@@ -284,7 +286,9 @@ function QuestionDetails() {
               .map((company) => (
                 <Chip id={company} label={company} style={{ marginLeft: 10 }} />
               ))}
-          <Divider orientation="vertical" flexItem />
+          {question.positions && question.positions.length !== 0 && (
+            <Divider orientation="vertical" flexItem />
+          )}
           {question.positions &&
             question.positions.length !== 0 &&
             question.positions
