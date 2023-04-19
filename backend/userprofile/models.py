@@ -11,6 +11,7 @@ class StudentAlumniProfile(models.Model):
 
 
 class CompanyProfile(models.Model):
+    email = models.EmailField(max_length=255, unique=True, default="")
     name = models.CharField(max_length=100)
     website = models.URLField(max_length=200)
     description = models.TextField()
