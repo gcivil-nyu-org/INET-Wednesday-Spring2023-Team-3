@@ -75,7 +75,7 @@ function Homepage() {
     if (submitSearch.length !== 0) {
       newUrl += "&title=" + submitSearch;
     }
-    console.log(newUrl)
+
     fetch(newUrl)
       .then((response) => response.json())
       .then((data) => {
