@@ -200,7 +200,7 @@ function QuestionDetails() {
       }
 
       const resp = await fetch(
-        `http://127.0.0.1:8000/codinganswers/submission`,
+        `${API_ENDPOINT}/codinganswers/submission`,
         {
           method: "POST",
           body: JSON.stringify(inputParams),
