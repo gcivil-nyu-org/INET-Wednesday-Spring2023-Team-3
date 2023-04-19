@@ -40,7 +40,6 @@ function App() {
             />
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/editProfilePage" element={<EditProfile />} />
-
             
           </Routes>
         </AuthProvider>
