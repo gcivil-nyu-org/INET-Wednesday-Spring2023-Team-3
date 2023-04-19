@@ -81,7 +81,6 @@ CORS_ORIGIN_WHITELIST = (
     "https://nyuprep.netlify.app",
     "https://d1q57xtm4w01tn.cloudfront.net",
     "https://d18n0qdaf2b6ye.cloudfront.net",
-    "https://api.jdoodle.com/v1/execute",
 )
 
 MIDDLEWARE = [
