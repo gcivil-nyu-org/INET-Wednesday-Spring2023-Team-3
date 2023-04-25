@@ -14,12 +14,12 @@ urlpatterns = [
     path(
         "get_comments/<int:exp_id>",
         views.get_comments,
-        name="get_comments",
+        name="get_experience_comments",
     ),
     path(
         "post_comment/",
         views.post_comment,
-        name="post_comment",
+        name="post_experience_comment",
     ),
 ]
 
