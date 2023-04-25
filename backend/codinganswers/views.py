@@ -137,26 +137,3 @@ def submission(request):
             return JsonResponse({"error": str(e)}, status=400)
     else:
         return JsonResponse({"error": "Invalid request method"}, status=400)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-QuestionSubmissionCode.objects.get_or_create(
-            user=MyUser.objects.get(id=16),
-            question=Question.objects.get(q_id=439),
-            sub_text="""class Solution:ponni nadhi paakanume eeyaari esamaari
-def do_something():
-    return 'testreturnstring'""",
-            language="python",
-        )
-    
