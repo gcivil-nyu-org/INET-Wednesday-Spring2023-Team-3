@@ -46,7 +46,7 @@ def get_starter_code(request):
                 )
                 response_dict["starter_code"] = starter_code.sc_text
             else:
-                response_dict["starter_code"] = user_submission.first().sub_text
+                response_dict["starter_code"] = user_submission.last().sub_text
 
             response_dict["error_msg"] = ""
             response_dict["status"] = 200
