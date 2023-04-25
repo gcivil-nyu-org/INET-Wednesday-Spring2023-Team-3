@@ -85,14 +85,12 @@ def post_coding_answer(request):
     print("CodingAnswer passed :", user, question, submission, language)
 
     try:
-        obj, created = QuestionSubmissionCode.objects.get_or_create(
+        obj, _ = QuestionSubmissionCode.objects.get_or_create(
             user=MyUser.objects.get(id=user),
             question=Question.objects.get(q_id=question),
             sub_text=submission,
             language=language,
         )
-        if not created:
-            return error_response({}, "Error in uploading answer to DB")
     except Exception as e:
         return error_response({}, f"Error in uploading answer to DB: {e}")
 
@@ -100,7 +98,7 @@ def post_coding_answer(request):
         {
             "status": 200,
             "error_msg": "",
-            "inserted_question": json.loads(
+            "inserted_codinganswer": json.loads(
                 serializers.serialize(
                     "json",
                     [
@@ -139,3 +137,26 @@ def submission(request):
             return JsonResponse({"error": str(e)}, status=400)
     else:
         return JsonResponse({"error": "Invalid request method"}, status=400)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+QuestionSubmissionCode.objects.get_or_create(
+            user=MyUser.objects.get(id=16),
+            question=Question.objects.get(q_id=439),
+            sub_text="""class Solution:ponni nadhi paakanume eeyaari esamaari
+def do_something():
+    return 'testreturnstring'""",
+            language="python",
+        )
+    

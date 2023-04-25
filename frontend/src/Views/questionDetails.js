@@ -109,7 +109,7 @@ function QuestionDetails() {
       const requestBody = {
         user: user.user_id,
         question: pk,
-        submission: starterCode,
+        submission: editorRef.current.getValue(),
         language,
       };
 
