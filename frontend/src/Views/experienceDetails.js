@@ -4,17 +4,17 @@ import { useState, useEffect } from "react";
 
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
 
 import { API_ENDPOINT } from "../Components/api";
 import ExperienceComments from "../Components/experienceComments";
 
 function ExperienceDetails() {
-  const { pk } = useParams();
+  const { pk, author } = useParams();
 
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
   const [img, setImg] = useState("");
-  const [author, setAuthor] = useState("");
   const [createdAt, setCreatedAt] = useState("");
 
   useEffect(() => {
@@ -27,7 +27,6 @@ function ExperienceDetails() {
         setText(data.exp_text);
         setImg(data.img_file);
         setCreatedAt(data.created_at);
-        setAuthor(data.user);
       })
       .catch((error) => console.error(error));
   }, [pk]);
@@ -43,10 +42,13 @@ function ExperienceDetails() {
         <Typography variant="h7" gutterBottom>
           {createdAt.slice(0, 10)} | Author: {author}
         </Typography>
+        <Divider style={{ marginTop: 20 }} />
         <Typography variant="body1" gutterBottom style={{ marginTop: 20 }}>
           {text}
         </Typography>
-        <img src={img} style={{ marginTop: 10 }} alt={"Attached img"} />
+        {img && (
+          <img src={img} style={{ marginTop: 10 }} alt={"Attached img"} />
+        )}
 
         <ExperienceComments experienceID={pk} />
       </Box>

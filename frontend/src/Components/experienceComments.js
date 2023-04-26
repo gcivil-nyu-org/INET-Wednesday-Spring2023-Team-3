@@ -7,6 +7,7 @@ import MuiAlert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import Divider from "@mui/material/Divider";
 
 import { API_ENDPOINT } from "./api";
 import AuthContext from "../context/AuthContext";
@@ -30,7 +31,6 @@ function ExperienceComments({ experienceID }) {
       .then((response) => response.json())
       .then((data) => {
         let newCommentData = [];
-        console.log(data);
         data.comment_data.map((data) => {
           return newCommentData.push({
             username: data.fields.username,
@@ -91,16 +91,20 @@ function ExperienceComments({ experienceID }) {
 
   return (
     <>
+      <Divider style={{ marginTop: 20 }} />
       <Comment.Group>
-        <Header as="h3" dividing style={{ width: "100%" }}>
+        <Header as="h3" style={{ width: "100%" }}>
           Comments
         </Header>
 
         {commentData.map((comment) => {
           return (
             <Comment>
+              <Comment.Avatar
+                src={"https://i.pravatar.cc/" + Math.floor(Math.random() * 100)}
+              />
               <Comment.Content>
-                <Comment.Author>{comment.username}</Comment.Author>
+                <Comment.Author as="a">{comment.username}</Comment.Author>
                 <Comment.Metadata>
                   <div>{comment.created_at.slice(0, 10)}</div>
                 </Comment.Metadata>
