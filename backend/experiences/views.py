@@ -7,6 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from json import JSONDecodeError
 from django.core import serializers
 from onboarding.models import MyUser
+from django.core.paginator import Paginator
 
 
 class ExperienceViewset(viewsets.ModelViewSet):
@@ -26,11 +27,33 @@ def error_response(error_dict, err_msg: str):
 
 def list_experiences(request):
     response_dict = {}
+    response_dict["experience_data"] = []
+    response_dict["total_experience_count"] = 0
 
-    experiences = Experience.objects.all()
+    params = request.GET
+    title, cur_page, single_page_count = (
+        params.get("title"),
+        params.get("cur_page"),
+        params.get("single_page_count"),
+    )
+    if title:
+        experiences = Experience.objects.filter(exp_title__icontains=title)
+    else:
+        experiences = Experience.objects.all()
+    response_dict["total_experience_count"] = experiences.count()
+    if cur_page and single_page_count:
+        if not cur_page.isdigit() or not single_page_count.isdigit():
+            response_dict["total_experience_count"] = 0
+            return error_response(response_dict, "Error: Pagination params not valid!")
+        cur_page, single_page_count = int(cur_page), int(single_page_count)
+        paginator = Paginator(experiences, single_page_count)
+        experiences = paginator.page(cur_page).object_list
     response_dict["experience_data"] = json.loads(
         serializers.serialize("json", experiences)
     )
+    for i, experience in enumerate(experiences):
+        username = f"{experience.user.first_name} {experience.user.last_name}"
+        response_dict["experience_data"][i]["fields"]["username"] = username
     response_dict["error_msg"] = ""
     response_dict["status"] = 200
     return JsonResponse(response_dict)
