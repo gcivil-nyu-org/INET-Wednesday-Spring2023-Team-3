@@ -28,7 +28,6 @@ function ExperienceDetails() {
         setImg(data.img_file);
         setCreatedAt(data.created_at);
         setAuthor(data.user);
-        console.log(data);
       })
       .catch((error) => console.error(error));
   }, [pk]);
@@ -37,7 +36,7 @@ function ExperienceDetails() {
     <>
       <Navbar />
 
-      <Box sx={{ marginLeft: 10, marginTop: 2 }}>
+      <Box sx={{ padding: 2, marginLeft: 3 }}>
         <Typography variant="h4" gutterBottom>
           {title}
         </Typography>
@@ -48,6 +47,8 @@ function ExperienceDetails() {
           {text}
         </Typography>
         <img src={img} style={{ marginTop: 10 }} />
+
+        <ExperienceComments experienceID={pk} />
       </Box>
     </>
   );
