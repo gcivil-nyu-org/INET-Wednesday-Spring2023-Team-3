@@ -63,15 +63,16 @@ function UploadExperience() {
     let newForm = new FormData();
     newForm.append("exp_title", formData.title);
     newForm.append("exp_text", formData.body);
-    newForm.append("img_file", file);
     newForm.append("user", user.user_id);
+    if (file) {
+      newForm.append("img_file", file);
+    }
     fetch(`${API_ENDPOINT}/experiences/post_experience/`, {
       method: "POST",
       body: newForm,
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         setOpenAlert(true);
         setAlertMessage("Experience has been uploaded successfully");
         setAlertStatus("success");
@@ -162,8 +163,7 @@ function UploadExperience() {
                   onClick={(event) => {
                     if (
                       formData.title.length === 0 ||
-                      formData.body.length === 0 ||
-                      !file
+                      formData.body.length === 0
                     ) {
                       setOpenAlert(true);
                       setAlertMessage("Please enter all the required fields");

@@ -47,7 +47,10 @@ function App() {
             <Route path="/start" element={<QuickStart />} />
             <Route path="/mock-interview" element={<MockInterview />} />
             <Route path="/experience" element={<Experience />} />
-            <Route path="/experience/:pk" element={<ExperienceDetails />} />
+            <Route
+              path="/experience/:pk/:author"
+              element={<ExperienceDetails />}
+            />
             <Route
               path="/password/reset/verify/*"
               element={<SetNewPassword />}

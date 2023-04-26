@@ -30,7 +30,6 @@ function ExperienceComments({ experienceID }) {
       .then((response) => response.json())
       .then((data) => {
         let newCommentData = [];
-        console.log(data);
         data.comment_data.map((data) => {
           return newCommentData.push({
             username: data.fields.username,
