@@ -27,8 +27,8 @@ function createData(title, author, createdAt, pk) {
 function Experience() {
   const navigate = useNavigate();
 
-  const uploadQuestionPage = () => {
-    navigate("/UploadQuestion");
+  const uploadExperiencePage = () => {
+    navigate("/uploadExperience");
   };
 
   const [experience, setExperience] = useState([]);
@@ -100,7 +100,7 @@ function Experience() {
                 backgroundColor: "#9B5EA2",
                 height: 54,
               }}
-              onClick={uploadQuestionPage}
+              onClick={uploadExperiencePage}
             >
               Share your experience!
             </Button>

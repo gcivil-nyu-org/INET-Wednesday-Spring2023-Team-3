@@ -2,12 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import * as React from "react";
 
 import { Button, Comment, Form, Header } from "semantic-ui-react";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
 import Stack from "@mui/material/Stack";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import Chip from "@mui/material/Chip";
 import MuiAlert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";

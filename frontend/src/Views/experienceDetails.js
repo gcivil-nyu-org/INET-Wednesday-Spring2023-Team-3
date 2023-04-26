@@ -46,7 +46,7 @@ function ExperienceDetails() {
         <Typography variant="body1" gutterBottom style={{ marginTop: 20 }}>
           {text}
         </Typography>
-        <img src={img} style={{ marginTop: 10 }} />
+        <img src={img} style={{ marginTop: 10 }} alt={"Attached img"} />
 
         <ExperienceComments experienceID={pk} />
       </Box>
