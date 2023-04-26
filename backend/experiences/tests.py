@@ -8,7 +8,6 @@ from rest_framework import status
 from rest_framework.test import APIRequestFactory
 from .serializers import ExperienceSerializer
 from .views import ExperienceViewset
-from django.core.files.uploadedfile import SimpleUploadedFile
 from rest_framework.test import APITestCase
 
 
