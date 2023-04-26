@@ -1,6 +1,8 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
@@ -14,6 +16,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TextField from "@mui/material/TextField";
+
 import Navbar from "../Components/navbar";
 import { API_ENDPOINT } from "../Components/api";
 
@@ -28,7 +31,7 @@ function Experience() {
     navigate("/UploadQuestion");
   };
 
-  const [experiences, setExperiences] = useState([]);
+  const [experience, setExperience] = useState([]);
   const [rows, setRows] = useState([]);
 
   // Update url
@@ -37,14 +40,14 @@ function Experience() {
     fetch(newUrl)
       .then((response) => response.json())
       .then((data) => {
-        setExperiences(data.experience_data);
+        setExperience(data.experience_data);
       })
       .catch((error) => console.error(error));
   }, []);
 
   useEffect(() => {
     let newRows = [];
-    experiences.map((item) => {
+    experience.map((item) => {
       return newRows.push(
         createData(
           item.fields.exp_title,
@@ -55,7 +58,7 @@ function Experience() {
       );
     });
     setRows(newRows);
-  }, [experiences]);
+  }, [experience]);
 
   return (
     <>
@@ -137,7 +140,9 @@ function Experience() {
                     scope="row"
                     style={{ width: "80vw" }}
                   >
-                    <Typography variant="subtitle1">{row.title}</Typography>
+                    <Typography variant="subtitle1">
+                      <Link to={`/experience/${row.pk}`}>{row.title}</Link>
+                    </Typography>
                   </TableCell>
                   <TableCell>
                     <Typography variant="subtitle1">{row.author}</Typography>

@@ -16,6 +16,7 @@ import EditProfile from "./Views/editProfilePage";
 import QuickStart from "./Views/quickstart";
 import MockInterview from "./Views/mockInterview";
 import Experience from "./Views/experience";
+import ExperienceDetails from "./Views/experienceDetails";
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
             <Route path="/start" element={<QuickStart />} />
             <Route path="/mock-interview" element={<MockInterview />} />
             <Route path="/experience" element={<Experience />} />
+            <Route path="/experience/:pk" element={<ExperienceDetails />} />
             <Route
               path="/password/reset/verify/*"
               element={<SetNewPassword />}

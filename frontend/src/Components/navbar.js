@@ -47,7 +47,7 @@ function Navbar() {
           Questions
         </Button>
         <Button color="inherit" onClick={experiencePage}>
-          Experiences
+          Experience
         </Button>
         {user ? (
           <Button color="inherit" onClick={quickStart}>
