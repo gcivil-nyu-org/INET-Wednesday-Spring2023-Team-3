@@ -16,6 +16,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TextField from "@mui/material/TextField";
+import Pagination from "@mui/material/Pagination";
 
 import Navbar from "../Components/navbar";
 import { API_ENDPOINT } from "../Components/api";
@@ -33,17 +34,36 @@ function Experience() {
 
   const [experience, setExperience] = useState([]);
   const [rows, setRows] = useState([]);
+  const [page, setPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(1);
+
+  const [search, setSearch] = useState("");
+  const [submitSearch, setSubmitSearch] = useState("");
+
+  const EXPERIENCE_PER_PAGE = 15;
 
   // Update url
   useEffect(() => {
-    let newUrl = `${API_ENDPOINT}/experiences/list_experiences`;
+    let newUrl =
+      `${API_ENDPOINT}/experiences/list_experiences?single_page_count=` +
+      EXPERIENCE_PER_PAGE +
+      "&cur_page=" +
+      page;
+    if (submitSearch.length !== 0) {
+      newUrl += "&title=" + submitSearch;
+    }
+
     fetch(newUrl)
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
         setExperience(data.experience_data);
+        setTotalPage(
+          Math.ceil(data.total_experience_count / EXPERIENCE_PER_PAGE)
+        );
       })
       .catch((error) => console.error(error));
-  }, []);
+  }, [page, submitSearch]);
 
   useEffect(() => {
     let newRows = [];
@@ -60,6 +80,17 @@ function Experience() {
     setRows(newRows);
   }, [experience]);
 
+  const handlePageChange = (event, value) => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+    setPage(value);
+  };
+  const handleSearchChange = (event) => {
+    setSearch(event.target.value);
+  };
+
   return (
     <>
       <Navbar />
@@ -72,8 +103,8 @@ function Experience() {
                 id="outlined-basic"
                 label="Search"
                 variant="outlined"
-                value={""}
-                onChange={() => {}}
+                value={search}
+                onChange={handleSearchChange}
                 style={{ width: "60vw" }}
               />
               <Button
@@ -85,7 +116,10 @@ function Experience() {
                   borderColor: "#9B5EA2",
                   height: 56,
                 }}
-                onClick={() => {}}
+                onClick={() => {
+                  setSubmitSearch(search);
+                  setPage(1);
+                }}
               >
                 Search
               </Button>
@@ -159,6 +193,24 @@ function Experience() {
             </TableBody>
           </Table>
         </TableContainer>
+
+        <div
+          style={{
+            marginTop: 15,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Pagination
+            count={totalPage}
+            page={page}
+            variant="outlined"
+            color="secondary"
+            onChange={handlePageChange}
+            style={{ margin: "0 auto" }}
+          />
+        </div>
       </Box>
     </>
   );
