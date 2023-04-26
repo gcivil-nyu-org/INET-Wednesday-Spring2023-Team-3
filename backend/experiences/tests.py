@@ -4,7 +4,6 @@ from rest_framework import status
 from rest_framework.test import APIClient
 from .models import MyUser, Experience, ExperienceComment
 import json
-from rest_framework import status
 from rest_framework.test import APIRequestFactory
 from .serializers import ExperienceSerializer
 from .views import ExperienceViewset
