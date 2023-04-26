@@ -51,7 +51,7 @@ function Experience() {
       return newRows.push(
         createData(
           item.fields.exp_title,
-          item.fields.user,
+          item.fields.username,
           item.fields.created_at,
           item.pk
         )
@@ -141,7 +141,9 @@ function Experience() {
                     style={{ width: "80vw" }}
                   >
                     <Typography variant="subtitle1">
-                      <Link to={`/experience/${row.pk}`}>{row.title}</Link>
+                      <Link to={`/experience/${row.pk}/${row.author}`}>
+                        {row.title}
+                      </Link>
                     </Typography>
                   </TableCell>
                   <TableCell>
