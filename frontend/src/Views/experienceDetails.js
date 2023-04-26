@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
 
 import { API_ENDPOINT } from "../Components/api";
 import ExperienceComments from "../Components/experienceComments";
@@ -41,6 +42,7 @@ function ExperienceDetails() {
         <Typography variant="h7" gutterBottom>
           {createdAt.slice(0, 10)} | Author: {author}
         </Typography>
+        <Divider style={{ marginTop: 20 }} />
         <Typography variant="body1" gutterBottom style={{ marginTop: 20 }}>
           {text}
         </Typography>
