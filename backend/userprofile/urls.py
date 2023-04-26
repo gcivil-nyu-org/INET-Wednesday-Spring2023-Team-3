@@ -14,6 +14,11 @@ urlpatterns = [
         name="student_alumni_profile",
     ),
     path(
+        "companies-profile/<str:email>/",
+        CompanyProfileCreate.as_view(),
+        name="company_recruiter_profile",
+    ),
+    path(
         "companies-profile/",
         CompanyProfileCreate.as_view(),
         name="company_recruiter_profile",
