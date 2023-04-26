@@ -75,7 +75,6 @@ function Homepage() {
     if (submitSearch.length !== 0) {
       newUrl += "&title=" + submitSearch;
     }
-    console.log(newUrl)
     fetch(newUrl)
       .then((response) => response.json())
       .then((data) => {
@@ -123,7 +122,6 @@ function Homepage() {
     setDifficulty(event.target.value);
   };
   const handleSearchChange = (event) => {
-    setPage(1);
     setSearch(event.target.value);
   };
   const handlePageChange = (event, value) => {
@@ -232,7 +230,10 @@ function Homepage() {
                   borderColor: "#9B5EA2",
                   height: 56,
                 }}
-                onClick={() => setSubmitSearch(search)}
+                onClick={() => {
+                  setPage(1);
+                  setSubmitSearch(search);
+                }}
               >
                 Search
               </Button>
