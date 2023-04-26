@@ -7,7 +7,7 @@ class Experience(models.Model):
     user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
     exp_title = models.CharField(max_length=50)
     exp_text = models.CharField(max_length=10000)
-    img_file = models.FileField(max_length=150)
+    img_file = models.FileField(max_length=150, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
