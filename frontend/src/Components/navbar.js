@@ -12,6 +12,12 @@ function Navbar() {
   const homePage = () => {
     navigate("/");
   };
+  const experiencePage = () => {
+    navigate("/experience");
+  };
+  const quickStart = () => {
+    navigate("/start");
+  };
   const loginPage = () => {
     navigate("/login");
   };
@@ -37,6 +43,17 @@ function Navbar() {
         >
           NYU Interview Prep
         </Typography>
+        <Button color="inherit" onClick={homePage}>
+          Questions
+        </Button>
+        <Button color="inherit" onClick={experiencePage}>
+          Experience
+        </Button>
+        {user ? (
+          <Button color="inherit" onClick={quickStart}>
+            Quick Start
+          </Button>
+        ) : null}
         {user && path.pathname === "/profile" ? (
           <Button color="inherit" onClick={editProfilePage}>
             Edit Profile

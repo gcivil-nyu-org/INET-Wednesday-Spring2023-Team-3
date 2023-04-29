@@ -109,7 +109,7 @@ function QuestionDetails() {
       const requestBody = {
         user: user.user_id,
         question: pk,
-        submission: starterCode,
+        submission: editorRef.current.getValue(),
         language,
       };
 
@@ -186,12 +186,48 @@ function QuestionDetails() {
     e.preventDefault();
     setIsSubmitting(true);
     setError("");
+    const val = editorRef.current.getValue();
+    try {
+      const requestBody = {
+        user: user.user_id,
+        question: pk,
+        submission: val,
+        language,
+      };
 
+      // Validate request body as JSON
+      const isValidJson = validateJson(requestBody);
+      if (!isValidJson) {
+        throw new Error("Invalid request body. Please check your input.");
+      }
+
+      const response = await fetch(
+        `${API_ENDPOINT}/codinganswers/post-answer`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(requestBody),
+        }
+      );
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error_msg);
+      }
+
+      const data = await response.json();
+      console.log("Response:", data);
+      // Handle successful response here
+    } catch (error) {
+      setError(error.message);
+    }
     try {
       const versionIndex = 0;
 
       const inputParams = {
-        script: editorRef.current.getValue(),
+        script: val,
         language: "python3",
         versionIndex: versionIndex,
       };
@@ -226,6 +262,37 @@ function QuestionDetails() {
     }
 
     setIsSubmitting(false);
+    try {
+      let endpoint = "";
+      if (user) {
+        endpoint = `${API_ENDPOINT}/codinganswers/get-starter-code/?user=${user.user_id}&language=${language}&question=${pk}`;
+      } else {
+        endpoint = `${API_ENDPOINT}/codinganswers/get-starter-code/?user=${noneUser}&language=${language}&question=${pk}`;
+      }
+
+      const response = await fetch(endpoint, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        if (data.status === 200) {
+          setStarterCode(data.starter_code);
+          setCode(data.starter_code);
+          setError("");
+        } else {
+          setError(data.error_msg);
+        }
+      } else {
+        setError("Error: Failed to fetch starter code");
+      }
+    } catch (e) {
+      setError(`Error: ${e.message}`);
+      console.log(error);
+    }
   };
 
   return (

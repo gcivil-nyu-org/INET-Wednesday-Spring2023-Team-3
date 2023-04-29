@@ -13,6 +13,11 @@ import VerifyEmail from "./Views/verifyEmail";
 import AnswersList from "./Views/answersList";
 import AnswerDetails from "./Views/answerDetails";
 import EditProfile from "./Views/editProfilePage";
+import QuickStart from "./Views/quickstart";
+import MockInterview from "./Views/mockInterview";
+import Experience from "./Views/experience";
+import ExperienceDetails from "./Views/experienceDetails";
+import UploadExperience from "./Views/uploadExperience";
 
 function App() {
   return (
@@ -29,19 +34,29 @@ function App() {
             <Route exact path="/login" element={<Login />} />
             <Route exact path="/register" element={<Register />} />
             <Route exact path="/UploadQuestion" element={<UploadQuestion />} />
+            <Route
+              exact
+              path="/uploadExperience"
+              element={<UploadExperience />}
+            />
             <Route path="/questions/:pk" element={<QuestionDetails />} />
             <Route path="/answers/:question_id" element={<AnswersList />} />
             <Route path="/answer/:answer_id" element={<AnswerDetails />} />
             <Route path="/signup/verify/*" element={<VerifyEmail />} />
             <Route path="/password/reset" element={<PasswordReset />} />
+            <Route path="/start" element={<QuickStart />} />
+            <Route path="/mock-interview" element={<MockInterview />} />
+            <Route path="/experience" element={<Experience />} />
+            <Route
+              path="/experience/:pk/:author"
+              element={<ExperienceDetails />}
+            />
             <Route
               path="/password/reset/verify/*"
               element={<SetNewPassword />}
             />
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/editProfilePage" element={<EditProfile />} />
-
-            
           </Routes>
         </AuthProvider>
       </Router>

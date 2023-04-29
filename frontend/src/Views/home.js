@@ -75,7 +75,6 @@ function Homepage() {
     if (submitSearch.length !== 0) {
       newUrl += "&title=" + submitSearch;
     }
-
     fetch(newUrl)
       .then((response) => response.json())
       .then((data) => {
@@ -107,15 +106,19 @@ function Homepage() {
   }, [questions]);
 
   const handleTypeChange = (event) => {
+    setPage(1);
     setType(event.target.value);
   };
   const handleCompanyChange = (event) => {
+    setPage(1);
     setCompany(event.target.value);
   };
   const handlePositionChange = (event) => {
+    setPage(1);
     setPosition(event.target.value);
   };
   const handleDifficultyChange = (event) => {
+    setPage(1);
     setDifficulty(event.target.value);
   };
   const handleSearchChange = (event) => {
@@ -227,7 +230,10 @@ function Homepage() {
                   borderColor: "#9B5EA2",
                   height: 56,
                 }}
-                onClick={() => setSubmitSearch(search)}
+                onClick={() => {
+                  setPage(1);
+                  setSubmitSearch(search);
+                }}
               >
                 Search
               </Button>
