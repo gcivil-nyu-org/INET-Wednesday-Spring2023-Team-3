@@ -33,6 +33,7 @@ const isValidUrl = (urlString) => {
 
 function EditProfile() {
   const navigate = useNavigate();
+  
 
   const [open, setOpen] = React.useState(false);
   const [alertMessage, setAlertMessage] = React.useState("error");
@@ -52,12 +53,14 @@ function EditProfile() {
     previous_employer: "",
     linkedin_link: "",
     github_link: "",
+    img_file: "",
   });
 
   const [companyFormData, setCompanyFormData] = useState({
     company_name: "",
     company_website: "",
     company_description: "",
+    img_file: "",
   });
 
   const [user_type, setUserType] = useState("Not entered yet");
@@ -95,7 +98,9 @@ function EditProfile() {
         formData.years_of_experience.length === 0 ||
         formData.previous_employer.length === 0 ||
         formData.linkedin_link.length === 0 ||
-        formData.github_link.length === 0
+        formData.github_link.length === 0 ||
+        formData.img_file.length === 0
+
       ) {
         setAlertMessage("Please enter all the fields");
         setOpen(true);
@@ -143,7 +148,8 @@ function EditProfile() {
       if (
         companyFormData.company_name.length === 0 ||
         companyFormData.company_website.length === 0 ||
-        companyFormData.company_description.length === 0
+        companyFormData.company_description.length === 0 ||
+        companyFormData.company_img_file.length === 0
       ) {
         setAlertMessage("Please enter all the fields");
         setOpen(true);
@@ -202,7 +208,7 @@ function EditProfile() {
       <Navbar />
       <div>
         <ThemeProvider theme={theme}>
-          <Container component="main" maxWidth="xs">
+          <Container component="main" style={{ width: "600px", height: "600px" }}>
             <CssBaseline />
             <Stack spacing={2} sx={{ width: "100%" }}>
               <Snackbar
@@ -218,6 +224,7 @@ function EditProfile() {
                   {alertMessage}
                 </Alert>
               </Snackbar>
+              
               <Box
                 sx={{
                   marginTop: 8,
@@ -226,12 +233,40 @@ function EditProfile() {
                   alignItems: "center",
                 }}
               >
-                <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-                  <LockOutlinedIcon />
-                </Avatar>
-                <Typography component="h1" variant="h5">
-                  Update Profile Page
-                </Typography>
+                {user_type === "Student/Alumni" ? (
+                  <>
+                    <Avatar alt="X" src="img_file" sx={{ width: 56, height: 56 }}/>
+                    <Typography component="h1" variant="h5">
+                      Update Profile Page
+                    </Typography>
+                    <div style={{ marginTop: 10 }}>
+                      Upload Profile Photo:
+                      <input
+                        type="file"
+                        onChange={handleInputChange}
+                        accept="image/*"
+                        style={{ marginLeft: 5 }}
+                      />
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <Avatar alt="X" src="company_img_file" sx={{ width: 56, height: 56 }} />
+                    <Typography component="h1" variant="h5">
+                      Update Profile Page
+                    </Typography>
+                    <div style={{ marginTop: 10 }}>
+                      Upload Profile Photo:
+                      <input
+                        type="file"
+                        onChange={handleCompanyInputChange}
+                        accept="image/*"
+                        style={{ marginLeft: 5 }}
+                      />
+                    </div>
+                  </>
+                )}
+                
                 <Box
                   component="form"
                   noValidate
