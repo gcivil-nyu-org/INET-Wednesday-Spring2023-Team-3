@@ -6,7 +6,6 @@ from .views import (
     company_profile,
 )
 
-
 urlpatterns = [
     path(
         "nyu-profile/<str:email>/",

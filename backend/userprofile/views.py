@@ -1,6 +1,9 @@
 from rest_framework import generics
 from .models import StudentAlumniProfile, CompanyProfile
-from .serializers import StudentAlumniProfileSerializer, CompanySerializer
+from .serializers import (
+    StudentAlumniProfileSerializer,
+    CompanySerializer,
+)
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.response import Response
@@ -19,6 +22,7 @@ def get_student_alumni_profile(request, email):
             "previous_employer": student_alumni_profile.previous_employer,
             "linkedin_link": student_alumni_profile.linkedin_link,
             "github_link": student_alumni_profile.github_link,
+            "img_file": student_alumni_profile.img_file,
         }
         return JsonResponse(response_data)
     except StudentAlumniProfile.DoesNotExist:
@@ -58,6 +62,7 @@ def company_profile(request, email):
             "name": company.name,
             "website": company.website,
             "description": company.description,
+            "img_file": company.img_file,
         }
         return JsonResponse(response_data)
     except StudentAlumniProfile.DoesNotExist:

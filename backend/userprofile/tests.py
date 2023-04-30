@@ -114,7 +114,9 @@ class CompanyProfileCreateTestCase(APITestCase):
         self.assertEqual(self.company1.description, "New description")
 
     def test_create_new_company_profile(self):
-        url = reverse("company_recruiter_profile")
+        url = reverse(
+            "company_recruiter_profile", kwargs={"email": self.company2_data["email"]}
+        )
         response = self.client.put(url, self.company2_data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertTrue(
@@ -122,7 +124,9 @@ class CompanyProfileCreateTestCase(APITestCase):
         )
 
     def test_create_new_company_profile_with_invalid_data(self):
-        url = reverse("company_recruiter_profile")
+        url = reverse(
+            "company_recruiter_profile", kwargs={"email": self.company2_data["email"]}
+        )
         response = self.client.put(
             url,
             {
@@ -145,6 +149,7 @@ class StudentAlumniProfileCreateViewTestCase(APITestCase):
             previous_employer="Acme Corp",
             linkedin_link="https://www.linkedin.com/in/student1/",
             github_link="https://github.com/student1",
+            img_file=None,
         )
         self.valid_payload = {
             "email": "student1@test.com",
@@ -153,6 +158,7 @@ class StudentAlumniProfileCreateViewTestCase(APITestCase):
             "previous_employer": "XYZ Corp",
             "linkedin_link": "https://www.linkedin.com/in/student1/",
             "github_link": "https://github.com/student1",
+            "img_file": None,
         }
         self.invalid_payload = {
             "email": "student2@test.com",

@@ -55,6 +55,7 @@ function ProfilePage() {
   const [company, setCompany] = useState("Not entered yet"); //Added
   const [website, setWebsite] = useState("Not entered yet"); //Added
   const [description, setDescription] = useState("Not entered yet"); //Added
+  const [imgFile, setImgFile] = useState("");
 
   useEffect(() => {
     // Fetch data from API and update state variables based on user type
@@ -68,6 +69,7 @@ function ProfilePage() {
           setPreviousEmployer(data.previous_employer || "Not entered yet");
           setLinkedinLink(data.linkedin_link || "Not entered yet");
           setGithubLink(data.github_link || "Not entered yet");
+          setImgFile(data.imgFile || "Not entered yet")
         })
         .catch((error) => console.error(error));
     } else if (user_type === "Hiring Manager") {
@@ -78,6 +80,7 @@ function ProfilePage() {
             setCompany(data.name || "Not entered yet");
             setWebsite(data.website || "Not entered yet");
             setDescription(data.description || "Not entered yet");
+            setImgFile(data.imgFile || "Not entered yet")
           })
           .catch((error) => console.error(error));
       }
@@ -94,10 +97,17 @@ function ProfilePage() {
         <ThemeProvider theme={theme}>
           <Container component="main" maxWidth="xs">
             <CssBaseline />
+            <Box sx={{
+                  marginTop: 5,
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",}}>
+                  <img src={imgFile} alt="Profile" style={{ width: "200px", height: "200px", objectFit: "cover" }} />
+                </Box>
             <Stack spacing={2} sx={{ width: "100%" }}>
               <Box
                 sx={{
-                  marginTop: 8,
+                  marginTop: 5,
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
