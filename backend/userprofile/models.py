@@ -8,6 +8,7 @@ class StudentAlumniProfile(models.Model):
     previous_employer = models.CharField(max_length=100)
     linkedin_link = models.URLField()
     github_link = models.URLField()
+    img_file = models.FileField(max_length=200, null=True, blank=True)
 
 
 class CompanyProfile(models.Model):
@@ -15,3 +16,4 @@ class CompanyProfile(models.Model):
     name = models.CharField(max_length=100)
     website = models.URLField(max_length=200)
     description = models.TextField()
+    img_file = models.FileField(max_length=200, null=True, blank=True)

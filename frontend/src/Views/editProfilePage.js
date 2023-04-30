@@ -10,7 +10,7 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import Stack from "@mui/material/Stack";
 import MuiAlert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
@@ -37,14 +37,14 @@ function EditProfile() {
   const [open, setOpen] = React.useState(false);
   const [alertMessage, setAlertMessage] = React.useState("error");
 
+  const { user } = useContext(AuthContext);
+
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
     setOpen(false);
   };
-
-  const { user } = useContext(AuthContext);
 
   const [formData, setFormData] = useState({
     job_preference: "",
@@ -54,62 +54,140 @@ function EditProfile() {
     github_link: "",
   });
 
+  const [companyFormData, setCompanyFormData] = useState({
+    company_name: "",
+    company_website: "",
+    company_description: "",
+  });
+
+  const [user_type, setUserType] = useState("Not entered yet");
+
+  useEffect(() => {
+    const fetchUserType = async (email) => {
+      try {
+        const response = await axios.get(`${API_ENDPOINT}/get_user_type/${email}/`);
+        if (!response.data.user_type) {
+          throw new Error('User type not found');
+        }
+        return response.data.user_type;
+      } catch (error) {
+        console.error('Error fetching user type:', error);
+        throw error;
+      }
+    };
+    fetchUserType(user.email)
+      .then((userType) => {
+        console.log(userType);
+        setUserType(userType || "Not entered yet");
+      })
+      .catch(error => {
+        // Handle error
+      });
+  }, [user.email]);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (user_type === "Student/Alumni")  { // check if company form is active
+      // handle company form submission
 
-    if (
-      formData.job_preference.length === 0 ||
-      formData.years_of_experience.length === 0 ||
-      formData.previous_employer.length === 0 ||
-      formData.linkedin_link.length === 0 ||
-      formData.github_link.length === 0
-    ) {
-      setAlertMessage("Please enter all the fields");
-      setOpen(true);
-      return;
-    }
-    if (isNaN(formData.years_of_experience)) {
-      setAlertMessage("Years of working experience has to be a number");
-      setOpen(true);
-      return;
-    }
-    if (!isValidUrl(formData.linkedin_link)) {
-      setAlertMessage("Linkedin link is not valid");
-      setOpen(true);
-      return;
-    }
-    if (!isValidUrl(formData.github_link)) {
-      setAlertMessage("Github link is not valid");
-      setOpen(true);
-      return;
-    }
+      if (
+        formData.job_preference.length === 0 ||
+        formData.years_of_experience.length === 0 ||
+        formData.previous_employer.length === 0 ||
+        formData.linkedin_link.length === 0 ||
+        formData.github_link.length === 0
+      ) {
+        setAlertMessage("Please enter all the fields");
+        setOpen(true);
+        return;
+      }
+      if (isNaN(formData.years_of_experience)) {
+        setAlertMessage("Years of working experience has to be a number");
+        setOpen(true);
+        return;
+      }
+      if (!isValidUrl(formData.linkedin_link)) {
+        setAlertMessage("Linkedin link is not valid");
+        setOpen(true);
+        return;
+      }
+      if (!isValidUrl(formData.github_link)) {
+        setAlertMessage("Github link is not valid");
+        setOpen(true);
+        return;
+      }
 
-    const url = `${API_ENDPOINT}/nyu-profile/${user.email}/`;
+      const url = `${API_ENDPOINT}/nyu-profile/${user.email}/`;
 
-    const postReq = JSON.stringify({
-      ...formData,
-      email: user.email,
-    });
-    console.log(postReq);
+      const postReq = JSON.stringify({
+        ...formData,
+        email: user.email,
+      });
+      console.log(postReq);
 
-    try {
-      const response = await axios.put(url, postReq, {
-        headers: {
-          "Content-Type": "application/json",
-        },
+      try {
+        const response = await axios.put(url, postReq, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        const data = response.data;
+        navigate("/profile", { replace: true });
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      //handle company profile submission
+      if (
+        companyFormData.company_name.length === 0 ||
+        companyFormData.company_website.length === 0 ||
+        companyFormData.company_description.length === 0
+      ) {
+        setAlertMessage("Please enter all the fields");
+        setOpen(true);
+        return;
+      }
+      if (!isValidUrl(companyFormData.company_website)) {
+        setAlertMessage("Company website is not valid");
+        setOpen(true);
+        return;
+      }
+
+      const url = `${API_ENDPOINT}/companies-profile/${user.email}/`;
+
+      const postReq = JSON.stringify({
+        ...companyFormData,
+        email: user.email,
       });
 
-      const data = response.data;
-      navigate("/profile", { replace: true });
-      console.log(data);
-    } catch (error) {
-      console.log(error);
+      try {
+        const response = await axios.put(url, postReq, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        const data = response.data;
+        navigate("/profile", { replace: true });
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      }
     }
-  };
+  }
 
   const handleInputChange = (event) => {
     setFormData({
       ...formData,
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  const handleCompanyInputChange = (event) => {
+    setCompanyFormData({
+      ...companyFormData,
       [event.target.name]: event.target.value,
     });
   };
@@ -160,80 +238,128 @@ function EditProfile() {
                   onSubmit={handleSubmit}
                   sx={{ mt: 3 }}
                 >
-                  <Grid container spacing={3}>
-                    <Grid item xs={12}>
-                      <TextField
-                        autoComplete="Email"
-                        name="Email"
-                        required
-                        fullWidth
-                        id="email"
-                        label="Email"
-                        value={user.email}
-                        disabled
-                      />
+                  {user_type === "Student/Alumni" ? (
+                  <>
+                    <Grid container spacing={3}>
+                      <Grid item xs={12}>
+                        <TextField
+                          autoComplete="Email"
+                          name="Email"
+                          required
+                          fullWidth
+                          id="email"
+                          label="Email"
+                          value={user.email}
+                          disabled
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <TextField
+                          autoComplete="Job"
+                          name="job_preference"
+                          //required
+                          fullWidth
+                          id="job_preference"
+                          label="Job Preference"
+                          value={formData.job_preference}
+                          onChange={handleInputChange}
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <TextField
+                          // required
+                          fullWidth
+                          id="years_of_experience"
+                          label="Years of Working Experience"
+                          name="years_of_experience"
+                          value={formData.years_of_experience}
+                          onChange={handleInputChange}
+                          autoComplete="experience"
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <TextField
+                          //required
+                          fullWidth
+                          id="previous_employer"
+                          label="Previous Employer"
+                          name="previous_employer"
+                          autoComplete="previous_employer"
+                          value={formData.previous_employer}
+                          onChange={handleInputChange}
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <TextField
+                          //required
+                          fullWidth
+                          name="linkedin_link"
+                          label="LinkedIn Profile Link"
+                          id="linkedin_link"
+                          value={formData.linkedin_link}
+                          onChange={handleInputChange}
+                          autoComplete="Linkedin"
+                        />{" "}
+                      </Grid>
+                      <Grid item xs={12}>
+                        <TextField
+                          //required
+                          fullWidth
+                          name="github_link"
+                          label="Github Profile Link"
+                          id="github_link"
+                          value={formData.github_link}
+                          onChange={handleInputChange}
+                          autoComplete="Github"
+                        />{" "}
+                      </Grid>
                     </Grid>
-                    <Grid item xs={12}>
-                      <TextField
-                        autoComplete="Job"
-                        name="job_preference"
-                        //required
-                        fullWidth
-                        id="job_preference"
-                        label="Job Preference"
-                        value={formData.job_preference}
-                        onChange={handleInputChange}
-                      />
+                  </>
+                ) : (
+                  <>
+                    <Grid container spacing={3}>
+                      <Grid item xs={12}>
+                        <TextField
+                          //required
+                          fullWidth
+                          id="company_name"
+                          label="Company Name"
+                          name="company_name"
+                          autoComplete="company_name"
+                          value={companyFormData.company_name}
+                          onChange={handleCompanyInputChange}
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <TextField
+                          //required
+                          fullWidth
+                          name="company_website"
+                          label="Company Website"
+                          id="company_website"
+                          value={companyFormData.company_website}
+                          onChange={handleCompanyInputChange}
+                          autoComplete="Company Website"
+                        />{" "}
+                      </Grid>
+                      <Grid item xs={12}>
+                        <TextField
+                          //required
+                          fullWidth
+                          multiline
+                          rows={4}
+                          id="company_description"
+                          label="Company Description"
+                          name="company_description"
+                          autoComplete="company_description"
+                          value={companyFormData.company_description}
+                          onChange={handleCompanyInputChange}
+                        />
+                      </Grid>
                     </Grid>
-                    <Grid item xs={12}>
-                      <TextField
-                        // required
-                        fullWidth
-                        id="years_of_experience"
-                        label="Years of Working Experience"
-                        name="years_of_experience"
-                        value={formData.years_of_experience}
-                        onChange={handleInputChange}
-                        autoComplete="experience"
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <TextField
-                        //required
-                        fullWidth
-                        id="previous_employer"
-                        label="Previous Employer"
-                        name="previous_employer"
-                        autoComplete="previous_employer"
-                        value={formData.previous_employer}
-                        onChange={handleInputChange}
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <TextField
-                        //required
-                        fullWidth
-                        name="linkedin_link"
-                        label="LinkedIn Profile Link"
-                        id="linkedin_link"
-                        value={formData.linkedin_link}
-                        onChange={handleInputChange}
-                        autoComplete="Linkedin"
-                      />{" "}
-                    </Grid>
-                    <Grid item xs={12}>
-                      <TextField
-                        //required
-                        fullWidth
-                        name="github_link"
-                        label="Github Profile Link"
-                        id="github_link"
-                        value={formData.github_link}
-                        onChange={handleInputChange}
-                        autoComplete="Github"
-                      />{" "}
-                    </Grid>
-                  </Grid>
+                  </>
+                )}
+
                   <Button
                     type="submit"
                     fullWidth

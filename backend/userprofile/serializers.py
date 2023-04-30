@@ -12,6 +12,7 @@ class StudentAlumniProfileSerializer(serializers.ModelSerializer):
             "previous_employer",
             "linkedin_link",
             "github_link",
+            "img_file",
         ]
 
 
