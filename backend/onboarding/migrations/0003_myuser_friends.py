@@ -7,13 +7,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('onboarding', '0002_auto_20230410_2310'),
+        ("onboarding", "0002_auto_20230410_2310"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='myuser',
-            name='friends',
-            field=models.ManyToManyField(blank=True, related_name='_onboarding_myuser_friends_+', to=settings.AUTH_USER_MODEL),
+            model_name="myuser",
+            name="friends",
+            field=models.ManyToManyField(
+                blank=True,
+                related_name="_onboarding_myuser_friends_+",
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
     ]

@@ -127,7 +127,7 @@ function ChatRoom() {
             <List sx={{ maxWidth: '100%' }}>
                 {friends && friends.map((friend) => (
                 <ListItem key={friend.id} onClick={() => handleFriendSelect(friend.id)}>
-                    <ListItemText primary={friend.name} />
+                    <ListItemText primary={'friend: ' + friend.name}/>
                 </ListItem>
                 ))}
             </List>

@@ -4,6 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 from .models import MyUser
 import json
 
+
 def get_user_type(request, email):
     try:
         user = MyUser.objects.get(email=email)
@@ -14,11 +15,16 @@ def get_user_type(request, email):
         response_data = {"error": "User not found"}
         return JsonResponse(response_data, status=404)
 
+
 @csrf_exempt
 def search_users(request):
     users = MyUser.objects.all()
-    users_list = [{"id": user.id, "name": user.get_full_name(), "email": user.email} for user in users]
+    users_list = [
+        {"id": user.id, "name": user.get_full_name(), "email": user.email}
+        for user in users
+    ]
     return JsonResponse({"users": users_list})
+
 
 @csrf_exempt
 def add_friend(request):
@@ -34,6 +40,7 @@ def add_friend(request):
     else:
         return JsonResponse({"status": "error"})
 
+
 @csrf_exempt
 def remove_friend(request):
     if request.method == "POST":
@@ -48,10 +55,13 @@ def remove_friend(request):
     else:
         return JsonResponse({"status": "error"})
 
+
 @csrf_exempt
 def friends_list(request, user_id):
     # print(MyUser.objects.all())
     user = get_object_or_404(MyUser, id=user_id)
     friends = user.friends.all()
-    friends_list = [{"id": friend.id, "name": friend.get_full_name()} for friend in friends]
+    friends_list = [
+        {"id": friend.id, "name": friend.get_full_name()} for friend in friends
+    ]
     return JsonResponse({"friends": friends_list})
