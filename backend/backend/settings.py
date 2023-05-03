@@ -66,6 +66,7 @@ INSTALLED_APPS = [
     "answerrecordings",
     "codinganswers",
     "experiences",
+    "hiringmanager",
     "channels",
     "chat",
 ]
