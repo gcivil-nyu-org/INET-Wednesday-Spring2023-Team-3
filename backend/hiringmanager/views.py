@@ -16,14 +16,6 @@ def refresh_user_metadata(request):
     new_agg = last_agg + 1
 
     for user in all_users:
-
-        num_exp_posted = 0
-        num_rec_posted = 0
-        num_codes_posted = 0
-        num_totalcmnts_posted = 0
-        num_expcmnts_posted = 0
-        num_anscmnts_posted = 0
-        avg_rec_rating_received = 0
         try:
             num_exp_posted = Experience.objects.filter(user=user).count()
             num_rec_posted = DropBox.objects.filter(user=user).count()
