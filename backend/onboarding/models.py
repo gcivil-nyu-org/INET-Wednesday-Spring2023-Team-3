@@ -10,5 +10,6 @@ class MyUser(EmailAbstractUser):
     # Required
     objects = EmailUserManager()
 
+    friends = models.ManyToManyField('self', blank=True)
     def __str__(self):
         return f"{self.first_name}, {self.last_name}"

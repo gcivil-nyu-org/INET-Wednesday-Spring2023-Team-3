@@ -18,6 +18,8 @@ import MockInterview from "./Views/mockInterview";
 import Experience from "./Views/experience";
 import ExperienceDetails from "./Views/experienceDetails";
 import UploadExperience from "./Views/uploadExperience";
+import ChatRoom from "./Components/chatRoom";
+import Connect from "./Components/connect";
 
 function App() {
   return (
@@ -47,6 +49,8 @@ function App() {
             <Route path="/start" element={<QuickStart />} />
             <Route path="/mock-interview" element={<MockInterview />} />
             <Route path="/experience" element={<Experience />} />
+            <Route path="/social" element={<ChatRoom />} />
+            <Route path="/connect" element={<Connect />} />
             <Route
               path="/experience/:pk/:author"
               element={<ExperienceDetails />}

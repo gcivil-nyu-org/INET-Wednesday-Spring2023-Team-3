@@ -15,6 +15,7 @@ def get_student_alumni_profile(request, email):
     try:
         student_alumni_profile = StudentAlumniProfile.objects.get(email=email)
         # Retrieve data from the model and prepare a JSON response
+        # student_alumni_profile.img_file
         response_data = {
             "email": student_alumni_profile.email,
             "job_preference": student_alumni_profile.job_preference,
