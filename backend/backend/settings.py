@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     "answerrecordings",
     "codinganswers",
     "experiences",
+    "hiringmanager",
 ]
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
