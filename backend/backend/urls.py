@@ -25,4 +25,5 @@ urlpatterns = [
     path("codinganswers/", include("codinganswers.urls")),
     path("", include("onboarding.urls")),
     path("experiences/", include("experiences.urls")),
+    path("hiringmanager/", include("hiringmanager.urls")),
 ]
