@@ -100,4 +100,8 @@ def fetch_latest_aggregated_user_data(request):
     response_dict["user_data"] = json.loads(
         serializers.serialize("json", last_agg_rows)
     )
+
+    for i, row in enumerate(last_agg_rows):
+        username = f"{row.user.first_name} {row.user.last_name}"
+        response_dict["user_data"][i]["fields"]["username"] = username
     return JsonResponse(response_dict)
