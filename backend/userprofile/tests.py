@@ -171,9 +171,27 @@ class StudentAlumniProfileCreateViewTestCase(APITestCase):
 
     def test_valid_update_student_profile(self):
         url = reverse("student_alumni_profile", kwargs={"email": self.student1.email})
-        response = self.client.put(url, data=self.valid_payload, format="json")
+        response = self.client.put(
+            url,
+            {
+                "job_preference": "Product Manager",
+                "years_of_experience": "5",
+                "previous_employer": "XYZ Corp",
+                "linkedin_link": "https://www.linkedin.com/in/student1/",
+                "github_link": "https://github.com/student1",
+                "img_file": None,
+            },
+            format="json",
+        )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data, self.valid_payload)
+        updated_student = StudentAlumniProfile.objects.get(email=self.student1.email)
+        self.assertEqual(updated_student.job_preference, "Product Manager")
+        self.assertEqual(updated_student.years_of_experience, 5)
+        self.assertEqual(updated_student.previous_employer, "XYZ Corp")
+        self.assertEqual(
+            updated_student.linkedin_link, "https://www.linkedin.com/in/student1/"
+        )
+        self.assertEqual(updated_student.github_link, "https://github.com/student1")
 
     def test_valid_create_student_profile(self):
         some_valid_payload = {
