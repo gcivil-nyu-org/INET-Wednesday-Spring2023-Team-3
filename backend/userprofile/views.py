@@ -22,7 +22,7 @@ def get_student_alumni_profile(request, email):
             "previous_employer": student_alumni_profile.previous_employer,
             "linkedin_link": student_alumni_profile.linkedin_link,
             "github_link": student_alumni_profile.github_link,
-            "img_file": str(student_alumni_profile.img_file),
+            "img_file": str(student_alumni_profile.img_file.url),
         }
         return JsonResponse(response_data, content_type="application/json")
     except StudentAlumniProfile.DoesNotExist:
