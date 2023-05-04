@@ -10,12 +10,11 @@ from rest_framework.response import Response
 from rest_framework import status
 
 
-@csrf_exempt  # This is added to disable CSRF protection for demonstration purposes, you should add proper CSRF protection in production
+@csrf_exempt
 def get_student_alumni_profile(request, email):
     try:
         student_alumni_profile = StudentAlumniProfile.objects.get(email=email)
         # Retrieve data from the model and prepare a JSON response
-        # student_alumni_profile.img_file
         response_data = {
             "email": student_alumni_profile.email,
             "job_preference": student_alumni_profile.job_preference,
@@ -23,12 +22,16 @@ def get_student_alumni_profile(request, email):
             "previous_employer": student_alumni_profile.previous_employer,
             "linkedin_link": student_alumni_profile.linkedin_link,
             "github_link": student_alumni_profile.github_link,
-            "img_file": student_alumni_profile.img_file,
+            "img_file": str(student_alumni_profile.img_file),
         }
-        return JsonResponse(response_data)
+        return JsonResponse(response_data, content_type="application/json")
     except StudentAlumniProfile.DoesNotExist:
         # Handle case where the email does not exist in the model
-        return JsonResponse({"error": "Student Alumni Profile not found"}, status=404)
+        return JsonResponse(
+            {"error": "Student Alumni Profile not found"},
+            status=404,
+            content_type="application/json",
+        )
 
 
 class StudentAlumniProfileCreateView(generics.UpdateAPIView):
@@ -63,13 +66,15 @@ def company_profile(request, email):
             "name": company.name,
             "website": company.website,
             "description": company.description,
-            "img_file": company.img_file,
+            "img_file": str(company.img_file),
         }
-        return JsonResponse(response_data)
-    except StudentAlumniProfile.DoesNotExist:
+        return JsonResponse(response_data, content_type="application/json")
+    except CompanyProfile.DoesNotExist:
         # Handle case where the email does not exist in the model
         return JsonResponse(
-            {"error": "Company/Recruiter Profile not found"}, status=404
+            {"error": "Hiring Manager Profile not found"},
+            status=404,
+            content_type="application/json",
         )
 
 
