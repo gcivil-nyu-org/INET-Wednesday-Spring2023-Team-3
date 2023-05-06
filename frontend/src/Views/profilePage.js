@@ -52,12 +52,17 @@ function ProfilePage() {
   const [yearsOfExperience, setYearsOfExperience] = useState("Not entered yet");
   const [previousEmployer, setPreviousEmployer] = useState("Not entered yet");
   const [linkedinLink, setLinkedinLink] = useState("Not entered yet");
-  const [githubLink, setGithubLink] = useState("Not entered yet");
-  const [company, setCompany] = useState("Not entered yet"); //Added
-  const [website, setWebsite] = useState("Not entered yet"); //Added
-  const [description, setDescription] = useState("Not entered yet"); //Added
+  const [githubLink, setGithubLink] = useState("Not entered yet"); 
   const [studentImgFile, setStudentImgFile] = useState("Not entered yet");
+  const [userSummary, setUserSummary] = useState("Not entered yet"); 
+  const [gpa, setGPA] = useState("Not entered yet");
+  const [highestDegree, setHighestDegree] = useState("Not entered yet");
+
+  const [company, setCompany] = useState("Not entered yet"); 
+  const [website, setWebsite] = useState("Not entered yet"); 
+  const [description, setDescription] = useState("Not entered yet");
   const [recruiterImgFile, setRecruiterImgFile] = useState("Not entered yet");
+  const [companyLogo, setCompanyLogo] = useState("Not entered yet");
 
   useEffect(() => {
     // Fetch data from API and update state variables based on user type
@@ -71,7 +76,10 @@ function ProfilePage() {
           setPreviousEmployer(data.previous_employer || "Not entered yet");
           setLinkedinLink(data.linkedin_link || "Not entered yet");
           setGithubLink(data.github_link || "Not entered yet");
-          setStudentImgFile(data.img_file || "Add a Profile Photo")
+          setStudentImgFile(data.img_file || "Add a Profile Photo");
+          setUserSummary(data.user_summary || "Not entered yet");
+          setGPA(data.gpa || "Not entered yet");
+          setHighestDegree(data.highest_degree || "Add a Profile Photo");
         })
         .catch((error) => console.error(error));
     } else if (user_type === "Hiring Manager") {
@@ -82,7 +90,8 @@ function ProfilePage() {
             setCompany(data.name || "Company Name");
             setWebsite(data.website || "Company Website");
             setDescription(data.description || "Company Description");
-            setRecruiterImgFile(data.img_file || "Add a Profile Photo")
+            setRecruiterImgFile(data.img_file || "Add a Profile Photo");
+            setCompanyLogo(data.img_file || "Add a Profile Photo");
           })
           .catch((error) => console.error(error));
       }
@@ -206,19 +215,19 @@ function ProfilePage() {
                           component="h3"
                           variant="h7"
                           style={{ marginTop: 5, marginBottom: 5, }}
-                        > Questions Posted | stats
+                        > Questions Posted | stats {userSummary}
                         </Typography>
                         <Typography
                           component="h3"
                           variant="h7"
                           style={{ marginTop: 5, marginBottom: 5, }}
-                        > Questions Answered | stats
+                        > Questions Answered | stats {gpa}
                         </Typography>
                         <Typography
                           component="h3"
                           variant="h7"
                           style={{ marginTop: 5, marginBottom: 5, }}
-                        > Experiences Posted | stats
+                        > Experiences Posted | stats {highestDegree}
                         </Typography>
                     </Box>
                 </Card>
@@ -268,7 +277,7 @@ function ProfilePage() {
                               display: "flex",
                               flexDirection: "column",
                               alignItems: "center",}}>
-                              <img src={studentImgFile} alt="Profile" style={{ width: "200px", height: "200px", objectFit: "cover" }} />
+                              <img src={companyLogo} alt="Profile" style={{ width: "200px", height: "200px", objectFit: "cover" }} />
                             </Box>
                         <Stack spacing={2} sx={{ width: "100%" }}>
                           <Box
