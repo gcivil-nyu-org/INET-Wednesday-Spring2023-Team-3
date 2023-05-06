@@ -56,7 +56,8 @@ function ProfilePage() {
   const [company, setCompany] = useState("Not entered yet"); //Added
   const [website, setWebsite] = useState("Not entered yet"); //Added
   const [description, setDescription] = useState("Not entered yet"); //Added
-  const [imgFile, setImgFile] = useState("Not entered yet");
+  const [studentImgFile, setStudentImgFile] = useState("Not entered yet");
+  const [recruiterImgFile, setRecruiterImgFile] = useState("Not entered yet");
 
   useEffect(() => {
     // Fetch data from API and update state variables based on user type
@@ -70,7 +71,7 @@ function ProfilePage() {
           setPreviousEmployer(data.previous_employer || "Not entered yet");
           setLinkedinLink(data.linkedin_link || "Not entered yet");
           setGithubLink(data.github_link || "Not entered yet");
-          setImgFile(data.img_file.url || "Add a Profile Photo")
+          setStudentImgFile(data.img_file || "Add a Profile Photo")
         })
         .catch((error) => console.error(error));
     } else if (user_type === "Hiring Manager") {
@@ -81,7 +82,7 @@ function ProfilePage() {
             setCompany(data.name || "Company Name");
             setWebsite(data.website || "Company Website");
             setDescription(data.description || "Company Description");
-            setImgFile(data.img_file.url || "Add a Profile Photo")
+            setRecruiterImgFile(data.img_file || "Add a Profile Photo")
           })
           .catch((error) => console.error(error));
       }
@@ -106,7 +107,7 @@ function ProfilePage() {
                       display: "flex",
                       flexDirection: "column",
                       alignItems: "center",}}>
-                      <img src={imgFile} alt="Profile" style={{ width: "200px", height: "200px", objectFit: "cover" }} />
+                      <img src={studentImgFile} alt="Profile" style={{ width: "200px", height: "200px", objectFit: "cover" }} />
                     </Box>
                 <Stack spacing={2} sx={{ width: "100%" }}>
                   <Box
@@ -119,7 +120,7 @@ function ProfilePage() {
                   >
 
                     <Typography component="h1" variant="h5">
-                      {user.email}
+                      {studentImgFile}, {user.email}
                     </Typography>
                     <div style={{ marginTop: 20, marginBottom: 20 }}>
                       <Divider variant="middle" width="600px" />
@@ -261,20 +262,18 @@ function ProfilePage() {
               </>
                   ) : (
                     <>
-                      <Card sx={{ marginTop: 2, maxWidth: 345, marginLeft: -45, marginRight: 30  }}>
+                      <Card sx={{ marginTop: 5, maxWidth: 345, marginLeft: -45 }}>
                         <Box sx={{
-                                marginTop: 5,
-                                display: "flex",
-                                flexDirection: "column",
-                                alignItems: "center",}}>
-                                <img src={imgFile} alt="Profile" style={{ width: "100px", height: "100px", objectFit: "cover" }} />
-                              </Box>
-                              <div style={{ marginTop: 20, marginBottom: 20 }}>
-                              <Divider variant="middle"  />
-                              </div>
-                              <Box
+                              marginTop: 5,
+                              display: "flex",
+                              flexDirection: "column",
+                              alignItems: "center",}}>
+                              <img src={studentImgFile} alt="Profile" style={{ width: "200px", height: "200px", objectFit: "cover" }} />
+                            </Box>
+                        <Stack spacing={2} sx={{ width: "100%" }}>
+                          <Box
                             sx={{
-                              marginTop: 0,
+                              marginTop: 5,
                               display: "flex",
                               flexDirection: "column",
                               alignItems: "center",
@@ -295,6 +294,7 @@ function ProfilePage() {
                               <a href={website}>Company Website</a> 
                             </Typography>
                           </Box>
+                        </Stack>
 
                       </Card>
                       <Card sx={{ marginTop: 5, maxWidth: 345, marginLeft: -45 }}>
@@ -303,7 +303,7 @@ function ProfilePage() {
                               display: "flex",
                               flexDirection: "column",
                               alignItems: "center",}}>
-                              <img src={imgFile} alt="Profile" style={{ width: "75px", height: "75px", objectFit: "cover" }} />
+                              <img src={recruiterImgFile} alt="Profile" style={{ width: "75px", height: "75px", objectFit: "cover" }} />
                             </Box>
                         <Stack spacing={2} sx={{ width: "100%" }}>
                           <Box
