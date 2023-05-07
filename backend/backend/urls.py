@@ -26,4 +26,5 @@ urlpatterns = [
     path("", include("onboarding.urls")),
     path("experiences/", include("experiences.urls")),
     path("hiringmanager/", include("hiringmanager.urls")),
+    path("chat/", include("chat.urls")),
 ]

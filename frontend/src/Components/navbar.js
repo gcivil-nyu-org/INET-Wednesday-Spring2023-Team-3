@@ -30,6 +30,12 @@ function Navbar() {
   const editProfilePage = () => {
     navigate("/editProfilePage");
   };
+  const chatRoom = () => {
+    navigate("/social");
+  };
+  const connect = () => {
+    navigate("/connect");
+  };
 
   const { user, logoutUser } = useContext(AuthContext);
   return (
@@ -52,6 +58,16 @@ function Navbar() {
         {user ? (
           <Button color="inherit" onClick={quickStart}>
             Quick Start
+          </Button>
+        ) : null}
+        {user ? (
+          <Button color="inherit" onClick={connect}>
+            Connect
+          </Button>
+        ) : null}
+        {user ? (
+          <Button color="inherit" onClick={chatRoom}>
+            Social
           </Button>
         ) : null}
         {user && path.pathname === "/profile" ? (
