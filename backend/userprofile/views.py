@@ -26,6 +26,7 @@ def get_student_alumni_profile(request, email):
             "user_summary": student_alumni_profile.user_summary,
             "gpa": student_alumni_profile.gpa,
             "highest_degree": student_alumni_profile.highest_degree,
+            "degree_subject": student_alumni_profile.degree_subject,
         }
         return JsonResponse(response_data, content_type="application/json")
     except StudentAlumniProfile.DoesNotExist:

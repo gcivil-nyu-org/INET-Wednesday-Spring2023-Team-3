@@ -57,6 +57,7 @@ function ProfilePage() {
   const [userSummary, setUserSummary] = useState("Not entered yet"); 
   const [gpa, setGPA] = useState("Not entered yet");
   const [highestDegree, setHighestDegree] = useState("Not entered yet");
+  const [degreeSubject, setDegreeSubject] = useState("Not entered yet");
 
   const [company, setCompany] = useState("Not entered yet"); 
   const [website, setWebsite] = useState("Not entered yet"); 
@@ -71,15 +72,16 @@ function ProfilePage() {
         .then((response) => response.json())
         .then((data) => {
           console.log(data);
-          setJobPreference(data.job_preference || "Not entered yet");
-          setYearsOfExperience(data.years_of_experience || "Not entered yet");
-          setPreviousEmployer(data.previous_employer || "Not entered yet");
-          setLinkedinLink(data.linkedin_link || "Not entered yet");
-          setGithubLink(data.github_link || "Not entered yet");
+          setJobPreference(data.job_preference || "Add Job Preference");
+          setYearsOfExperience(data.years_of_experience || "Add Years of Experience");
+          setPreviousEmployer(data.previous_employer || "Add Previous Employer");
+          setLinkedinLink(data.linkedin_link || "Add Github");
+          setGithubLink(data.github_link || "Add Github Link");
           setStudentImgFile(data.img_file || "Add a Profile Photo");
-          setUserSummary(data.user_summary || "Not entered yet");
-          setGPA(data.gpa || "Not entered yet");
-          setHighestDegree(data.highest_degree || "Add a Profile Photo");
+          setUserSummary(data.user_summary || "Add User Message");
+          setGPA(data.gpa || "Enter GPA");
+          setHighestDegree(data.highest_degree || "Set Highest Degree");
+          setDegreeSubject(data.degree_subject || "Set Degree Subject");
         })
         .catch((error) => console.error(error));
     } else if (user_type === "Hiring Manager") {
@@ -87,11 +89,11 @@ function ProfilePage() {
           .then((response) => response.json())
           .then((data) => {
             console.log(data);
-            setCompany(data.name || "Company Name");
-            setWebsite(data.website || "Company Website");
-            setDescription(data.description || "Company Description");
+            setCompany(data.name || "Add Company Name");
+            setWebsite(data.website || "Add Company Website");
+            setDescription(data.description || "Add Company Description");
             setRecruiterImgFile(data.img_file || "Add a Profile Photo");
-            setCompanyLogo(data.img_file || "Add a Profile Photo");
+            setCompanyLogo(data.company_logo || "Add a Company Logo");
           })
           .catch((error) => console.error(error));
       }
@@ -110,13 +112,13 @@ function ProfilePage() {
             <CssBaseline />
             {user_type === "Student/Alumni" ? (
               <>
-              <Card sx={{ marginTop: 5, maxWidth: 345, marginLeft: -45 }}>
+              <Card sx={{ background: 'ghostwhite', border: '2px solid purple', marginTop: 5, maxWidth: 400, marginLeft: -55 }}>
                 <Box sx={{
                       marginTop: 5,
                       display: "flex",
                       flexDirection: "column",
                       alignItems: "center",}}>
-                      <img src={studentImgFile} alt="Profile" style={{ width: "200px", height: "200px", objectFit: "cover" }} />
+                      <img src={studentImgFile} alt="Profile" style={{ border: '2px solid purple', width: "200px", height: "200px", objectFit: "cover" }} />
                     </Box>
                 <Stack spacing={2} sx={{ width: "100%" }}>
                   <Box
@@ -129,27 +131,36 @@ function ProfilePage() {
                   >
 
                     <Typography component="h1" variant="h5">
-                      {studentImgFile}, {user.email}
+                      {user.email}
                     </Typography>
                     <div style={{ marginTop: 20, marginBottom: 20 }}>
                       <Divider variant="middle" width="600px" />
                     </div>
-
                       <Typography
                         component="h3"
                         variant="h7"
                         style={{ marginTop: 10, marginBottom: 10 }}
                       >
-                        Job Preference: {jobPreference}
+                        {highestDegree} : {degreeSubject}
                       </Typography>
                       <Typography
                         component="h3"
                         variant="h7"
                         style={{ marginTop: 10, marginBottom: 10 }}
                       >
-                        Years of Experience: {yearsOfExperience}
+                        Degree GPA: {gpa}
                       </Typography>
+                      <div style={{ marginTop: 20, marginBottom: 20 }}>
+                      <Divider variant="middle" width="600px" />
+                      </div>
                       <Typography
+                        component="h3"
+                        variant="h7"
+                        style={{ marginTop: 10, marginBottom: 10 }}
+                      >
+                        {jobPreference}
+                    </Typography>
+                    <Typography
                         component="h3"
                         variant="h7"
                         style={{ marginTop: 10, marginBottom: 10 }}
@@ -161,6 +172,16 @@ function ProfilePage() {
                         variant="h7"
                         style={{ marginTop: 10, marginBottom: 10 }}
                       >
+                        Years of Experience: {yearsOfExperience}
+                      </Typography>
+                      <div style={{ marginTop: 20, marginBottom: 20 }}>
+                      <Divider variant="middle" width="600px" />
+                      </div>
+                      <Typography
+                        component="h3"
+                        variant="h7"
+                        style={{ marginTop: -10, marginBottom: 10 }}
+                      >
                         <a href={linkedinLink}>Linkedin</a> |{" "}
                         <a href={githubLink}>Github</a>
                       </Typography>
@@ -168,7 +189,7 @@ function ProfilePage() {
                   </Stack>
                 </Card>
 
-                <Card sx={{ marginTop: -65, maxWidth: 600, }}>
+                <Card sx={{ background: 'ghostwhite', border: '2px solid purple', marginTop: -83, maxWidth: 600, marginRight:-25 }}>
                   
                 <Box
                     sx={{
@@ -178,32 +199,36 @@ function ProfilePage() {
                       alignItems: "center",
                     }}
                   >
-                    <Typography component="h1" variant="h7">
-                        About
-                      </Typography>
-                      <div style={{ marginTop: 0, marginBottom: 0 }}>
-                        <Divider variant="middle" />
-                      </div>
-
-                        <Typography
-                          component="h3"
-                          variant="h7"
-                          style={{ marginTop: 10, marginBottom: 10 }}
-                        > {jobPreference}
-                        </Typography>
+                      <Typography
+                        component="h3"
+                        variant="h7"
+                        style={{ marginTop: 10, marginBottom: 10 }}
+                      >
+                        About Me
+                    </Typography>
+                    <div style={{ marginTop: 10, marginBottom: 10 }}>
+                      <Divider variant="middle" width="600px" />
+                    </div>
+                    <Typography
+                        component="h3"
+                        variant="h7"
+                        style={{ marginTop: 10, marginBottom: 10 }}
+                      >
+                        {userSummary}
+                    </Typography>
                     </Box>
                 </Card>
 
-                <Card sx={{ marginTop: 4, maxWidth: 800, }}>
+                <Card sx={{ background: 'ghostwhite', border: '2px solid purple', marginTop: 4, maxWidth: 800, marginRight:-25 }}>
                   
-                <Box
-                    sx={{
-                      marginTop: 1,
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                    }}
-                  >
+                  <Box
+                      sx={{
+                        marginTop: 1,
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                      }}
+                    >
                     <Typography component="h1" variant="h7">
                         User Stats
                       </Typography>
@@ -231,58 +256,25 @@ function ProfilePage() {
                         </Typography>
                     </Box>
                 </Card>
-                <Card sx={{ marginTop: -33, marginLeft: 52, marginRight: -50, maxWidth: 800, }}>
-                  
-                <Box
-                    sx={{
-                      marginTop: 1,
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Typography component="h1" variant="h7">
-                        Conversations
-                      </Typography>
-                      <div style={{ marginTop: 0, marginBottom: 0 }}>
-                        <Divider variant="middle" />
-                      </div>
-
-                        <Typography
-                          component="h3"
-                          variant="h7"
-                          style={{ marginTop: 5, marginBottom: 5, }}
-                        > User 1
-                        </Typography>
-                        <Typography
-                          component="h3"
-                          variant="h7"
-                          style={{ marginTop: 5, marginBottom: 5, }}
-                        > User 2
-                        </Typography>
-                        <Typography
-                          component="h3"
-                          variant="h7"
-                          style={{ marginTop: 5, marginBottom: 5, }}
-                        > User 3
-                        </Typography>
-                    </Box>
-                </Card>
               </>
                   ) : (
                     <>
-                      <Card sx={{ marginTop: 5, maxWidth: 345, marginLeft: -45 }}>
+                      <Card sx={{ background: 'ghostwhite', border: '2px solid purple', marginTop: 3, maxWidth: 345, marginLeft: -45 }}>
                         <Box sx={{
-                              marginTop: 5,
+                              marginTop: 3,
                               display: "flex",
                               flexDirection: "column",
                               alignItems: "center",}}>
-                              <img src={companyLogo} alt="Profile" style={{ width: "200px", height: "200px", objectFit: "cover" }} />
+                              <img src={companyLogo} alt="Profile" style={{ border: '2px solid purple', width: "200px", height: "200px", objectFit: "cover" }} />
                             </Box>
+                            <div style={{ marginTop: 20, marginBottom: 20 }}>
+                              <Divider variant="middle" width="600px" />
+                            </div>
                         <Stack spacing={2} sx={{ width: "100%" }}>
+                          
                           <Box
                             sx={{
-                              marginTop: 5,
+                              marginTop: 0,
                               display: "flex",
                               flexDirection: "column",
                               alignItems: "center",
@@ -306,13 +298,13 @@ function ProfilePage() {
                         </Stack>
 
                       </Card>
-                      <Card sx={{ marginTop: 5, maxWidth: 345, marginLeft: -45 }}>
+                      <Card sx={{ background: 'ghostwhite', border: '2px solid purple', marginTop: 3, maxWidth: 345, marginLeft: -45 }}>
                         <Box sx={{
                               marginTop: 5,
                               display: "flex",
                               flexDirection: "column",
                               alignItems: "center",}}>
-                              <img src={recruiterImgFile} alt="Profile" style={{ width: "75px", height: "75px", objectFit: "cover" }} />
+                              <img src={recruiterImgFile} alt="Profile" style={{ border: '2px solid purple', width: "175px", height: "175px", objectFit: "cover" }} />
                             </Box>
                         <Stack spacing={2} sx={{ width: "100%" }}>
                           <Box
@@ -323,7 +315,7 @@ function ProfilePage() {
                               alignItems: "center",
                             }}
                           >
-                            <div style={{ marginTop: 20, marginBottom: 20 }}>
+                            <div style={{ marginTop: 10, marginBottom: 10 }}>
                               <Divider variant="middle" width="600px" />
                             </div>
 
@@ -342,20 +334,20 @@ function ProfilePage() {
                         </Stack>
                       </Card>
 
-                      <Card sx={{ marginTop: -70, maxWidth: 800, marginLeft: 5  }}>
+                      <Card sx={{ background: 'ghostwhite', border: '2px solid purple', marginTop: -85, maxWidth: 800, marginLeft: 5, marginRight:-25,  }}>
                       <Box
                             sx={{
-                              marginTop: 0,
+                              marginTop: 2,
                               display: "flex",
                               flexDirection: "column",
                               alignItems: "center",
                             }}
                           >
-                        <Typography component="h1" variant="h5">
-                              Summary
+                            <Typography component="h1" variant="h5">
+                                  Company Description
                             </Typography>
-                            <div style={{ marginTop: 10, marginBottom: 20 }}>
-                              <Divider variant="middle" />
+                            <div style={{ marginTop: 20, marginBottom: 20 }}>
+                              <Divider variant="middle" width="600px" />
                             </div>
 
                               <Typography
@@ -366,31 +358,7 @@ function ProfilePage() {
                               </Typography>
                         </Box>
                       </Card>
-                      <Card sx={{ marginTop: 15, maxWidth: 800, marginLeft: 5  }}>
-                      <Box
-                            sx={{
-                              marginTop: 0,
-                              display: "flex",
-                              flexDirection: "column",
-                              alignItems: "center",
-                            }}
-                          >
-
-                            <Typography component="h1" variant="h5">
-                                  Conversations
-                                </Typography>
-                                <div style={{ marginTop: 10, marginBottom: 10 }}>
-                                  <Divider variant="middle"  />
-                                </div>
-
-                                  <Typography
-                                    component="h3"
-                                    variant="h7"
-                                    style={{ marginTop: 10, marginBottom: 10 }}
-                                  > {description}
-                                  </Typography>
-                        </Box>
-                      </Card>
+                  
                   </>
                 )} 
                 

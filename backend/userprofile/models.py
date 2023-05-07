@@ -12,6 +12,7 @@ class StudentAlumniProfile(models.Model):
     user_summary = models.TextField(null=True, blank=True)
     gpa = models.DecimalField(max_digits=4, decimal_places=2, null=True, blank=True)
     highest_degree = models.CharField(max_length=50, default="", null=True, blank=True)
+    degree_subject = models.CharField(max_length=50, default="", null=True, blank=True)
 
 
 class CompanyProfile(models.Model):
