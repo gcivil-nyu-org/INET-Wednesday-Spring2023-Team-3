@@ -70,7 +70,7 @@ def fetch_latest_aggregated_user_data(request):
         params.get("sort_by"),
         params.get("cur_page"),
         params.get("single_page_count"),
-        params.get("user")
+        params.get("user"),
     )
 
     if user:
@@ -84,7 +84,7 @@ def fetch_latest_aggregated_user_data(request):
             return JsonResponse(response_dict)
         except Exception as e:
             return error_response(response_dict, f"Error: {e}")
-  
+
     response_dict["total_user_count"] = last_agg_rows.count()
 
     if sort_by and (
