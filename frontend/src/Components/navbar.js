@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -5,9 +6,21 @@ import Button from "@mui/material/Button";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
+import { API_ENDPOINT } from "../Components/api";
+
 function Navbar() {
   const navigate = useNavigate();
   const path = useLocation();
+  const [userType, setUserType] = useState("Hiring Manager");
+
+  useEffect(() => {
+    fetch(`${API_ENDPOINT}/get_user_type/${user.email}/`)
+      .then((response) => response.json())
+      .then((data) => {
+        setUserType(data.user_type);
+      })
+      .catch((error) => console.error(error));
+  }, []);
 
   const homePage = () => {
     navigate("/");
@@ -36,6 +49,9 @@ function Navbar() {
   const connect = () => {
     navigate("/connect");
   };
+  const explore = () => {
+    navigate("/recruiterHome");
+  };
 
   const { user, logoutUser } = useContext(AuthContext);
   return (
@@ -49,6 +65,11 @@ function Navbar() {
         >
           NYU Interview Prep
         </Typography>
+        {user && userType === "Hiring Manager" ? (
+          <Button color="inherit" onClick={explore}>
+            Explore
+          </Button>
+        ) : null}
         <Button color="inherit" onClick={homePage}>
           Questions
         </Button>
