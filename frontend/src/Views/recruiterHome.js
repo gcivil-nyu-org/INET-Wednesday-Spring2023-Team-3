@@ -14,11 +14,20 @@ import TableRow from "@mui/material/TableRow";
 import Pagination from "@mui/material/Pagination";
 import { styled } from "@mui/material/styles";
 import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDownOutlined";
+import Snackbar from "@mui/material/Snackbar";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+import MuiAlert from "@mui/material/Alert";
+import Button from "@mui/material/Button";
 
 import Navbar from "../Components/navbar";
 import AuthContext from "../context/AuthContext";
 import { API_ENDPOINT } from "../Components/api";
 import { Stack } from "@mui/material";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -74,6 +83,14 @@ function RecuriterHome() {
   const [totalPage, setTotalPage] = useState(1);
   const USERS_PER_PAGE = 15;
 
+  const [openAlert, setOpenAlert] = useState(false);
+  const [alertStatus, setAlertStatus] = useState("success");
+  const [alertMessage, setAlertMessage] = useState("");
+
+  const handleCloseAlert = () => {
+    setOpenAlert(false);
+  };
+
   useEffect(() => {
     fetch(`${API_ENDPOINT}/get_user_type/${user.email}/`)
       .then((response) => response.json())
@@ -81,7 +98,7 @@ function RecuriterHome() {
         setUserType(data.user_type);
       })
       .catch((error) => console.error(error));
-  }, []);
+  }, [user.email]);
 
   useEffect(() => {
     fetch(
@@ -94,7 +111,7 @@ function RecuriterHome() {
         setUsersData(data.user_data);
       })
       .catch((error) => console.error(error));
-  }, [sortBy, page]);
+  }, [sortBy, page, openAlert]);
 
   useEffect(() => {
     let newRows = [];
@@ -115,6 +132,24 @@ function RecuriterHome() {
     setRows(newRows);
   }, [usersData]);
 
+  const refreshUserData = () => {
+    fetch(`${API_ENDPOINT}/hiringmanager/refresh_user_metadata`)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.status === 200) {
+          setOpenAlert(true);
+          setAlertMessage("User data refresh successfully");
+          setAlertStatus("success");
+        } else {
+          setOpenAlert(true);
+          setAlertMessage(data.error_msg);
+          setAlertStatus("error");
+          return;
+        }
+      })
+      .catch((error) => console.error(error));
+  };
+
   const navigate = useNavigate();
   if (userType !== "Hiring Manager") {
     navigate("/");
@@ -128,11 +163,37 @@ function RecuriterHome() {
     setPage(value);
   };
 
+  const action = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleCloseAlert}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
+
   return (
     <>
       <Navbar />
 
       <Box sx={{ padding: 2 }}>
+        <Button
+          variant="contained"
+          sx={{ width: 150 }}
+          style={{
+            textTransform: "none",
+            backgroundColor: "#9B5EA2",
+            height: 40,
+            marginBottom: 10,
+          }}
+          onClick={refreshUserData}
+        >
+          Refresh user data
+        </Button>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
@@ -297,6 +358,17 @@ function RecuriterHome() {
             style={{ margin: "0 auto" }}
           />
         </div>
+
+        <Snackbar
+          open={openAlert}
+          autoHideDuration={6000}
+          action={action}
+          onClose={handleCloseAlert}
+        >
+          <Alert onClose={handleCloseAlert} severity={alertStatus}>
+            {alertMessage}
+          </Alert>
+        </Snackbar>
       </Box>
     </>
   );
