@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { List, ListItem, ListItemText, Button } from "@mui/material";
+import { Grid, Item, Box, List, ListItem, ListItemText, Button } from "@mui/material";
 import Navbar from "./navbar";
 import AuthContext from "../context/AuthContext";
 import { API_ENDPOINT } from "../Components/api";
@@ -57,26 +57,30 @@ function Connect() {
   const renderUser = (user) => {
     const isFriend = friends.has(user.id);
     return (
-      <ListItem key={user.id}>
-        <ListItemText primary={user.name} />
-        <ListItemText primary={user.email} />
-        {isFriend ? (
-          <Button variant="contained" color="secondary" onClick={() => handleRemoveFriend(user.id)}>
-            Remove friend
-          </Button>
-        ) : (
-          <Button variant="contained" color="primary" onClick={() => handleAddFriend(user.id)}>
-            Add friend
-          </Button>
-        )}
-      </ListItem>
+      <div>
+      <Box padding={3}>
+        <ListItem key={user.id}>
+          <ListItemText primary={user.name} />
+          <ListItemText primary={user.email} />
+          {isFriend ? (
+            <Button variant="contained" color="secondary" onClick={() => handleRemoveFriend(user.id)}>
+              Remove friend
+            </Button>
+          ) : (
+            <Button variant="contained" color="primary" onClick={() => handleAddFriend(user.id)}>
+              Add friend
+            </Button>
+          )}
+        </ListItem>
+      </Box>
+      </div>
     );
   };
 
   return (
     <div>
       <Navbar />
-      <h2>Search Users</h2>
+      <h2 padding={3}>Search Users</h2>
       <List>
         {users.map((user) => renderUser(user))}
       </List>
