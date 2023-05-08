@@ -47,6 +47,28 @@ function ProfilePage() {
       // Handle error
     });
 
+  const [experiencesPosted, setExperiencesPosted] = useState("Not entered yet"); 
+  const [questionsAnswered, setQuestionsAnswered] = useState("Not entered yet");
+  const [commentsPosted, setCommentsPosted] = useState("Not entered yet"); 
+  const [userRating, setUserRating] = useState("Not entered yet");
+
+
+  useEffect(() => {
+    // Fetch data from API and update state variables based on user type
+    if (user_type === "Student/Alumni") { 
+      fetch(`${API_ENDPOINT}/refresh_user_metadata/`)
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          setExperiencesPosted(data.num_exp_posted || "Add Job Preference");
+          setQuestionsAnswered(data.num_codes_posted || "Add Years of Experience");
+          setCommentsPosted(data.num_totalcmnts_posted || "Add Previous Employer");
+          setUserRating(data.avg_rec_rating_received || "Add Github");
+        })
+        .catch((error) => console.error(error));
+        }
+      }, [user.email, user_type]); // Add user.email and user.type as dependencies to useEffect
+
   // Define state variables for the fetched data
   const [jobPreference, setJobPreference] = useState("Not entered yet");
   const [yearsOfExperience, setYearsOfExperience] = useState("Not entered yet");
@@ -212,7 +234,7 @@ function ProfilePage() {
                     <Typography
                         component="h3"
                         variant="h7"
-                        style={{ marginTop: 10, marginBottom: 10 }}
+                        style={{ marginTop: 10, marginBottom: 10, textAlign: "center", display: "inline-block"}}
                       >
                         {userSummary}
                     </Typography>
@@ -240,19 +262,25 @@ function ProfilePage() {
                           component="h3"
                           variant="h7"
                           style={{ marginTop: 5, marginBottom: 5, }}
-                        > Questions Posted | stats {userSummary}
+                        > Experiences Posted | {experiencesPosted}
                         </Typography>
                         <Typography
                           component="h3"
                           variant="h7"
                           style={{ marginTop: 5, marginBottom: 5, }}
-                        > Questions Answered | stats {gpa}
+                        > Questions Answered | {questionsAnswered}
                         </Typography>
                         <Typography
                           component="h3"
                           variant="h7"
                           style={{ marginTop: 5, marginBottom: 5, }}
-                        > Experiences Posted | stats {highestDegree}
+                        > Total Comments Posted | {commentsPosted}
+                        </Typography>
+                        <Typography
+                          component="h3"
+                          variant="h7"
+                          style={{ marginTop: 5, marginBottom: 5, }}
+                        > Your Overall User Rating | {userRating}
                         </Typography>
                     </Box>
                 </Card>
