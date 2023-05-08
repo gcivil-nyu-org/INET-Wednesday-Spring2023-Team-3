@@ -24,4 +24,7 @@ urlpatterns = [
     path("", include("answerrecordings.urls")),
     path("codinganswers/", include("codinganswers.urls")),
     path("", include("onboarding.urls")),
+    path("experiences/", include("experiences.urls")),
+    path("hiringmanager/", include("hiringmanager.urls")),
+    path("chat/", include("chat.urls")),
 ]

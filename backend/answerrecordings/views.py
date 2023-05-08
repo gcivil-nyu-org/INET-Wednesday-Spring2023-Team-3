@@ -83,14 +83,12 @@ def post_comment(request):
     )
 
     try:
-        obj, created = Comment.objects.get_or_create(
+        obj, _ = Comment.objects.get_or_create(
             user=MyUser.objects.get(id=user),
             rating=rating,
             answer=DropBox.objects.get(ans_id=answer),
             text=text,
         )
-        if not created:
-            return error_response({}, "Error in uploading comment to DB")
     except Exception as e:
         return error_response({}, f"Error in uploading comment to DB : {e}")
 
