@@ -26,6 +26,11 @@ const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 const isValidUrl = (urlString) => {
+  if (!urlString) {
+    // empty string or undefined
+    return true;
+  }
+
   try {
     return Boolean(new URL(urlString));
   } catch (e) {
@@ -33,29 +38,7 @@ const isValidUrl = (urlString) => {
   }
 };
 
-const isValidImageFile = (file) => {
-  try {
-    if (!file) {
-      return false;
-    }
 
-    const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
-    const fileExtension = file.name.split('.').pop().toLowerCase();
-
-    if (!allowedExtensions.includes(fileExtension)) {
-      return false;
-    }
-
-    const fileType = file.type.split('/')[0];
-    if (fileType !== 'image') {
-      return false;
-    }
-
-    return true;
-  } catch (e) {
-    return false;
-  }
-};
 
 function EditProfile() {
   const navigate = useNavigate();
@@ -237,17 +220,7 @@ function EditProfile() {
         setAlertMessage("Company website is not valid");
         setOpen(true);
         return;
-      }
-      if (!isValidImageFile(companyFormData.img_file)) {
-        setAlertMessage("The uploaded file is not a valid image file.");
-        setOpen(true);
-        return;
-      }
-      if (!isValidImageFile(companyFormData.company_logo)) {
-        setAlertMessage("The uploaded file is not a valid image file.");
-        setOpen(true);
-        return;
-      }
+      }   
 
       const url = `${API_ENDPOINT}/companies-profile/${user.email}/`;
 
@@ -329,8 +302,6 @@ function EditProfile() {
                   <Box
                   component="form"
                   noValidate
-                  onSubmit={handleSubmit}
-                  sx={{ mt: 3 }}
                   >
                     <Card sx={{ border: '2px solid purple', marginTop: -5, maxWidth: 400, marginLeft: 0 }}>
                       <Box sx={{
@@ -524,11 +495,14 @@ function EditProfile() {
                       fullWidth
                       variant="contained"
                       sx={{ mt: 3, mb: 2, marginLeft:80, marginRight:-160, width: '100%' }}
-                      onClick={handleSubmit}
-                    >
-                      Update
-                  </Button>
-                </Box>
+                      onClick={(event) => {
+                        handleSubmit(event);
+                      }
+                    }
+                        >
+                        Update
+                        </Button>
+                      </Box>
 
                   </>
                 ) : (
@@ -536,8 +510,6 @@ function EditProfile() {
                   <Box
                   component="form"
                   noValidate
-                  onSubmit={handleSubmit}
-                  sx={{ mt: 3 }}
                   >
                   <div style={{ marginTop: -20, maxWidth: 700, marginRight:-350, marginLeft:0}}>
 
@@ -681,14 +653,17 @@ function EditProfile() {
                       fullWidth
                       variant="contained"
                       sx={{ mt: 3, mb: 2, marginLeft:65, marginRight:-150, width: '100%' }}
-                      onClick={handleSubmit}
-                      >
-                      Update
-                      </Button>
-                    </Box>
+                      onClick={(event) => {
+                          handleSubmit(event);
+                        }
+                      }
+                          >
+                          Update
+                          </Button>
+                        </Box>
 
-                  </>
-                )}
+                      </>
+                    )}
 
                
                 </Box>
