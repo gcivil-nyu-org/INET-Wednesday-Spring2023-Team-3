@@ -10,17 +10,22 @@ function ChatRoom() {
     const [message, setMessage] = useState('');
 
     useEffect(() => {
-
         const pusher = new Pusher('9ada003d3013120698bb', {
-          cluster: 'us2'
+            cluster: 'us2'
         });
-    
+
         const channel = pusher.subscribe('chat');
-        console.log("in use effect")
         channel.bind('message', function(data) {
-            console.log(data)
-            setMessages(prevMessages => [...prevMessages, data]);
+            const isDuplicate = messages.some(msg => msg.id === data.id);
+            if (!isDuplicate) {
+                setMessages(prevMessages => [...prevMessages, data]);
+            }
         });
+        
+        return () => {
+            channel.unbind_all();
+            channel.unsubscribe();
+        };
 
     }, []);
 
@@ -39,7 +44,6 @@ function ChatRoom() {
         setMessage('');
     }
 
-    // console.log(messages)
     return (
         <div>
             <Navbar />
