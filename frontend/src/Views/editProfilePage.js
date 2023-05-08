@@ -26,6 +26,11 @@ const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 const isValidUrl = (urlString) => {
+  if (!urlString) {
+    // empty string or undefined
+    return true;
+  }
+
   try {
     return Boolean(new URL(urlString));
   } catch (e) {
@@ -33,29 +38,7 @@ const isValidUrl = (urlString) => {
   }
 };
 
-const isValidImageFile = (file) => {
-  try {
-    if (!file) {
-      return false;
-    }
 
-    const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
-    const fileExtension = file.name.split('.').pop().toLowerCase();
-
-    if (!allowedExtensions.includes(fileExtension)) {
-      return false;
-    }
-
-    const fileType = file.type.split('/')[0];
-    if (fileType !== 'image') {
-      return false;
-    }
-
-    return true;
-  } catch (e) {
-    return false;
-  }
-};
 
 function EditProfile() {
   const navigate = useNavigate();
@@ -167,19 +150,19 @@ function EditProfile() {
       // handle company form submission
 
       if (
-        formData.job_preference.length === 0 ||
-        formData.years_of_experience.length === 0 ||
-        formData.previous_employer.length === 0 ||
-        formData.linkedin_link.length === 0 ||
-        formData.github_link.length === 0 ||
-        formData.img_file.length === 0 ||
-        formData.user_summary.length === 0 ||
-        formData.gpa.length === 0 ||
-        formData.highest_degree.length === 0 ||
+        formData.job_preference.length === 0 &&
+        formData.years_of_experience.length === 0 &&
+        formData.previous_employer.length === 0 &&
+        formData.linkedin_link.length === 0 &&
+        formData.github_link.length === 0 &&
+        formData.img_file.length === 0 &&
+        formData.user_summary.length === 0 &&
+        formData.gpa.length === 0 &&
+        formData.highest_degree.length === 0 &&
         formData.degree_subject.length === 0 
 
       ) {
-        setAlertMessage("Please enter all the fields");
+        setAlertMessage("Please enter at least one field.");
         setOpen(true);
         return;
       }
@@ -223,13 +206,13 @@ function EditProfile() {
     } else {
       //handle company profile submission
       if (
-        companyFormData.name.length === 0 ||
-        companyFormData.website.length === 0 ||
-        companyFormData.description.length === 0 ||
-        companyFormData.img_file.length === 0 ||
-        companyFormData.company_logo === 0
+        companyFormData.name.length === 0 &&
+        companyFormData.website.length === 0 &&
+        companyFormData.description.length === 0 &&
+        companyFormData.img_file.length === 0 &&
+        companyFormData.company_logo === 0 
       ) {
-        setAlertMessage("Please enter all the fields");
+        setAlertMessage("Please enter at least one field");
         setOpen(true);
         return;
       }
@@ -237,17 +220,7 @@ function EditProfile() {
         setAlertMessage("Company website is not valid");
         setOpen(true);
         return;
-      }
-      if (!isValidImageFile(companyFormData.img_file)) {
-        setAlertMessage("The uploaded file is not a valid image file.");
-        setOpen(true);
-        return;
-      }
-      if (!isValidImageFile(companyFormData.company_logo)) {
-        setAlertMessage("The uploaded file is not a valid image file.");
-        setOpen(true);
-        return;
-      }
+      }   
 
       const url = `${API_ENDPOINT}/companies-profile/${user.email}/`;
 
@@ -312,6 +285,7 @@ function EditProfile() {
                   {alertMessage}
                 </Alert>
               </Snackbar>
+
               <div style={{ float: "left", marginLeft: -500}}>
                 <Box
                 sx={{
@@ -321,10 +295,15 @@ function EditProfile() {
                   flexDirection: "column",
                   alignItems: "center",
                 }}
-              >
+                >
+                  
                 {user_type === "Student/Alumni" ? (
                   <>
-                    <Card sx={{ border: '2px solid purple', marginTop: 7, maxWidth: 400, marginLeft: 0 }}>
+                  <Box
+                  component="form"
+                  noValidate
+                  >
+                    <Card sx={{ border: '2px solid purple', marginTop: -5, maxWidth: 400, marginLeft: 0 }}>
                       <Box sx={{
                       marginTop: 0,
                       display: "flex",
@@ -361,67 +340,17 @@ function EditProfile() {
                         </Box>
                       </Stack>
                     </Card>
-                    
-                  </>
-                ) : (
-                  <>
-                  <Card sx={{ border: '2px solid purple', marginTop: 2, maxWidth: 400, marginLeft: 0 }}>
-                      <Box sx={{
-                      marginTop: 0,
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",}}>
-                      <img src={companyFormData.company_logo} alt="Profile" style={{border: '2px solid purple', width: "400px", height: "400px", objectFit: "cover" }} />
-                      </Box>
-                      <Stack spacing={2} sx={{ width: "100%" }}>
-                        <Box
-                          sx={{
-                            marginTop: 5,
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "center",
-                          }}
-                        >
 
-                          <Typography component="h1" variant="h5">
-                            {companyFormData.name}
-                          </Typography>
-
-                          <div style={{ marginTop: 10 }}>
-                          Upload Photo:
-                            <input
-                            type="file"
-                            onChange={handleCompanyInputChange}
-                            accept="image/*"
-                            style={{ marginLeft: 5, marginRight:-45 }}
-                            />
-                          </div>
-                        </Box>
-                      </Stack>
-                    </Card>
-
-                  </>
-                )}
-                </Box>  
-              </div>
-
-                  {user_type === "Student/Alumni" ? (
-                  <>
-                    <div style={{ marginTop: 10, maxWidth: 400, }}>
-                      <Box
+                    <div style={{ marginTop: -40, maxWidth: 400, marginRight:-400, marginLeft:450 }}>
+                    <Box
                       sx={{
-                        marginTop: -68,
+                        marginTop: -66,
                         display: "flex",
                         flexDirection: "column",
                         alignItems: "center",
                       }}
                     >  
-                      <Box
-                        component="form"
-                        noValidate
-                        onSubmit={handleSubmit}
-                        sx={{ mt: 3 }}
-                      >
+                      
                       <Grid container spacing={3}>
                         
                         <Grid item xs={12}>
@@ -486,24 +415,17 @@ function EditProfile() {
                         </Grid>
                       </Grid>
                     </Box>
-                  </Box>
                   </div>
 
-                  <div style={{ marginTop: 10, maxWidth: 700, marginRight:-350, marginLeft:450 }}>
-                      <Box
+                  <div style={{ marginTop: 10, maxWidth: 400, marginRight:-1000, marginLeft:900 }}>
+                    <Box
                       sx={{
-                        marginTop: -69,
+                        marginTop: -46.5,
                         display: "flex",
                         flexDirection: "column",
                         alignItems: "center",
                       }}
-                    >  
-                      <Box
-                        component="form"
-                        noValidate
-                        onSubmit={handleSubmit}
-                        sx={{ mt: 3 }}
-                      >
+                    > 
                         <Grid container spacing={3}>
                           <Grid item xs={12}>
                             <FormControl fullWidth required>
@@ -560,36 +482,83 @@ function EditProfile() {
                                 label="User Summary"
                                 name="user_summary"
                                 autoComplete="user_summary"
-                                value={companyFormData.user_summary}
-                                onChange={handleCompanyInputChange}
+                                value={formData.user_summary}
+                                onChange={handleInputChange}
                               />
                             </Grid>
-                      
                         </Grid>
-                    
-
                       </Box>
-                    </Box>
-                   </div> 
+                   </div>
+
+                   <Button
+                      type="submit"
+                      fullWidth
+                      variant="contained"
+                      sx={{ mt: 3, mb: 2, marginLeft:80, marginRight:-160, width: '100%' }}
+                      onClick={(event) => {
+                        handleSubmit(event);
+                      }
+                    }
+                        >
+                        Update
+                        </Button>
+                      </Box>
 
                   </>
                 ) : (
                   <>
-                  <div style={{ marginTop: 10, marginLeft:30, maxWidth: 400, }}>
-                      <Box
-                      sx={{
-                        marginTop: -68,
+                  <Box
+                  component="form"
+                  noValidate
+                  >
+                  <div style={{ marginTop: -20, maxWidth: 700, marginRight:-350, marginLeft:0}}>
+
+                    <Card sx={{ border: '2px solid purple', maxWidth: 400, marginLeft: 0 }}>
+                        <Box sx={{
+                        marginTop: 0,
                         display: "flex",
                         flexDirection: "column",
-                        alignItems: "center",
-                      }}
-                    >  
-                      <Box
-                        component="form"
-                        noValidate
-                        onSubmit={handleSubmit}
-                        sx={{ mt: 3 }}
-                      >
+                        alignItems: "center",}}>
+                        <img src={companyFormData.company_logo} alt="Profile" style={{border: '2px solid purple', width: "400px", height: "400px", objectFit: "cover" }} />
+                        </Box>
+                        <Stack spacing={2} sx={{ width: "100%" }}>
+                          <Box
+                            sx={{
+                              marginTop: 5,
+                              display: "flex",
+                              flexDirection: "column",
+                              alignItems: "center",
+                            }}
+                          >
+
+                            <Typography component="h1" variant="h5">
+                              {companyFormData.name}
+                            </Typography>
+
+                            <div style={{ marginTop: 10 }}>
+                            Upload Photo:
+                              <input
+                              type="file"
+                              onChange={handleCompanyInputChange}
+                              accept="image/*"
+                              style={{ marginLeft: 5, marginRight:-45 }}
+                              />
+                            </div>
+                          </Box>
+                        </Stack>
+                      </Card>  
+                    </div>
+
+                  
+                    <div style={{ marginTop: 10, marginRight:-600, marginLeft:450, maxWidth: 400, }}>
+                        <Box
+                        sx={{
+                          marginTop: -64,
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                        }}
+                      > 
 
                       
                         <Grid container spacing={3}>
@@ -633,66 +602,72 @@ function EditProfile() {
                             </Grid>
                           </Grid>
                         </Box>
-                      </Box>
+                      
                       </div>
-                  </>
-                )}
-                  
-                  <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    sx={{ mt: 3, mb: 2, width: '73%' }}
-                  >
-                    Update
-                  </Button>
-              
 
-              {user_type === "Hiring Manager" ? (
-                <div style={{ marginTop: 10, }}>
 
-                  <Card sx={{ border: '2px solid purple', marginTop: -73, marginRight:-100, marginLeft: 75, maxWidth:400,}}>
-                    <Box sx={{
-                    marginTop: 0,
-                    display: "flex", 
-                    flexDirection: "column",
-                    alignItems: "center",}}>
-                    <img src={companyFormData.img_file} alt="Profile" style={{ border: '2px solid purple', width: "400px", height: "400px", objectFit: "cover" }} />
-                    </Box>
-                    <Stack spacing={2} sx={{ width: "100%" }}>
-                        <Box
-                          sx={{
-                            marginTop: 5,
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "center",
-                          }}
-                        >
+                      <div style={{ marginTop: 10, }}>
 
-                          <Typography component="h1" variant="h5">
-                            {user_type}
-                          </Typography>
+                        <Card sx={{ border: '2px solid purple', marginTop: -40, marginRight:-250, marginLeft: 115, maxWidth:400,}}>
+                          <Box sx={{
+                          marginTop: 0,
+                          display: "flex", 
+                          flexDirection: "column",
+                          alignItems: "center",}}>
+                          <img src={companyFormData.img_file} alt="Profile" style={{ border: '2px solid purple', width: "400px", height: "400px", objectFit: "cover" }} />
+                          </Box>
+                          <Stack spacing={2} sx={{ width: "100%" }}>
+                              <Box
+                                sx={{
+                                  marginTop: 5,
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  alignItems: "center",
+                                }}
+                              >
 
-                          <Typography component="h1" variant="h5">
-                            {user.email}
-                          </Typography>
+                                <Typography component="h1" variant="h5">
+                                  {user_type}
+                                </Typography>
 
-                          <div style={{ marginTop: 10, marginLeft: 40, marginRight:-30,}}>
-                            Update Photo:
-                            <input
-                            type="file"
-                            onChange={handleCompanyInputChange}
-                            accept="image/*"
-                            style={{ marginLeft: 5 }}
-                            />
-                          </div>
+                                <Typography component="h1" variant="h5">
+                                  {user.email}
+                                </Typography>
+
+                                <div style={{ marginTop: 10, marginLeft: 40, marginRight:-30,}}>
+                                  Update Photo:
+                                  <input
+                                  type="file"
+                                  onChange={handleCompanyInputChange}
+                                  accept="image/*"
+                                  style={{ marginLeft: 5 }}
+                                  />
+                                </div>
+                              </Box>
+                          </Stack>
+                        </Card>       
+                      </div>
+
+                      <Button
+                      type="submit"
+                      fullWidth
+                      variant="contained"
+                      sx={{ mt: 3, mb: 2, marginLeft:65, marginRight:-150, width: '100%' }}
+                      onClick={(event) => {
+                          handleSubmit(event);
+                        }
+                      }
+                          >
+                          Update
+                          </Button>
                         </Box>
-                      </Stack>
-                          
-                  </Card>
+
+                      </>
+                    )}
+
+               
+                </Box>
                 </div>
-              ) : null 
-              }
               
             </Stack>
           </Container>
