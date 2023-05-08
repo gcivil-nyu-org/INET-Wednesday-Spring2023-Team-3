@@ -92,13 +92,15 @@ function RecuriterHome() {
   };
 
   useEffect(() => {
-    fetch(`${API_ENDPOINT}/get_user_type/${user.email}/`)
-      .then((response) => response.json())
-      .then((data) => {
-        setUserType(data.user_type);
-      })
-      .catch((error) => console.error(error));
-  }, [user.email]);
+    if (user) {
+      fetch(`${API_ENDPOINT}/get_user_type/${user.email}/`)
+        .then((response) => response.json())
+        .then((data) => {
+          setUserType(data.user_type);
+        })
+        .catch((error) => console.error(error));
+    }
+  }, [user]);
 
   useEffect(() => {
     fetch(
