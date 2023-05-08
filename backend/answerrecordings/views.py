@@ -29,6 +29,10 @@ def list_answers_for_ques(request, q_id):
     answers = DropBox.objects.filter(question=q_id)
 
     response_dict["answer_data"] = json.loads(serializers.serialize("json", answers))
+    for i, answer in enumerate(answers):
+        username = f"{answer.user.first_name} {answer.user.last_name}"
+        response_dict["answer_data"][i]["fields"]["username"] = username
+        response_dict["answer_data"][i]["fields"]["email"] = answer.user.email
 
     response_dict["error_msg"] = ""
     response_dict["status_code"] = 200
@@ -44,6 +48,7 @@ def get_comments(request, answer_id):
     for i, comment in enumerate(comments):
         username = f"{comment.user.first_name} {comment.user.last_name}"
         response_dict["comment_data"][i]["fields"]["username"] = username
+        response_dict["comment_data"][i]["fields"]["email"] = comment.user.email
 
     response_dict["error_msg"] = ""
     response_dict["status_code"] = 200

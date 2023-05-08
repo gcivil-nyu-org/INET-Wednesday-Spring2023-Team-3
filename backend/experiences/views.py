@@ -108,6 +108,7 @@ def list_experiences(request):
     for i, experience in enumerate(experiences):
         username = f"{experience.user.first_name} {experience.user.last_name}"
         response_dict["experience_data"][i]["fields"]["username"] = username
+        response_dict["experience_data"][i]["fields"]["email"] = experience.user.email
     response_dict["error_msg"] = ""
     response_dict["status"] = 200
     return JsonResponse(response_dict)
@@ -121,6 +122,7 @@ def get_comments(request, exp_id):
     for i, comment in enumerate(comments):
         username = f"{comment.user.first_name} {comment.user.last_name}"
         response_dict["comment_data"][i]["fields"]["username"] = username
+        response_dict["comment_data"][i]["fields"]["email"] = comment.user.email
 
     response_dict["error_msg"] = ""
     response_dict["status_code"] = 200
