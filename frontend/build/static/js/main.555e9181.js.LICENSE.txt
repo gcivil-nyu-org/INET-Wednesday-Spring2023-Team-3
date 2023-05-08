@@ -5,6 +5,14 @@
 */
 
 /*!
+ * Pusher JavaScript Library v8.0.2
+ * https://pusher.com/
+ *
+ * Copyright 2020, Pusher
+ * Released under the MIT licence.
+ */
+
+/*!
  * dashify <https://github.com/jonschlinkert/dashify>
  *
  * Copyright (c) 2015-2017, Jon Schlinkert.
