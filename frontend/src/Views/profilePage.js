@@ -33,7 +33,7 @@ function ProfilePage() {
     }
   };
   const [user_type, setUserType] = useState("Not entered yet")
-  
+  const [userID, setUserID] = useState("Not entered yet")
   // Usage example
   //const email = 'example@example.com'; // Replace with the actual email
   fetchUserType(user.email)
@@ -41,6 +41,7 @@ function ProfilePage() {
     .then(data => {
       console.log(data);
       setUserType(data.user_type || "Not entered yet"); // Access the user_type field from the response data
+      setUserID(data.userID); 
       
     })
     .catch(error => {
@@ -56,7 +57,7 @@ function ProfilePage() {
   useEffect(() => {
     // Fetch data from API and update state variables based on user type
     if (user_type === "Student/Alumni") { 
-      fetch(`${API_ENDPOINT}/refresh_user_metadata/`)
+      fetch(`${API_ENDPOINT}/fetch_latest_aggregated_user_data/?user=${userID}`)
         .then((response) => response.json())
         .then((data) => {
           console.log(data);
@@ -268,7 +269,7 @@ function ProfilePage() {
                           component="h3"
                           variant="h7"
                           style={{ marginTop: 5, marginBottom: 5, }}
-                        > Questions Answered | {questionsAnswered}
+                        > Questions Answered | {questionsAnswered}, {userID}
                         </Typography>
                         <Typography
                           component="h3"
