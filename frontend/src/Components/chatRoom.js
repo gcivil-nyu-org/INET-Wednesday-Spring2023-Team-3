@@ -1,183 +1,97 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { Navigate } from 'react-router-dom';
-import { Box, Button, List, ListItem, ListItemText } from '@mui/material';
-import AuthContext from '../context/AuthContext';
-import { API_ENDPOINT } from "../Components/api";
-import Navbar from './navbar';
+import { useState, useEffect } from 'react';
+import { Grid, Paper, TextField, Button, List, ListItem, ListItemText } from '@mui/material';
+import Pusher from "pusher-js";
+import Navbar from "../Components/navbar";
 
 function ChatRoom() {
-    const { user } = useContext(AuthContext);
-    const [roomName, setRoomName] = useState('hello');
-    const [chatLog, setChatLog] = useState('');
-    const [chatMessage, setChatMessage] = useState('');
-    const [chatSocket, setChatSocket] = useState(null);
-    const [friends, setFriends] = useState([]);
+
+    const [username, setUsername] = useState('username');
+    const [messages, setMessages] = useState([]);
+    const [message, setMessage] = useState('');
 
     useEffect(() => {
-    if (chatSocket) {
-        chatSocket.close();
-    }
-    setChatSocket(new WebSocket(`ws://127.0.0.1:8000/ws/chat/${roomName}/`));
 
-    return () => {
-        if (chatSocket) {
-        chatSocket.close();
-        }
-    };
-    }, [roomName]);
+        const pusher = new Pusher('9ada003d3013120698bb', {
+          cluster: 'us2'
+        });
+    
+        const channel = pusher.subscribe('chat');
+        console.log("in use effect")
+        channel.bind('message', function(data) {
+            console.log(data)
+            setMessages(prevMessages => [...prevMessages, data]);
+        });
 
-    useEffect(() => {
-    // Fetch the list of friends for the active user
-    async function fetchFriends() {
-        const response = await fetch(`${API_ENDPOINT}/friends-list/${user.user_id}`);
-        const data = await response.json();
-        setFriends(data.friends);
-    }
+    }, []);
 
-    fetchFriends();
+    const handleSubmit = async e => {
+        e.preventDefault();
 
-    console.log(friends);
-
-    if (chatSocket) {
-        chatSocket.onmessage = function (e) {
-        const data = JSON.parse(e.data);
-        if (data.message) {
-            setChatLog(
-            (chatLog) => chatLog + data.message.author + ': ' + data.message.content + '\n'
-            );
-        } else if (data.messages) {
-            data.messages.map((msg) => {
-            setChatLog(
-                (chatLog) => chatLog + msg.author + ': ' + msg.content + '\n'
-            );
-            });
-        }
-        };
-
-        chatSocket.onclose = function (e) {
-        console.error('Chat socket closed unexpectedly' + e);
-        };
-    }
-    }, [chatSocket, user]);
-
-    function handleChatMessageChange(event) {
-        setChatMessage(event.target.value);
-    }
-
-    function handleFetch(event) {
-        event.preventDefault();
-        if (chatSocket) {
-            chatSocket.send(
-            JSON.stringify({
-                message: chatMessage,
-                command: 'fetch_messages',
-                author: user.user_id,
-                recipient: 10,
+        await fetch('http://localhost:8000/chat/messages', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                username,
+                message
             })
-            );
-        }
-    }
-    
-    function handleTest (event) {
-        console.log(friends);
-    }
-    
-    function handleChatMessageSubmit(event) {
-        event.preventDefault();
-            if (chatSocket) {
-                chatSocket.send(
-                JSON.stringify({
-                    message: chatMessage,
-                    command: 'new_message',
-                    author: user.user_id,
-                    recipient: 10,
-                })
-                );
-        }
-        setChatMessage('');
+        });
+
+        setMessage('');
     }
 
-    function handleFriendSelect(recipientId) {
-        console.log(recipientId);
-        // setChatSocket((socket) => {
-        //     if (socket) {
-        //     socket.send(
-        //         JSON.stringify({
-        //         command: 'switch_recipient',
-        //         author: user.user_id,
-        //         recipient: recipientId,
-        //         })
-        //     );
-        //     setChatLog('');
-        //     }
-        //     return socket;
-        // });
-    }
-
-    if (!user) {
-    return <Navigate to="/login" />;
-    }
-
+    // console.log(messages)
     return (
-    <div>
-        <Navbar />
-        <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
-        <Box sx={{ flexGrow: 1 }}>
-            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
-            <List sx={{ maxWidth: '100%' }}>
-                {friends && friends.map((friend) => (
-                <ListItem key={friend.id} onClick={() => handleFriendSelect(friend.id)}>
-                    <ListItemText primary={'friend: ' + friend.name}/>
-                </ListItem>
-                ))}
-            </List>
-            </Box>
-            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
-            <Box sx={{ width: '50%' }}>
-                <Box
-                sx={{
-                    bgcolor: 'background.paper',
-                    boxShadow: 1,
-                    p: 2,
-                    borderRadius: 1,
-                    maxHeight: '60vh',
-                    overflowY: 'scroll',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'flex-start',
-                    justifyContent: 'flex-end',
-                }}
-                >
-                <pre>{chatLog}</pre>
-                </Box>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
-                <input
-                    type="text"
-                    placeholder="Type a message"
-                    value={chatMessage}
-                    onChange={handleChatMessageChange}
-                    onKeyPress={(event) => {
-                    if (event.key === 'Enter') {
-                        handleChatMessageSubmit(event);
-                    }
-                    }}
-                    sx={{ flexGrow: 1, p: 1, mr: 1 }}
+        <div>
+            <Navbar />
+            <Grid container component={Paper} style={{ height: '80vh' }} padding={2}>
+            <Grid item xs={12} style={{ height: '10vh' }}>
+                <TextField
+                variant="outlined"
+                label="Username"
+                value={username}
+                onChange={e => setUsername(e.target.value)}
+                fullWidth
                 />
-                <Button variant="contained" onClick={handleChatMessageSubmit}>
-                    Send
-                </Button>
-                <Button variant="contained" onClick={handleFetch}>
-                    Fetch
-                </Button>
-                <Button variant="contained" onClick={handleTest}>
-                    Test
-                </Button>
-                </Box>
-            </Box>
-            </Box>
-        </Box>
-        </Box>
-    </div>
+            </Grid>
+            <Grid item xs={12} style={{ height: '60vh', overflowY: 'auto' }}>
+                <List>
+                {messages.map((message, index) => (
+                    <ListItem key={index}>
+                    <ListItemText
+                        primary={message.username}
+                        secondary={message.message}
+                    />
+                    </ListItem>
+                ))}
+                </List>
+            </Grid>
+            <Grid item xs={12} style={{ height: '10vh' }}>
+                <form onSubmit={handleSubmit}>
+                <Grid container>
+                    <Grid item xs={10}>
+                    <TextField
+                        variant="outlined"
+                        label="Message"
+                        value={message}
+                        onChange={e => setMessage(e.target.value)}
+                        fullWidth
+                    />
+                    </Grid>
+                    <Grid item xs={2}>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        type="submit"
+                        fullWidth
+                    >
+                        Send
+                    </Button>
+                    </Grid>
+                </Grid>
+                </form>
+            </Grid>
+            </Grid>
+        </div>
     );
   
 }
