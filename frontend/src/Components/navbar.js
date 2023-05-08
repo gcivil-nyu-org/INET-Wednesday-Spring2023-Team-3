@@ -11,6 +11,7 @@ import { API_ENDPOINT } from "../Components/api";
 function Navbar() {
   const navigate = useNavigate();
   const path = useLocation();
+  const { user, logoutUser } = useContext(AuthContext);
   const [userType, setUserType] = useState("Hiring Manager");
 
   useEffect(() => {
@@ -20,7 +21,7 @@ function Navbar() {
         setUserType(data.user_type);
       })
       .catch((error) => console.error(error));
-  }, []);
+  }, [user.email]);
 
   const homePage = () => {
     navigate("/");
@@ -53,7 +54,6 @@ function Navbar() {
     navigate("/recruiterHome");
   };
 
-  const { user, logoutUser } = useContext(AuthContext);
   return (
     <AppBar position="sticky" style={{ backgroundColor: "#57068c" }}>
       <Toolbar>
