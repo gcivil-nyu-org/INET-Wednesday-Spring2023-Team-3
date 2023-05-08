@@ -48,7 +48,7 @@ class StudentAlumniProfileCreateView(generics.UpdateAPIView):
         email = kwargs.get("email")
         try:
             instance = self.queryset.get(email=email)
-            serializer = self.get_serializer(instance, data=request.data)
+            serializer = self.get_serializer(instance, data=request.data, partial=True)
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data)
@@ -93,7 +93,7 @@ class CompanyProfileCreate(generics.UpdateAPIView):
         email = kwargs.get("email")
         try:
             instance = self.queryset.get(email=email)
-            serializer = self.get_serializer(instance, data=request.data)
+            serializer = self.get_serializer(instance, data=request.data, partial=True)
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data)
