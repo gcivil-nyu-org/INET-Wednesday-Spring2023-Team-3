@@ -64,14 +64,28 @@ def fetch_latest_aggregated_user_data(request):
     response_dict["user_data"] = []
     last_agg = Aggregations.objects.all().first().last_agg_id
     last_agg_rows = UserWiseAggregation.objects.filter(agg_id=last_agg)
-    response_dict["total_user_count"] = last_agg_rows.count()
 
     params = request.GET
-    sort_by, cur_page, single_page_count = (
+    sort_by, cur_page, single_page_count, user = (
         params.get("sort_by"),
         params.get("cur_page"),
         params.get("single_page_count"),
+        params.get("user"),
     )
+
+    if user:
+        try:
+            user_agg_row = last_agg_rows.filter(user=MyUser.objects.get(id=user))
+            response_dict["user_data"] = json.loads(
+                serializers.serialize("json", user_agg_row)
+            )
+            response_dict["status"] = 200
+            response_dict["error_msg"] = ""
+            return JsonResponse(response_dict)
+        except Exception as e:
+            return error_response(response_dict, f"Error: {e}")
+
+    response_dict["total_user_count"] = last_agg_rows.count()
 
     if sort_by and (
         sort_by in [f.name for f in UserWiseAggregation._meta.get_fields()]
