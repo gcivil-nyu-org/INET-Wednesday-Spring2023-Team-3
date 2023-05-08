@@ -8,7 +8,11 @@ class StudentAlumniProfile(models.Model):
     previous_employer = models.CharField(max_length=100)
     linkedin_link = models.URLField()
     github_link = models.URLField()
-    img_file = models.FileField(max_length=200, null=True, blank=True)
+    img_file = models.FileField(max_length=300, null=True, blank=True)
+    user_summary = models.TextField(null=True, blank=True)
+    gpa = models.DecimalField(max_digits=4, decimal_places=2, null=True, blank=True)
+    highest_degree = models.CharField(max_length=50, default="", null=True, blank=True)
+    degree_subject = models.CharField(max_length=50, default="", null=True, blank=True)
 
 
 class CompanyProfile(models.Model):
@@ -17,3 +21,4 @@ class CompanyProfile(models.Model):
     website = models.URLField(max_length=200)
     description = models.TextField()
     img_file = models.FileField(max_length=200, null=True, blank=True)
+    company_logo = models.FileField(max_length=300, null=True, blank=True)
