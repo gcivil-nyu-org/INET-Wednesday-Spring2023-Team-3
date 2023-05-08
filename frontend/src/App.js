@@ -18,6 +18,7 @@ import MockInterview from "./Views/mockInterview";
 import Experience from "./Views/experience";
 import ExperienceDetails from "./Views/experienceDetails";
 import UploadExperience from "./Views/uploadExperience";
+import RecruiterHome from "./Views/recruiterHome";
 import ChatRoom from "./Components/chatRoom";
 import Connect from "./Components/connect";
 
@@ -28,6 +29,7 @@ function App() {
         <AuthProvider>
           <Routes>
             <Route exact path="/" element={<Homepage />} />
+            <Route exact path="/recruiterHome" element={<RecruiterHome />} />
             <Route
               exact
               path="/QuestionDetails"
