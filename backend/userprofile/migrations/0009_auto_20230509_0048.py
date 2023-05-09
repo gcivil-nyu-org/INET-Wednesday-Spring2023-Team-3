@@ -7,33 +7,47 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('userprofile', '0008_alter_companyprofile_email'),
+        ("userprofile", "0008_alter_companyprofile_email"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='studentalumniprofile',
-            name='github_link',
-            field=models.URLField(blank=True, null=True, validators=[django.core.validators.RegexValidator('^https://github.com/*')]),
+            model_name="studentalumniprofile",
+            name="github_link",
+            field=models.URLField(
+                blank=True,
+                null=True,
+                validators=[
+                    django.core.validators.RegexValidator("^https://github.com/*")
+                ],
+            ),
         ),
         migrations.AlterField(
-            model_name='studentalumniprofile',
-            name='job_preference',
+            model_name="studentalumniprofile",
+            name="job_preference",
             field=models.CharField(blank=True, max_length=100, null=True),
         ),
         migrations.AlterField(
-            model_name='studentalumniprofile',
-            name='linkedin_link',
-            field=models.URLField(blank=True, null=True, validators=[django.core.validators.RegexValidator('^https://www.linkedin.com/in/*')]),
+            model_name="studentalumniprofile",
+            name="linkedin_link",
+            field=models.URLField(
+                blank=True,
+                null=True,
+                validators=[
+                    django.core.validators.RegexValidator(
+                        "^https://www.linkedin.com/in/*"
+                    )
+                ],
+            ),
         ),
         migrations.AlterField(
-            model_name='studentalumniprofile',
-            name='previous_employer',
+            model_name="studentalumniprofile",
+            name="previous_employer",
             field=models.CharField(blank=True, max_length=100, null=True),
         ),
         migrations.AlterField(
-            model_name='studentalumniprofile',
-            name='years_of_experience',
+            model_name="studentalumniprofile",
+            name="years_of_experience",
             field=models.IntegerField(blank=True, null=True),
         ),
     ]
