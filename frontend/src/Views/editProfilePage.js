@@ -198,6 +198,7 @@ function EditProfile() {
       newForm.append("gpa", formData.gpa);
       newForm.append("highest_degree", formData.highest_degree);
       newForm.append("degree_subject", formData.degree_subject);
+      newForm.append("email", user.email);
       
       fetch(url, {
         method: "PUT",
@@ -237,6 +238,7 @@ function EditProfile() {
       newForm.append("name", companyFormData.name);
       newForm.append("website", companyFormData.website);
       newForm.append("description", companyFormData.description);
+      newForm.append("email", user.email);
 
       if (fileCompanyImage) {
         newForm.append("company_logo", fileCompanyImage);
