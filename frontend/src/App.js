@@ -21,6 +21,7 @@ import UploadExperience from "./Views/uploadExperience";
 import RecruiterHome from "./Views/recruiterHome";
 import ChatRoom from "./Components/chatRoom";
 import Connect from "./Components/connect";
+import ProfilePageOther from "./Views/profilePageOther";
 
 function App() {
   return (
@@ -62,6 +63,7 @@ function App() {
               element={<SetNewPassword />}
             />
             <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/profile/:userEmail" element={<ProfilePageOther />} />
             <Route path="/editProfilePage" element={<EditProfile />} />
           </Routes>
         </AuthProvider>
