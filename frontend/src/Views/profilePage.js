@@ -57,7 +57,7 @@ function ProfilePage() {
   useEffect(() => {
     // Fetch data from API and update state variables based on user type
     if (user_type === "Student/Alumni") { 
-      fetch(`${API_ENDPOINT}/fetch_latest_aggregated_user_data/?user=${userID}`)
+      fetch(`${API_ENDPOINT}/hiringmanager/fetch_latest_aggregated_user_data?user=${userID}`)
         .then((response) => response.json())
         .then((data) => {
           console.log(data);

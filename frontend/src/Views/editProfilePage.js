@@ -46,6 +46,9 @@ function EditProfile() {
 
   const [open, setOpen] = React.useState(false);
   const [alertMessage, setAlertMessage] = React.useState("error");
+  const [file, setFile] = useState(null);
+  const [fileCompanyProfile, setFileCompanyProfile] = useState(null);
+  const [fileCompanyImage, setFileCompanyImage] = useState(null);
 
   const { user } = useContext(AuthContext);
 
@@ -183,26 +186,33 @@ function EditProfile() {
       }
 
       const url = `${API_ENDPOINT}/nyu-profile/${user.email}/`;
-
-      const postReq = JSON.stringify({
-        ...formData,
-        email: user.email,
-      });
-      console.log(postReq);
-
-      try {
-        const response = await axios.put(url, postReq, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        const data = response.data;
-        navigate("/profile", { replace: true });
-        console.log(data);
-      } catch (error) {
-        console.log(error);
+      let newForm = new FormData();
+      newForm.append("job_preference", formData.job_preference);
+      newForm.append("years_of_experience", formData.years_of_experience);
+      newForm.append("linkedin_link", formData.linkedin_link);
+      newForm.append("github_link", formData.github_link);
+      if (file) {
+        newForm.append("img_file", file);
       }
+      newForm.append("user_summary", formData.user_summary);
+      newForm.append("gpa", formData.gpa);
+      newForm.append("highest_degree", formData.highest_degree);
+      newForm.append("degree_subject", formData.degree_subject);
+      
+      fetch(url, {
+        method: "PUT",
+        body: newForm,
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          navigate("/profile", { replace: true });
+        })
+        .catch((error) => {
+          console.error(error);
+          return;
+        });
+          
     } else {
       //handle company profile submission
       if (
@@ -223,25 +233,32 @@ function EditProfile() {
       }   
 
       const url = `${API_ENDPOINT}/companies-profile/${user.email}/`;
+      let newForm = new FormData();
+      newForm.append("name", companyFormData.name);
+      newForm.append("website", companyFormData.website);
+      newForm.append("description", companyFormData.description);
 
-      const postReq = JSON.stringify({
-        ...companyFormData,
-        email: user.email,
-      });
-
-      try {
-        const response = await axios.put(url, postReq, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        const data = response.data;
-        navigate("/profile", { replace: true });
-        console.log(data);
-      } catch (error) {
-        console.log(error);
+      if (fileCompanyImage) {
+        newForm.append("company_logo", fileCompanyImage);
       }
+      
+      if (fileCompanyProfile) {
+        newForm.append("img_file", fileCompanyProfile);
+      }
+
+      fetch(url, {
+        method: "PUT",
+        body: newForm,
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          navigate("/profile", { replace: true });
+        })
+        .catch((error) => {
+          console.error(error);
+          return;
+        });
     }
   }
 
@@ -257,6 +274,24 @@ function EditProfile() {
       ...companyFormData,
       [event.target.name]: event.target.value,
     });
+  };
+
+  const handleFileChange = (e) => {
+    if (e.target.files) {
+      setFile(e.target.files[0]);
+    }
+  };
+  
+  const handleFileCompanyImageChange = (e) => {
+    if (e.target.files) {
+      setFileCompanyImage(e.target.files[0]);
+    }
+  };
+
+  const handleFileCompanyProfileChange = (e) => {
+    if (e.target.files) {
+      setFileCompanyProfile(e.target.files[0]);
+    }
   };
 
   if (!user) {
@@ -332,7 +367,7 @@ function EditProfile() {
                           Upload Photo:
                             <input
                             type="file"
-                            onChange={handleInputChange}
+                            onChange={handleFileChange}
                             accept="image/*"
                             style={{ marginLeft: 5, marginRight:-50 }}
                             />
@@ -536,10 +571,10 @@ function EditProfile() {
                             </Typography>
 
                             <div style={{ marginTop: 10 }}>
-                            Upload Photo:
+                            Upload Photo3:
                               <input
                               type="file"
-                              onChange={handleCompanyInputChange}
+                              onChange={handleFileCompanyImageChange}
                               accept="image/*"
                               style={{ marginLeft: 5, marginRight:-45 }}
                               />
@@ -635,10 +670,10 @@ function EditProfile() {
                                 </Typography>
 
                                 <div style={{ marginTop: 10, marginLeft: 40, marginRight:-30,}}>
-                                  Update Photo:
+                                  Update Photo2:
                                   <input
                                   type="file"
-                                  onChange={handleCompanyInputChange}
+                                  onChange={handleFileCompanyProfileChange}
                                   accept="image/*"
                                   style={{ marginLeft: 5 }}
                                   />

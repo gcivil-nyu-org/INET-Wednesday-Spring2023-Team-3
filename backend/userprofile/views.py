@@ -49,12 +49,15 @@ class StudentAlumniProfileCreateView(generics.UpdateAPIView):
         try:
             instance = self.queryset.get(email=email)
             serializer = self.get_serializer(instance, data=request.data, partial=True)
+            
+            print(serializer)
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except StudentAlumniProfile.DoesNotExist:
             serializer = self.get_serializer(data=request.data)
+            print("2", serializer.is_valid())
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
