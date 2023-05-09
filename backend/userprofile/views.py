@@ -55,8 +55,11 @@ class StudentAlumniProfileCreateView(generics.UpdateAPIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except StudentAlumniProfile.DoesNotExist:
             serializer = self.get_serializer(data=request.data)
+            print("second part", serializer.is_valid())
             if serializer.is_valid():
+                print("trying to save")
                 serializer.save()
+                print("saved")
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
