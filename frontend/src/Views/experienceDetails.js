@@ -47,7 +47,12 @@ function ExperienceDetails() {
           {text}
         </Typography>
         {img && (
-          <img src={img} style={{ marginTop: 10 }} alt={"Attached img"} />
+          <img
+            src={img}
+            style={{ marginTop: 10 }}
+            alt={"Attached img"}
+            width={"50%"}
+          />
         )}
 
         <ExperienceComments experienceID={pk} />
