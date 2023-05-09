@@ -69,7 +69,7 @@ function Navbar() {
         </Typography>
         {user && userType === "Hiring Manager" ? (
           <Button color="inherit" onClick={explore}>
-            Explore
+            Top users
           </Button>
         ) : null}
         <Button color="inherit" onClick={homePage}>
