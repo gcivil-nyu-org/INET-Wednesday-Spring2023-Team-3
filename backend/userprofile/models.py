@@ -25,7 +25,7 @@ class StudentAlumniProfile(models.Model):
 class CompanyProfile(models.Model):
     email = models.EmailField(max_length=255, unique=True)
     name = models.CharField(max_length=100)
-    website = models.URLField(max_length=200)
-    description = models.TextField()
+    website = models.URLField(max_length=200, null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
     img_file = models.FileField(max_length=200, null=True, blank=True)
     company_logo = models.FileField(max_length=300, null=True, blank=True)
