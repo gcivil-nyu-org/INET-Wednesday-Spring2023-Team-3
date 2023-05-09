@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import Navbar from "../Components/navbar";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -10,7 +11,7 @@ import { API_ENDPOINT } from "../Components/api";
 import ExperienceComments from "../Components/experienceComments";
 
 function ExperienceDetails() {
-  const { pk, author } = useParams();
+  const { pk, author, email } = useParams();
 
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
@@ -40,7 +41,8 @@ function ExperienceDetails() {
           {title}
         </Typography>
         <Typography variant="h7" gutterBottom>
-          {createdAt.slice(0, 10)} | Author: {author}
+          {createdAt.slice(0, 10)} | Author:{" "}
+          <Link to={`/profile/${email}`}>{author}</Link>
         </Typography>
         <Divider style={{ marginTop: 20 }} />
         <Typography variant="body1" gutterBottom style={{ marginTop: 20 }}>

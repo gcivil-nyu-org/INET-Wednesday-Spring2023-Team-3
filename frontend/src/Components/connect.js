@@ -3,6 +3,7 @@ import { Box, Button } from "@mui/material";
 import Navbar from "./navbar";
 import AuthContext from "../context/AuthContext";
 import { API_ENDPOINT } from "../Components/api";
+import { Link } from "react-router-dom";
 
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
@@ -234,7 +235,9 @@ function Connect() {
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
                     <TableCell>
-                      {user.fields.first_name + " " + user.fields.last_name}
+                      <Link to={`/profile/${user.fields.email}`}>
+                        {user.fields.first_name + " " + user.fields.last_name}
+                      </Link>
                     </TableCell>
                     <TableCell>{user.fields.email}</TableCell>
                     <TableCell>

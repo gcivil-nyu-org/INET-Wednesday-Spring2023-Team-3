@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -316,7 +317,11 @@ function RecuriterHome() {
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <StyledTableCell>
-                    <Typography variant="subtitle1">{row.username}</Typography>
+                    <Link to={``}>
+                      <Typography variant="subtitle1">
+                        {row.username}
+                      </Typography>
+                    </Link>
                   </StyledTableCell>
                   <StyledTableCell align="right">
                     {row.avg_rec_rating_received}
