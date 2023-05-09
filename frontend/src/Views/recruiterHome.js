@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -211,7 +212,7 @@ function RecuriterHome() {
                   >
                     <Stack direction={"row"}>
                       <Typography variant="h6">
-                        avg_rec_rating_received
+                        Average rating received
                       </Typography>
                       {sortBy === "-avg_rec_rating_received" && (
                         <KeyboardArrowDownOutlinedIcon />
@@ -226,7 +227,7 @@ function RecuriterHome() {
                     }}
                   >
                     <Stack direction={"row"}>
-                      <Typography variant="h6">num_exp_posted</Typography>
+                      <Typography variant="h6">experience posted</Typography>
                       {sortBy === "-num_exp_posted" && (
                         <KeyboardArrowDownOutlinedIcon />
                       )}
@@ -240,7 +241,7 @@ function RecuriterHome() {
                     }}
                   >
                     <Stack direction={"row"}>
-                      <Typography variant="h6">num_rec_posted</Typography>
+                      <Typography variant="h6">recording posted</Typography>
                       {sortBy === "-num_rec_posted" && (
                         <KeyboardArrowDownOutlinedIcon />
                       )}
@@ -254,7 +255,7 @@ function RecuriterHome() {
                     }}
                   >
                     <Stack direction={"row"}>
-                      <Typography variant="h6">num_codes_posted</Typography>
+                      <Typography variant="h6">codes posted</Typography>
                       {sortBy === "-num_codes_posted" && (
                         <KeyboardArrowDownOutlinedIcon />
                       )}
@@ -268,9 +269,7 @@ function RecuriterHome() {
                     }}
                   >
                     <Stack direction={"row"}>
-                      <Typography variant="h6">
-                        num_totalcmnts_posted
-                      </Typography>
+                      <Typography variant="h6">comments posted</Typography>
                       {sortBy === "-num_totalcmnts_posted" && (
                         <KeyboardArrowDownOutlinedIcon />
                       )}
@@ -284,7 +283,9 @@ function RecuriterHome() {
                     }}
                   >
                     <Stack direction={"row"}>
-                      <Typography variant="h6">num_expcmnts_posted</Typography>
+                      <Typography variant="h6">
+                        experience comments posted
+                      </Typography>
                       {sortBy === "-num_expcmnts_posted" && (
                         <KeyboardArrowDownOutlinedIcon />
                       )}
@@ -298,7 +299,9 @@ function RecuriterHome() {
                     }}
                   >
                     <Stack direction={"row"}>
-                      <Typography variant="h6">num_anscmnts_posted</Typography>
+                      <Typography variant="h6">
+                        answer comments posted
+                      </Typography>
                       {sortBy === "-num_anscmnts_posted" && (
                         <KeyboardArrowDownOutlinedIcon />
                       )}
@@ -314,7 +317,11 @@ function RecuriterHome() {
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <StyledTableCell>
-                    <Typography variant="subtitle1">{row.username}</Typography>
+                    <Link to={``}>
+                      <Typography variant="subtitle1">
+                        {row.username}
+                      </Typography>
+                    </Link>
                   </StyledTableCell>
                   <StyledTableCell align="right">
                     {row.avg_rec_rating_received}

@@ -12,8 +12,8 @@ import Paper from "@mui/material/Paper";
 import Navbar from "../Components/navbar";
 import { API_ENDPOINT } from "../Components/api";
 
-function createData(answerID, title, createdDate) {
-  return { answerID, title, createdDate };
+function createData(answerID, title, createdDate, author, email) {
+  return { answerID, title, createdDate, author, email };
 }
 
 function AnswersList() {
@@ -27,9 +27,16 @@ function AnswersList() {
       .then((response) => response.json())
       .then((data) => {
         let rowsData = [];
+        console.log(data);
         data.answer_data.map((answer) => {
           return rowsData.push(
-            createData(answer.pk, answer.fields.title, answer.fields.created_at)
+            createData(
+              answer.pk,
+              answer.fields.title,
+              answer.fields.created_at,
+              answer.fields.username,
+              answer.fields.email
+            )
           );
         });
         setRows(rowsData);
@@ -78,7 +85,11 @@ function AnswersList() {
                   {rows.map((row) => (
                     <TableRow key={row.name}>
                       <TableCell component="th" scope="row">
-                        <Link to={`/answer/${row.answerID}`}>{row.title}</Link>
+                        <Link
+                          to={`/answer/${row.answerID}/${row.author}/${row.email}`}
+                        >
+                          {row.title}
+                        </Link>
                       </TableCell>
                       <TableCell>{row.createdDate.slice(0, 10)}</TableCell>
                     </TableRow>
