@@ -57,14 +57,16 @@ function ProfilePage() {
   useEffect(() => {
     // Fetch data from API and update state variables based on user type
     if (user_type === "Student/Alumni") { 
-      fetch(`${API_ENDPOINT}/fetch_latest_aggregated_user_data/?user=${userID}`)
+      fetch(`${API_ENDPOINT}/hiringmanager/fetch_latest_aggregated_user_data?user=${userID}`)
         .then((response) => response.json())
         .then((data) => {
+          console.log("here")
           console.log(data);
-          setExperiencesPosted(data.num_exp_posted || "Add Job Preference");
-          setQuestionsAnswered(data.num_codes_posted || "Add Years of Experience");
-          setCommentsPosted(data.num_totalcmnts_posted || "Add Previous Employer");
-          setUserRating(data.avg_rec_rating_received || "Add Github");
+
+          setExperiencesPosted(data.user_data[0].fields.num_exp_posted || "No User Data");
+          setQuestionsAnswered(data.user_data[0].fields.num_codes_posted || "No User Data");
+          setCommentsPosted(data.user_data[0].fields.num_totalcmnts_posted || "No User Data");
+          setUserRating(data.user_data[0].fields.avg_rec_rating_received || "No User Data");
         })
         .catch((error) => console.error(error));
         }
@@ -94,7 +96,7 @@ function ProfilePage() {
       fetch(`${API_ENDPOINT}/profile-info/${user.email}`)
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
+          // console.log(data);
           setJobPreference(data.job_preference || "Add Job Preference");
           setYearsOfExperience(data.years_of_experience || "Add Years of Experience");
           setPreviousEmployer(data.previous_employer || "Add Previous Employer");
@@ -269,7 +271,7 @@ function ProfilePage() {
                           component="h3"
                           variant="h7"
                           style={{ marginTop: 5, marginBottom: 5, }}
-                        > Questions Answered | {questionsAnswered}, {userID}
+                        > Questions Answered | {questionsAnswered}
                         </Typography>
                         <Typography
                           component="h3"
