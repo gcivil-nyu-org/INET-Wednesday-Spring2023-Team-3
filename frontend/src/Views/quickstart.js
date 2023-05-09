@@ -18,7 +18,6 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import { FormControl } from "@mui/material";
 
-
 function QuickStart() {
   const navigate = useNavigate();
   let metadataURL = `${API_ENDPOINT}/questions/metadata`;
@@ -31,7 +30,7 @@ function QuickStart() {
     metadata: "",
     selectedCompany: "",
     position: "",
-    selectedPosition: ""
+    selectedPosition: "",
   });
 
   useEffect(() => {
@@ -40,8 +39,10 @@ function QuickStart() {
         const response = await fetch(metadataURL);
         const metadata = await response.json();
         setFormData((prevState) => ({ ...prevState, metadata }));
-        setFormData((prevState) => ({ ...prevState, company: Object.keys(metadata.metadata) }));
-
+        setFormData((prevState) => ({
+          ...prevState,
+          company: Object.keys(metadata.metadata),
+        }));
       } catch (error) {
         console.error(error);
       }
@@ -51,9 +52,9 @@ function QuickStart() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    navigate('/mock-interview', { state: formData });
+    navigate("/mock-interview", { state: formData });
   };
-  
+
   const handleInputChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
@@ -62,7 +63,7 @@ function QuickStart() {
       setFormData((prevState) => ({
         ...prevState,
         selectedCompany: value,
-        position: selectedCompanyMetadata
+        position: selectedCompanyMetadata,
       }));
     } else {
       setFormData((prevState) => ({
@@ -78,9 +79,9 @@ function QuickStart() {
     <>
       <Navbar />
       <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
+          <Box
             sx={{
               marginTop: 8,
               display: "flex",
@@ -114,12 +115,12 @@ function QuickStart() {
                       onChange={handleInputChange}
                       autoWidth
                       autoFocus
-                    > 
-                    {Object.keys(formData.company).map((item) => (
-                      <MenuItem value={formData.company[item]}>
-                        {formData.company[item]}
-                      </MenuItem>
-                    ))}
+                    >
+                      {Object.keys(formData.company).map((item) => (
+                        <MenuItem value={formData.company[item]}>
+                          {formData.company[item]}
+                        </MenuItem>
+                      ))}
                     </Select>
                   </FormControl>
                 </Grid>
@@ -136,12 +137,12 @@ function QuickStart() {
                       onChange={handleInputChange}
                       autoWidth
                       autoFocus
-                    > 
-                    {Object.keys(formData.position).map((item) => (
-                      <MenuItem value={formData.position[item]}>
-                        {formData.position[item]}
-                      </MenuItem>
-                    ))}
+                    >
+                      {Object.keys(formData.position).map((item) => (
+                        <MenuItem value={formData.position[item]}>
+                          {formData.position[item]}
+                        </MenuItem>
+                      ))}
                     </Select>
                   </FormControl>
                 </Grid>
@@ -190,9 +191,8 @@ function QuickStart() {
               </Button>
             </Box>
           </Box>
-      </Container>
+        </Container>
       </ThemeProvider>
-
     </>
   );
 }
