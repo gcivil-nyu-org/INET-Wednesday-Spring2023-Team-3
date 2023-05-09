@@ -48,7 +48,8 @@ function createData(
   num_codes_posted,
   num_totalcmnts_posted,
   num_expcmnts_posted,
-  num_anscmnts_posted
+  num_anscmnts_posted,
+  email
 ) {
   return {
     username,
@@ -59,6 +60,7 @@ function createData(
     num_totalcmnts_posted,
     num_expcmnts_posted,
     num_anscmnts_posted,
+    email,
   };
 }
 
@@ -128,7 +130,8 @@ function RecuriterHome() {
           user.fields.num_codes_posted,
           user.fields.num_totalcmnts_posted,
           user.fields.num_expcmnts_posted,
-          user.fields.num_anscmnts_posted
+          user.fields.num_anscmnts_posted,
+          user.fields.email
         )
       );
     });
@@ -317,7 +320,7 @@ function RecuriterHome() {
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <StyledTableCell>
-                    <Link to={``}>
+                    <Link to={`/profile/${row.email}`}>
                       <Typography variant="subtitle1">
                         {row.username}
                       </Typography>
