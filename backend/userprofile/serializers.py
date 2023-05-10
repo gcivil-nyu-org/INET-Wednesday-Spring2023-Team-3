@@ -5,17 +5,12 @@ from .models import StudentAlumniProfile, CompanyProfile
 class StudentAlumniProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = StudentAlumniProfile
-        fields = [
-            "email",
-            "job_preference",
-            "years_of_experience",
-            "previous_employer",
-            "linkedin_link",
-            "github_link",
-        ]
+        fields = "__all__"
+        partial = True
 
 
 class CompanySerializer(serializers.ModelSerializer):
     class Meta:
         model = CompanyProfile
         fields = "__all__"
+        partial = True

@@ -6,7 +6,6 @@ from .views import (
     company_profile,
 )
 
-
 urlpatterns = [
     path(
         "nyu-profile/<str:email>/",
@@ -14,7 +13,7 @@ urlpatterns = [
         name="student_alumni_profile",
     ),
     path(
-        "companies-profile/",
+        "companies-profile/<str:email>/",
         CompanyProfileCreate.as_view(),
         name="company_recruiter_profile",
     ),

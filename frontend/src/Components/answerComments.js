@@ -1,5 +1,6 @@
 import { useEffect, useState, useContext } from "react";
 import * as React from "react";
+import { Link } from "react-router-dom";
 
 import { Button, Comment, Form, Header } from "semantic-ui-react";
 import Select from "@mui/material/Select";
@@ -33,6 +34,19 @@ function AnswerComments({ answerId }) {
   const handleRatingChange = (event) => {
     setRating(event.target.value);
   };
+  console.log(user);
+
+  const [userName, setUserName] = useState("");
+  useEffect(() => {
+    const url = `${API_ENDPOINT}/get_user_details/${user.user_id}/`;
+
+    fetch(url)
+      .then((response) => response.json())
+      .then((data) => {
+        setUserName(data.name);
+      })
+      .catch((error) => console.error(error));
+  }, [user.user_id]);
 
   useEffect(() => {
     const url = `${API_ENDPOINT}/get_comments/${answerId}`;
@@ -47,6 +61,7 @@ function AnswerComments({ answerId }) {
             created_at: data.fields.created_at,
             rating: data.fields.rating,
             text: data.fields.text,
+            email: data.fields.email,
           });
         });
         setCommentData(newCommentData);
@@ -87,7 +102,17 @@ function AnswerComments({ answerId }) {
     })
       .then((response) => response.json())
       .then(() => {
-        window.location.reload(false);
+        let newCommentData = [
+          ...commentData,
+          {
+            username: userName,
+            created_at: "now",
+            rating: rating,
+            text: newComment,
+            email: user.email,
+          },
+        ];
+        setCommentData(newCommentData);
       })
       .catch((error) => console.error(error));
   };
@@ -118,11 +143,10 @@ function AnswerComments({ answerId }) {
         {commentData.map((comment) => {
           return (
             <Comment>
-              <Comment.Avatar
-                src={"https://i.pravatar.cc/" + Math.floor(Math.random() * 100)}
-              />
               <Comment.Content>
-                <Comment.Author as="a">{comment.username}</Comment.Author>
+                <Link to={`/profile/${comment.email}`}>
+                  <Comment.Author as="a">{comment.username}</Comment.Author>
+                </Link>
                 <Comment.Metadata>
                   <div>{comment.created_at.slice(0, 10)}</div>
                 </Comment.Metadata>

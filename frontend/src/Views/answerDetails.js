@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import Box from "@mui/material/Box";
@@ -10,7 +10,7 @@ import AnswerComments from "../Components/answerComments";
 import Navbar from "../Components/navbar";
 
 function AnswerDetails() {
-  const { answer_id } = useParams();
+  const { answer_id, author, email } = useParams();
   const [answerData, setAnswerData] = useState([]);
 
   useEffect(() => {
@@ -40,7 +40,8 @@ function AnswerDetails() {
           {answerData.title}
         </Typography>
         <Typography variant="h7" gutterBottom>
-          {answerData.created_at}
+          {answerData.created_at && answerData.created_at.slice(0, 10)} |
+          Author: <Link to={`/profile/${email}`}>{author}</Link>
         </Typography>
         <Box display="flex" justifyContent="center" alignItems="center">
           <Media style={{ marginTop: "50px" }}>

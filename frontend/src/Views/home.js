@@ -156,6 +156,7 @@ function Homepage() {
                   </Select>
                 </FormControl>
               </Box>
+
               <Box sx={{ minWidth: 120 }}>
                 <FormControl fullWidth>
                   <InputLabel id="company-select-label">Company</InputLabel>
@@ -260,7 +261,11 @@ function Homepage() {
         variant="middle"
         style={{ color: "#9B5EA2", borderColor: "#9B5EA2" }}
       />
-
+      <Box sx={{ padding: 2, textAlign: "center" }}>
+        <Typography variant="h4" component="div" sx={{ flexGrow: 1 , color: "#57068c"}}>
+          Interview Questions
+        </Typography>
+      </Box>
       <Box sx={{ padding: 2 }}>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">

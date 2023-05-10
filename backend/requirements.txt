@@ -13,3 +13,7 @@ psycopg2-binary
 django-ipware
 django-storages
 boto3
+channels
+daphne
+channels_redis
+pusher

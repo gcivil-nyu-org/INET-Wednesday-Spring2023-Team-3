@@ -1,5 +1,6 @@
 import { useEffect, useState, useContext } from "react";
 import * as React from "react";
+import { Link } from "react-router-dom";
 
 import { Button, Comment, Form, Header } from "semantic-ui-react";
 import Stack from "@mui/material/Stack";
@@ -24,18 +25,32 @@ function ExperienceComments({ experienceID }) {
   const [alertStatus, setAlertStatus] = useState("success");
   const [alertMessage, setAlertMessage] = useState("Upload successful");
 
+  const [userName, setUserName] = useState("");
+  useEffect(() => {
+    const url = `${API_ENDPOINT}/get_user_details/${user.user_id}/`;
+
+    fetch(url)
+      .then((response) => response.json())
+      .then((data) => {
+        setUserName(data.name);
+      })
+      .catch((error) => console.error(error));
+  }, [user.user_id]);
+
   useEffect(() => {
     const url = `${API_ENDPOINT}/experiences/get_comments/${experienceID}`;
 
     fetch(url)
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
         let newCommentData = [];
         data.comment_data.map((data) => {
           return newCommentData.push({
             username: data.fields.username,
             created_at: data.fields.created_at,
             text: data.fields.text,
+            email: data.fields.email,
           });
         });
         setCommentData(newCommentData);
@@ -69,7 +84,16 @@ function ExperienceComments({ experienceID }) {
     })
       .then((response) => response.json())
       .then(() => {
-        window.location.reload(false);
+        let newCommentData = [
+          ...commentData,
+          {
+            username: userName,
+            created_at: "now",
+            text: newComment,
+            email: user.email,
+          },
+        ];
+        setCommentData(newCommentData);
       })
       .catch((error) => console.error(error));
   };
@@ -100,11 +124,10 @@ function ExperienceComments({ experienceID }) {
         {commentData.map((comment) => {
           return (
             <Comment>
-              <Comment.Avatar
-                src={"https://i.pravatar.cc/" + Math.floor(Math.random() * 100)}
-              />
               <Comment.Content>
-                <Comment.Author as="a">{comment.username}</Comment.Author>
+                <Link to={`/profile/${comment.email}`}>
+                  <Comment.Author as="a">{comment.username}</Comment.Author>
+                </Link>
                 <Comment.Metadata>
                   <div>{comment.created_at.slice(0, 10)}</div>
                 </Comment.Metadata>
