@@ -25,6 +25,7 @@ import Navbar from "../Components/navbar";
 import AuthContext from "../context/AuthContext";
 import { API_ENDPOINT } from "../Components/api";
 import { Stack } from "@mui/material";
+import RefreshIcon from '@mui/icons-material/Refresh';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -187,19 +188,31 @@ function RecuriterHome() {
       <Navbar />
 
       <Box sx={{ padding: 2 }}>
-        <Button
-          variant="contained"
-          sx={{ width: 150 }}
-          style={{
-            textTransform: "none",
-            backgroundColor: "#9B5EA2",
-            height: 40,
-            marginBottom: 10,
-          }}
-          onClick={refreshUserData}
+        <Box
+          sx={{ display: "flex", justifyContent: "flex-end", marginBottom: 2 }}
         >
-          Refresh user data
-        </Button>
+          
+          <Typography
+            variant="h4"
+            component="div"
+            sx={{ flexGrow: 1, color: "#57068c" }}
+          >
+            Top Users
+          </Typography>
+        
+          <Button
+            variant="contained"
+            sx={{ width: 150 }}
+            style={{
+              textTransform: "none",
+              backgroundColor: "#9B5EA2",
+              height: 40,
+            }}
+            onClick={refreshUserData}
+          >
+             <RefreshIcon/>
+          </Button>
+        </Box>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>

@@ -146,6 +146,11 @@ function Experience() {
         variant="middle"
         style={{ color: "#9B5EA2", borderColor: "#9B5EA2" }}
       />
+      <Box sx={{ padding: 2, textAlign: "center" }}>
+        <Typography variant="h4" component="div" sx={{ flexGrow: 1 , color: "#57068c" }}>
+          Most Recent Experience
+        </Typography>
+      </Box>
 
       <Box sx={{ padding: 2 }}>
         <TableContainer component={Paper}>

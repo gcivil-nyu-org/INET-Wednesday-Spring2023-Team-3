@@ -8,11 +8,23 @@ import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
 import { API_ENDPOINT } from "../Components/api";
 import logo from "../images/logo.jpg";
+import { Menu, MenuItem } from "@mui/material";
+
 function Navbar() {
   const navigate = useNavigate();
   const path = useLocation();
   const { user, logoutUser } = useContext(AuthContext);
   const [userType, setUserType] = useState("Hiring Manager");
+
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleMenuClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
 
   useEffect(() => {
     if (user) {
@@ -59,12 +71,18 @@ function Navbar() {
   return (
     <AppBar position="sticky" style={{ backgroundColor: "#57068c" }}>
       <Toolbar>
-        <img src={logo} width="50px" height="50px" style={{padding:"5px"}} alt="Logo" />
+        <img
+          src={logo}
+          width="50px"
+          height="50px"
+          style={{ padding: "5px" }}
+          alt="Logo"
+        />
         <Typography
           variant="h5"
           component="div"
           sx={{ flexGrow: 1 }}
-          onClick={homePage}
+          onClick={user && userType === "Hiring Manager" ? explore : homePage}
         >
           NYU Interview Prep
         </Typography>
@@ -73,27 +91,22 @@ function Navbar() {
             Top users
           </Button>
         ) : null}
-        <Button color="inherit" onClick={homePage}>
-          Questions
+        <Button color="inherit" onClick={handleMenuClick}>
+          Menu
         </Button>
-        <Button color="inherit" onClick={experiencePage}>
-          Experience
-        </Button>
-        {user ? (
-          <Button color="inherit" onClick={quickStart}>
-            Quick Start
-          </Button>
-        ) : null}
-        {user ? (
-          <Button color="inherit" onClick={connect}>
-            Connect
-          </Button>
-        ) : null}
-        {user ? (
-          <Button color="inherit" onClick={chatRoom}>
-            Social
-          </Button>
-        ) : null}
+        <Menu
+          anchorEl={anchorEl}
+          open={Boolean(anchorEl)}
+          onClose={handleMenuClose}
+        >
+          <MenuItem onClick={homePage}>Questions</MenuItem>
+          <MenuItem onClick={experiencePage}>Experience</MenuItem>
+          {user && userType !== "Hiring Manager" && (
+            <MenuItem onClick={quickStart}>Quick Start</MenuItem>
+          )}
+          <MenuItem onClick={connect}>Connect</MenuItem>
+          <MenuItem onClick={chatRoom}>Social</MenuItem>
+        </Menu>
         {user && path.pathname === "/profile" ? (
           <Button color="inherit" onClick={editProfilePage}>
             Edit Profile

@@ -16,7 +16,8 @@ import AuthContext from "../context/AuthContext";
 import { API_ENDPOINT } from "../Components/api";
 import Divider from "@mui/material/Divider";
 import SendIcon from "@mui/icons-material/Send";
-import {makeStyles, ThemeProvider, createTheme } from "@mui/material/styles";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { makeStyles } from '@mui/styles';
 import CssBaseline from "@mui/material/CssBaseline";
 const darkTheme = createTheme({
   palette: {
@@ -30,6 +31,8 @@ const useStyles = makeStyles({
   chatSection: {
     width: "100%",
     height: "80vh",
+    margin: "20px",
+    
   },
   headBG: {
     backgroundColor: "#e0e0e0",
@@ -193,8 +196,12 @@ function ChatRoom() {
       <ThemeProvider theme={darkTheme}>
         <Grid style={{ margin: "30px" }} container>
           <Grid item xs={12}>
-            <Typography variant="h4" className="header-message">
-              ChatRoom
+          <Typography
+              variant="h4"
+              component="div"
+              sx={{ flexGrow: 1, color: "#57068c" }}
+            >
+              Chat Room
             </Typography>
           </Grid>
         </Grid>
@@ -264,7 +271,7 @@ function ChatRoom() {
                   />
                   <Button
                     variant="contained"
-                    color="primary"
+                    color="secondary"
                     style={{ marginLeft: "50px", height: "50px" }}
                     type="submit"
                   >
