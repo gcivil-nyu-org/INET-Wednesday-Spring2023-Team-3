@@ -212,6 +212,15 @@ function Connect() {
             Search
           </Button>
         </Stack>
+        <Box sx={{ padding: 2, textAlign: "left" }}>
+          <Typography
+            variant="h4"
+            component="div"
+            sx={{ flexGrow: 1, color: "#57068c" }}
+          >
+            Let's Connect
+          </Typography>
+        </Box>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
@@ -220,10 +229,10 @@ function Connect() {
                   <Typography variant="h6">Name</Typography>
                 </TableCell>
                 <TableCell>
-                  <Typography variant="h6">email</Typography>
+                  <Typography variant="h6">Email</Typography>
                 </TableCell>
                 <TableCell>
-                  <Typography variant="h6">Companies</Typography>
+                  <Typography variant="h6">Connect</Typography>
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -252,7 +261,7 @@ function Connect() {
                       ) : (
                         <Button
                           variant="contained"
-                          color="primary"
+                          color="secondary"
                           onClick={() => handleAddFriend(user.pk)}
                         >
                           Add friend

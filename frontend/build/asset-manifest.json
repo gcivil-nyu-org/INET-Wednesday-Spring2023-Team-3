@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.775aff95.css",
-    "main.js": "/static/js/main.82c127a6.js",
+    "main.js": "/static/js/main.290328c0.js",
     "static/js/312.61603536.chunk.js": "/static/js/312.61603536.chunk.js",
     "static/js/4877.811d2f50.chunk.js": "/static/js/4877.811d2f50.chunk.js",
     "static/js/1074.c7fc009e.chunk.js": "/static/js/1074.c7fc009e.chunk.js",
@@ -95,6 +95,7 @@
     "static/media/codicon.ttf": "/static/media/codicon.b797181c93b3755f4fa1.ttf",
     "static/media/brand-icons.woff": "/static/media/brand-icons.cac87dc00c87a5d74711.woff",
     "static/media/brand-icons.woff2": "/static/media/brand-icons.278156e41e0ad908cf7f.woff2",
+    "static/media/logo.jpg": "/static/media/logo.d3e29ab2599984172a33.jpg",
     "static/media/icons.woff": "/static/media/icons.425399f81e4ce7cbd967.woff",
     "static/media/icons.woff2": "/static/media/icons.38c6d8bab26db77d8c80.woff2",
     "static/media/outline-icons.eot": "/static/media/outline-icons.752905fa5edf21fc52a1.eot",
@@ -104,7 +105,7 @@
     "static/media/outline-icons.woff2": "/static/media/outline-icons.687a4990ea22bb1a49d4.woff2",
     "index.html": "/index.html",
     "main.775aff95.css.map": "/static/css/main.775aff95.css.map",
-    "main.82c127a6.js.map": "/static/js/main.82c127a6.js.map",
+    "main.290328c0.js.map": "/static/js/main.290328c0.js.map",
     "312.61603536.chunk.js.map": "/static/js/312.61603536.chunk.js.map",
     "4877.811d2f50.chunk.js.map": "/static/js/4877.811d2f50.chunk.js.map",
     "1074.c7fc009e.chunk.js.map": "/static/js/1074.c7fc009e.chunk.js.map",
@@ -191,6 +192,6 @@
   },
   "entrypoints": [
     "static/css/main.775aff95.css",
-    "static/js/main.82c127a6.js"
+    "static/js/main.290328c0.js"
   ]
 }
