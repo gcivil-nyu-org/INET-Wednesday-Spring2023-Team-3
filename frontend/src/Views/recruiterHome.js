@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -24,6 +25,7 @@ import Navbar from "../Components/navbar";
 import AuthContext from "../context/AuthContext";
 import { API_ENDPOINT } from "../Components/api";
 import { Stack } from "@mui/material";
+import RefreshIcon from '@mui/icons-material/Refresh';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -47,7 +49,8 @@ function createData(
   num_codes_posted,
   num_totalcmnts_posted,
   num_expcmnts_posted,
-  num_anscmnts_posted
+  num_anscmnts_posted,
+  email
 ) {
   return {
     username,
@@ -58,6 +61,7 @@ function createData(
     num_totalcmnts_posted,
     num_expcmnts_posted,
     num_anscmnts_posted,
+    email,
   };
 }
 
@@ -127,7 +131,8 @@ function RecuriterHome() {
           user.fields.num_codes_posted,
           user.fields.num_totalcmnts_posted,
           user.fields.num_expcmnts_posted,
-          user.fields.num_anscmnts_posted
+          user.fields.num_anscmnts_posted,
+          user.fields.email
         )
       );
     });
@@ -183,19 +188,31 @@ function RecuriterHome() {
       <Navbar />
 
       <Box sx={{ padding: 2 }}>
-        <Button
-          variant="contained"
-          sx={{ width: 150 }}
-          style={{
-            textTransform: "none",
-            backgroundColor: "#9B5EA2",
-            height: 40,
-            marginBottom: 10,
-          }}
-          onClick={refreshUserData}
+        <Box
+          sx={{ display: "flex", justifyContent: "flex-end", marginBottom: 2 }}
         >
-          Refresh user data
-        </Button>
+          
+          <Typography
+            variant="h4"
+            component="div"
+            sx={{ flexGrow: 1, color: "#57068c" }}
+          >
+            Top Users
+          </Typography>
+        
+          <Button
+            variant="contained"
+            sx={{ width: 150 }}
+            style={{
+              textTransform: "none",
+              backgroundColor: "#9B5EA2",
+              height: 40,
+            }}
+            onClick={refreshUserData}
+          >
+             <RefreshIcon/>
+          </Button>
+        </Box>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
@@ -211,7 +228,7 @@ function RecuriterHome() {
                   >
                     <Stack direction={"row"}>
                       <Typography variant="h6">
-                        avg_rec_rating_received
+                        Average rating received
                       </Typography>
                       {sortBy === "-avg_rec_rating_received" && (
                         <KeyboardArrowDownOutlinedIcon />
@@ -226,7 +243,7 @@ function RecuriterHome() {
                     }}
                   >
                     <Stack direction={"row"}>
-                      <Typography variant="h6">num_exp_posted</Typography>
+                      <Typography variant="h6">experience posted</Typography>
                       {sortBy === "-num_exp_posted" && (
                         <KeyboardArrowDownOutlinedIcon />
                       )}
@@ -240,7 +257,7 @@ function RecuriterHome() {
                     }}
                   >
                     <Stack direction={"row"}>
-                      <Typography variant="h6">num_rec_posted</Typography>
+                      <Typography variant="h6">recording posted</Typography>
                       {sortBy === "-num_rec_posted" && (
                         <KeyboardArrowDownOutlinedIcon />
                       )}
@@ -254,7 +271,7 @@ function RecuriterHome() {
                     }}
                   >
                     <Stack direction={"row"}>
-                      <Typography variant="h6">num_codes_posted</Typography>
+                      <Typography variant="h6">codes posted</Typography>
                       {sortBy === "-num_codes_posted" && (
                         <KeyboardArrowDownOutlinedIcon />
                       )}
@@ -268,9 +285,7 @@ function RecuriterHome() {
                     }}
                   >
                     <Stack direction={"row"}>
-                      <Typography variant="h6">
-                        num_totalcmnts_posted
-                      </Typography>
+                      <Typography variant="h6">comments posted</Typography>
                       {sortBy === "-num_totalcmnts_posted" && (
                         <KeyboardArrowDownOutlinedIcon />
                       )}
@@ -284,7 +299,9 @@ function RecuriterHome() {
                     }}
                   >
                     <Stack direction={"row"}>
-                      <Typography variant="h6">num_expcmnts_posted</Typography>
+                      <Typography variant="h6">
+                        experience comments posted
+                      </Typography>
                       {sortBy === "-num_expcmnts_posted" && (
                         <KeyboardArrowDownOutlinedIcon />
                       )}
@@ -298,7 +315,9 @@ function RecuriterHome() {
                     }}
                   >
                     <Stack direction={"row"}>
-                      <Typography variant="h6">num_anscmnts_posted</Typography>
+                      <Typography variant="h6">
+                        answer comments posted
+                      </Typography>
                       {sortBy === "-num_anscmnts_posted" && (
                         <KeyboardArrowDownOutlinedIcon />
                       )}
@@ -314,7 +333,11 @@ function RecuriterHome() {
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <StyledTableCell>
-                    <Typography variant="subtitle1">{row.username}</Typography>
+                    <Link to={`/profile/${row.email}`}>
+                      <Typography variant="subtitle1">
+                        {row.username}
+                      </Typography>
+                    </Link>
                   </StyledTableCell>
                   <StyledTableCell align="right">
                     {row.avg_rec_rating_received}

@@ -21,8 +21,8 @@ import Pagination from "@mui/material/Pagination";
 import Navbar from "../Components/navbar";
 import { API_ENDPOINT } from "../Components/api";
 
-function createData(title, author, createdAt, pk) {
-  return { title, author, createdAt, pk };
+function createData(title, author, createdAt, pk, email) {
+  return { title, author, createdAt, pk, email };
 }
 
 function Experience() {
@@ -56,7 +56,6 @@ function Experience() {
     fetch(newUrl)
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         setExperience(data.experience_data);
         setTotalPage(
           Math.ceil(data.total_experience_count / EXPERIENCE_PER_PAGE)
@@ -73,7 +72,8 @@ function Experience() {
           item.fields.exp_title,
           item.fields.username,
           item.fields.created_at,
-          item.pk
+          item.pk,
+          item.fields.email
         )
       );
     });
@@ -146,6 +146,11 @@ function Experience() {
         variant="middle"
         style={{ color: "#9B5EA2", borderColor: "#9B5EA2" }}
       />
+      <Box sx={{ padding: 2, textAlign: "center" }}>
+        <Typography variant="h4" component="div" sx={{ flexGrow: 1 , color: "#57068c" }}>
+          Most Recent Experience
+        </Typography>
+      </Box>
 
       <Box sx={{ padding: 2 }}>
         <TableContainer component={Paper}>
@@ -175,7 +180,9 @@ function Experience() {
                     style={{ width: "80vw" }}
                   >
                     <Typography variant="subtitle1">
-                      <Link to={`/experience/${row.pk}/${row.author}`}>
+                      <Link
+                        to={`/experience/${row.pk}/${row.author}/${row.email}`}
+                      >
                         {row.title}
                       </Link>
                     </Typography>

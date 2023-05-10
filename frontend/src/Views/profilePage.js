@@ -49,26 +49,34 @@ function ProfilePage() {
     });
 
   const [experiencesPosted, setExperiencesPosted] = useState("Not entered yet"); 
-  const [questionsAnswered, setQuestionsAnswered] = useState("Not entered yet");
-  const [commentsPosted, setCommentsPosted] = useState("Not entered yet"); 
-  const [userRating, setUserRating] = useState("Not entered yet");
+  const [recordingsPosted, setRecordingsPosted] = useState("Not entered yet"); 
+  const [codesPosted, setCodesPosted] = useState("Not entered yet");
+  const [totalCommentsPosted, setTotalCommentsPosted] = useState("Not entered yet"); 
+  const [experienceCommentsPosted, setExperienceCommentsPosted] = useState("Not entered yet");
+  const [solutionCommentsPosted, setSolutionCommentsPosted] = useState("Not entered yet");
+  const [avgUserRecordingRating, setUserRecordingRating] = useState("Not entered yet");
 
 
   useEffect(() => {
     // Fetch data from API and update state variables based on user type
     if (user_type === "Student/Alumni") { 
-      fetch(`${API_ENDPOINT}/fetch_latest_aggregated_user_data/?user=${userID}`)
+      fetch(`${API_ENDPOINT}/hiringmanager/fetch_latest_aggregated_user_data?user=${userID}`)
         .then((response) => response.json())
         .then((data) => {
+          console.log("here")
           console.log(data);
-          setExperiencesPosted(data.num_exp_posted || "Add Job Preference");
-          setQuestionsAnswered(data.num_codes_posted || "Add Years of Experience");
-          setCommentsPosted(data.num_totalcmnts_posted || "Add Previous Employer");
-          setUserRating(data.avg_rec_rating_received || "Add Github");
+
+          setExperiencesPosted(data.user_data[0].fields.num_exp_posted || "No Experiences Posted");
+          setRecordingsPosted(data.user_data[0].fields.num_codes_posted || "No Recordings Posted");
+          setCodesPosted(data.user_data[0].fields.num_totalcmnts_posted || "No Coding Questions Posted");
+          setTotalCommentsPosted(data.user_data[0].fields.avg_rec_rating_received || "No Comments Posted");
+          setExperienceCommentsPosted(data.user_data[0].fields.num_codes_posted || "No Comments Posted");
+          setSolutionCommentsPosted(data.user_data[0].fields.num_totalcmnts_posted || "No Comments Posted");
+          setUserRecordingRating(data.user_data[0].fields.avg_rec_rating_received || "No Recordings Rated Yet");
         })
         .catch((error) => console.error(error));
         }
-      }, [user.email, user_type]); // Add user.email and user.type as dependencies to useEffect
+      }, [userID, user_type]); // Add user.email and user.type as dependencies to useEffect
 
   // Define state variables for the fetched data
   const [jobPreference, setJobPreference] = useState("Not entered yet");
@@ -94,7 +102,7 @@ function ProfilePage() {
       fetch(`${API_ENDPOINT}/profile-info/${user.email}`)
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
+          // console.log(data);
           setJobPreference(data.job_preference || "Add Job Preference");
           setYearsOfExperience(data.years_of_experience || "Add Years of Experience");
           setPreviousEmployer(data.previous_employer || "Add Previous Employer");
@@ -269,19 +277,37 @@ function ProfilePage() {
                           component="h3"
                           variant="h7"
                           style={{ marginTop: 5, marginBottom: 5, }}
-                        > Questions Answered | {questionsAnswered}, {userID}
+                        > Recordings Posted | {recordingsPosted}
                         </Typography>
                         <Typography
                           component="h3"
                           variant="h7"
                           style={{ marginTop: 5, marginBottom: 5, }}
-                        > Total Comments Posted | {commentsPosted}
+                        > Coding Questions Answered | {codesPosted}
                         </Typography>
                         <Typography
                           component="h3"
                           variant="h7"
                           style={{ marginTop: 5, marginBottom: 5, }}
-                        > Your Overall User Rating | {userRating}
+                        > Total Comments Posted | {totalCommentsPosted}
+                        </Typography>
+                        <Typography
+                          component="h3"
+                          variant="h7"
+                          style={{ marginTop: 5, marginBottom: 5, }}
+                        > Comments on Experiences | {experienceCommentsPosted}
+                        </Typography>
+                        <Typography
+                          component="h3"
+                          variant="h7"
+                          style={{ marginTop: 5, marginBottom: 5, }}
+                        > Total Solution Comments Posted | {solutionCommentsPosted}
+                        </Typography>
+                        <Typography
+                          component="h3"
+                          variant="h7"
+                          style={{ marginTop: 5, marginBottom: 5, }}
+                        > Your AVG Recording Rating | {avgUserRecordingRating}
                         </Typography>
                     </Box>
                 </Card>

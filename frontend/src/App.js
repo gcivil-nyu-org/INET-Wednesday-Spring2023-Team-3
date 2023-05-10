@@ -21,6 +21,7 @@ import UploadExperience from "./Views/uploadExperience";
 import RecruiterHome from "./Views/recruiterHome";
 import ChatRoom from "./Components/chatRoom";
 import Connect from "./Components/connect";
+import ProfilePageOther from "./Views/profilePageOther";
 
 function App() {
   return (
@@ -45,7 +46,10 @@ function App() {
             />
             <Route path="/questions/:pk" element={<QuestionDetails />} />
             <Route path="/answers/:question_id" element={<AnswersList />} />
-            <Route path="/answer/:answer_id" element={<AnswerDetails />} />
+            <Route
+              path="/answer/:answer_id/:author/:email"
+              element={<AnswerDetails />}
+            />
             <Route path="/signup/verify/*" element={<VerifyEmail />} />
             <Route path="/password/reset" element={<PasswordReset />} />
             <Route path="/start" element={<QuickStart />} />
@@ -54,7 +58,7 @@ function App() {
             <Route path="/social" element={<ChatRoom />} />
             <Route path="/connect" element={<Connect />} />
             <Route
-              path="/experience/:pk/:author"
+              path="/experience/:pk/:author/:email"
               element={<ExperienceDetails />}
             />
             <Route
@@ -62,6 +66,7 @@ function App() {
               element={<SetNewPassword />}
             />
             <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/profile/:userEmail" element={<ProfilePageOther />} />
             <Route path="/editProfilePage" element={<EditProfile />} />
           </Routes>
         </AuthProvider>
