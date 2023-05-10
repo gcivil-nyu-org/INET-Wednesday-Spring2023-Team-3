@@ -7,7 +7,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
 import { API_ENDPOINT } from "../Components/api";
-
+import logo from "../images/logo.jpg";
 function Navbar() {
   const navigate = useNavigate();
   const path = useLocation();
@@ -59,6 +59,7 @@ function Navbar() {
   return (
     <AppBar position="sticky" style={{ backgroundColor: "#57068c" }}>
       <Toolbar>
+        <img src={logo} width="50px" height="50px" style={{padding:"5px"}} alt="Logo" />
         <Typography
           variant="h5"
           component="div"
