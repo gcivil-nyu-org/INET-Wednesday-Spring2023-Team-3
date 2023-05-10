@@ -99,13 +99,13 @@ function Navbar() {
           open={Boolean(anchorEl)}
           onClose={handleMenuClose}
         >
-          <MenuItem onClick={homePage}>Questions</MenuItem>
-          <MenuItem onClick={experiencePage}>Experience</MenuItem>
+           <MenuItem onClick={homePage}>Questions</MenuItem>
+           <MenuItem onClick={experiencePage}>Experience</MenuItem>
           {user && userType !== "Hiring Manager" && (
             <MenuItem onClick={quickStart}>Quick Start</MenuItem>
           )}
-          <MenuItem onClick={connect}>Connect</MenuItem>
-          <MenuItem onClick={chatRoom}>Social</MenuItem>
+          {user && (<MenuItem onClick={connect}>Connect</MenuItem>)}
+          {user && (<MenuItem onClick={chatRoom}>Social</MenuItem>)}
         </Menu>
         {user && path.pathname === "/profile" ? (
           <Button color="inherit" onClick={editProfilePage}>
