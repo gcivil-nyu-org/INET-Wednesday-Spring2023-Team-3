@@ -21,6 +21,22 @@ def get_user_type(request, email):
         return JsonResponse(response_data, status=404)
 
 
+def get_user_details(request, userid):
+    try:
+        user = MyUser.objects.get(id=userid)
+        return JsonResponse(
+            {
+                "user_type": user.user_type,
+                "userID": user.id,
+                "email": user.email,
+                "name": f"{user.first_name} {user.last_name}",
+            }
+        )
+    except MyUser.DoesNotExist:
+        response_data = {"error": "User not found"}
+        return JsonResponse(response_data, status=404)
+
+
 def error_response(error_dict, err_msg: str):
     error_dict["status"] = 400
     error_dict["error_msg"] = err_msg
