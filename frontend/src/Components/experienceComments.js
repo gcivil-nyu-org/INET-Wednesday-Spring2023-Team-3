@@ -25,6 +25,18 @@ function ExperienceComments({ experienceID }) {
   const [alertStatus, setAlertStatus] = useState("success");
   const [alertMessage, setAlertMessage] = useState("Upload successful");
 
+  const [userName, setUserName] = useState("");
+  useEffect(() => {
+    const url = `${API_ENDPOINT}/get_user_details/${user.user_id}/`;
+
+    fetch(url)
+      .then((response) => response.json())
+      .then((data) => {
+        setUserName(data.name);
+      })
+      .catch((error) => console.error(error));
+  }, [user.user_id]);
+
   useEffect(() => {
     const url = `${API_ENDPOINT}/experiences/get_comments/${experienceID}`;
 
@@ -72,7 +84,16 @@ function ExperienceComments({ experienceID }) {
     })
       .then((response) => response.json())
       .then(() => {
-        window.location.reload(false);
+        let newCommentData = [
+          ...commentData,
+          {
+            username: userName,
+            created_at: "now",
+            text: newComment,
+            email: user.email,
+          },
+        ];
+        setCommentData(newCommentData);
       })
       .catch((error) => console.error(error));
   };

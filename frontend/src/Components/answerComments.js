@@ -34,6 +34,19 @@ function AnswerComments({ answerId }) {
   const handleRatingChange = (event) => {
     setRating(event.target.value);
   };
+  console.log(user);
+
+  const [userName, setUserName] = useState("");
+  useEffect(() => {
+    const url = `${API_ENDPOINT}/get_user_details/${user.user_id}/`;
+
+    fetch(url)
+      .then((response) => response.json())
+      .then((data) => {
+        setUserName(data.name);
+      })
+      .catch((error) => console.error(error));
+  }, [user.user_id]);
 
   useEffect(() => {
     const url = `${API_ENDPOINT}/get_comments/${answerId}`;
@@ -89,7 +102,17 @@ function AnswerComments({ answerId }) {
     })
       .then((response) => response.json())
       .then(() => {
-        window.location.reload(false);
+        let newCommentData = [
+          ...commentData,
+          {
+            username: userName,
+            created_at: "now",
+            rating: rating,
+            text: newComment,
+            email: user.email,
+          },
+        ];
+        setCommentData(newCommentData);
       })
       .catch((error) => console.error(error));
   };
